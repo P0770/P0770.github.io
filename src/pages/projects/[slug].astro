@@ -1,0 +1,142 @@
+---
+import Base from "../../layouts/Base.astro";
+import { site } from "../../data/site";
+import { projects, type Project } from "../../data/projects";
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props:  { project },
+  }));
+}
+
+const { project } = Astro.props as { project: Project };
+const coverSrc = project.cover?.src ?? "/projects/placeholder.svg";
+const coverAlt = project.cover?.alt ?? project.title;
+const hasGallery = project.gallery && project.gallery.length > 0;
+---
+
+<Base title={`${project.title} — ${site.name}`} description={project.subtitle}>
+
+  <div class="backRow">
+    <a class="backLink" href="/projects">← Tous les projets</a>
+  </div>
+
+  <header class="projectHead">
+    <h1>{project.title}</h1>
+    <p class="lead">{project.subtitle}</p>
+    <div class="chips" style="margin-top:.75rem;">
+      <span class="chip chip-accent">{project.year}</span>
+      {project.role ? <span class="chip chip-accent">{project.role}</span> : null}
+      {project.tags.map((t) => <span class="chip">{t}</span>)}
+    </div>
+    {project.links && project.links.length > 0 && (
+      <div style="margin-top:.9rem; display:flex; gap:.6rem; flex-wrap:wrap;">
+        {project.links.map((l) => (
+          <a
+            href={l.href}
+            target="_blank"
+            rel="noreferrer"
+            style="font-size:.85rem; color:var(--accent); text-decoration:underline; text-underline-offset:3px;"
+          >
+            {l.label} ↗
+          </a>
+        ))}
+      </div>
+    )}
+  </header>
+
+  <figure class="heroMedia">
+    <img src={coverSrc} alt={coverAlt} loading="eager" />
+    {project.cover?.caption ? <figcaption>{project.cover.caption}</figcaption> : null}
+  </figure>
+
+  <section class="highlights" aria-label="Points clés">
+    <h2>Points clés</h2>
+    <ul>
+      {project.highlights.map((h) => <li>{h}</li>)}
+    </ul>
+  </section>
+
+  {hasGallery && (
+    <section class="gallery" aria-label="Galerie">
+      <h2>Galerie</h2>
+      <div class="galleryGrid">
+        {project.gallery!.map((img) => (
+          <div class="gallery-item" role="button" tabindex="0" aria-label={`Agrandir : ${img.alt}`}>
+            <img src={img.src} alt={img.alt} loading="lazy" />
+            {img.caption && <p class="gallery-caption">{img.caption}</p>}
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <div class="content">
+    {project.sections.map((s) => (
+      <article class="contentBlock">
+        <h2>{s.heading}</h2>
+        {s.paragraphs?.map((p) => <p>{p}</p>)}
+        {s.bullets?.length ? (
+          <ul>
+            {s.bullets.map((b) => <li>{b}</li>)}
+          </ul>
+        ) : null}
+      </article>
+    ))}
+  </div>
+
+</Base>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Vue agrandie">
+  <div class="lb-inner">
+    <img class="lb-img" src="" alt="" />
+    <p class="lb-caption"></p>
+  </div>
+  <button class="lb-close" aria-label="Fermer">×</button>
+  <button class="lb-prev" aria-label="Image précédente">‹</button>
+  <button class="lb-next" aria-label="Image suivante">›</button>
+</div>
+
+<script is:inline>
+  (function () {
+    const items   = document.querySelectorAll(".gallery-item");
+    const lb      = document.getElementById("lightbox");
+    const lbImg   = lb.querySelector(".lb-img");
+    const lbCap   = lb.querySelector(".lb-caption");
+    let cur = 0;
+
+    function open(i) {
+      cur = i;
+      const item = items[i];
+      lbImg.src = item.querySelector("img").src;
+      lbImg.alt = item.querySelector("img").alt;
+      const cap = item.querySelector(".gallery-caption");
+      lbCap.textContent = cap ? cap.textContent : "";
+      lb.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+    function close() {
+      lb.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+    function prev() { open((cur - 1 + items.length) % items.length); }
+    function next() { open((cur + 1) % items.length); }
+
+    items.forEach((item, i) => {
+      item.addEventListener("click", () => open(i));
+      item.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") open(i); });
+    });
+    lb.querySelector(".lb-close").addEventListener("click", close);
+    lb.querySelector(".lb-prev").addEventListener("click", prev);
+    lb.querySelector(".lb-next").addEventListener("click", next);
+    lb.addEventListener("click", (e) => { if (e.target === lb) close(); });
+    document.addEventListener("keydown", (e) => {
+      if (!lb.classList.contains("open")) return;
+      if (e.key === "Escape")     close();
+      if (e.key === "ArrowLeft")  prev();
+      if (e.key === "ArrowRight") next();
+    });
+  })();
+</script>
