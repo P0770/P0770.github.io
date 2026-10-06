@@ -13,7 +13,7 @@ export const site = {
   seo: {
     url: "https://P0770.github.io",
     description:
-      "Portfolio de Mattéo Pozzo di Borgo — étudiant en 3e année d'ingénierie microtechnique (spécialisation biomédicale) à HEPIA. Électronique embarquée, impression 3D, systèmes embarqués, CAO.",
+      "Portfolio de Mattéo Pozzo di Borgo — étudiant en 3 ème année d'ingénierie microtechnique (spécialisation biomédicale) à HEPIA. Électronique embarquée, impression 3D, systèmes embarqués, CAO.",
   },
 
   about: {
