@@ -1,0 +1,24 @@
+---
+import Base from "../../layouts/Base.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import { site } from "../../data/site";
+import { projects } from "../../data/projects";
+
+const reversed = [...projects].reverse();
+---
+
+<Base
+  title={`Projets — ${site.name}`}
+  description="Tous les projets de Mattéo Pozzo di Borgo — électronique, systèmes embarqués, impression 3D, automatisme."
+>
+  <section class="pageHead">
+    <h1>Projets</h1>
+    <p class="lead">
+      Une sélection de projets personnels et académiques — de l'idée au prototype fonctionnel.
+    </p>
+  </section>
+
+  <div class="projectsGrid" style="padding-top:2rem; padding-bottom:3rem;">
+    {reversed.map((p) => <ProjectCard project={p} />)}
+  </div>
+</Base>
