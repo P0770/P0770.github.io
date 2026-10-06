@@ -1,0 +1,96 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site";
+---
+
+<Base title={`À propos — ${site.name}`} description={site.seo.description}>
+
+  <section class="pageHead">
+    <h1>À propos</h1>
+    <p class="lead">{site.about.intro}</p>
+  </section>
+
+  <!-- Comment je travaille + infos -->
+  <div class="twoCol">
+    <div class="card">
+      <h2>Comment je travaille</h2>
+      <ul>
+        {site.about.bullets.map((b) => <li>{b}</li>)}
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Infos</h2>
+      <ul>
+        <li><strong>Lieu :</strong> {site.location}</li>
+        <li><strong>Email :</strong> <a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><strong>Langues :</strong> {site.languages.join(" · ")}</li>
+        <li><strong>Centres d'intérêt :</strong> {site.interests}</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Expériences -->
+  <section class="block">
+    <h2>Expériences</h2>
+    <div class="stack">
+      {site.experience.map((e) => (
+        <article class="item">
+          <div class="itemTop">
+            <div>
+              <div class="itemTitle">{e.company}</div>
+              <div class="itemSub">{e.role} · {e.location}</div>
+            </div>
+            <div class="itemMeta">{e.period}</div>
+          </div>
+          <ul>
+            {e.bullets.map((b) => <li>{b}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Formation -->
+  <section class="block">
+    <h2>Formation</h2>
+    <div class="stack">
+      {site.education.map((ed) => (
+        <article class="item">
+          <div class="itemTop">
+            <div>
+              <div class="itemTitle">{ed.school}</div>
+              <div class="itemSub">{ed.degree}</div>
+              {ed.note && <div class="itemNote">{ed.note}</div>}
+            </div>
+            <div class="itemMeta">{ed.period}</div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Compétences -->
+  <section class="block">
+    <h2>Compétences</h2>
+    <div class="skillsGrid">
+      {Object.entries(site.skills).map(([domain, items]) => (
+        <div class="skillGroup">
+          <h3>{domain}</h3>
+          <div class="chips">
+            {(items as readonly string[]).map((s) => <span class="chip">{s}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Liens -->
+  <section class="block" style="padding-bottom:3rem;">
+    <h2>Retrouvez-moi</h2>
+    <div style="display:flex; gap:.75rem; flex-wrap:wrap;">
+      <a class="btn btn-primary" href={site.links.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+      <a class="btn" href={site.links.github} target="_blank" rel="noreferrer">GitHub</a>
+    </div>
+  </section>
+
+</Base>
