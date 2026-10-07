@@ -8,7 +8,7 @@ type Evenement =
   | { kind: "projet"; cle: string; project: Project; cote: "left" | "right" };
 
 // 1. Tous les événements (jalons + projets) avec une clé de tri.
-//    À mois égal, le jalon passe avant le projet.
+//    Ordre antichronologique : du plus récent (en haut) au plus ancien (en bas).
 const bruts: Evenement[] = [
   ...jalons.map((j) => ({
     kind: "jalon" as const,
@@ -23,7 +23,7 @@ const bruts: Evenement[] = [
     project: p,
     cote: "left" as const,
   })),
-].sort((a, b) => a.cle.localeCompare(b.cle));
+].sort((a, b) => b.cle.localeCompare(a.cle));
 
 // 2. Alternance gauche / droite des cartes projet.
 let i = 0;
@@ -31,7 +31,7 @@ for (const ev of bruts) {
   if (ev.kind === "projet") ev.cote = i++ % 2 === 0 ? "left" : "right";
 }
 
-// 3. Regroupement par année civile.
+// 3. Regroupement par année civile (2026, 2025, …).
 const annees: { annee: string; evenements: Evenement[] }[] = [];
 for (const ev of bruts) {
   const annee = ev.cle.slice(0, 4);
@@ -44,14 +44,25 @@ const enCours = projetsChronologiques.filter((p) => p.enCours);
 ---
 
 <section class="tl" data-tl aria-label="Chronologie des projets">
-  <p class="tl-avant">
-    <span class="tl-avantLabel">Avant</span>
-    <span>{avant}</span>
-  </p>
-
   <div class="tl-body" data-tl-body>
     <div class="tl-axis" data-tl-axis aria-hidden="true">
       <div class="tl-axisFill" data-tl-fill></div>
+    </div>
+
+    <div class="tl-today tl-reveal" data-tl-today>
+      <span class="tl-todayDot" data-tl-today-dot aria-hidden="true"></span>
+      <span class="tl-todayLabel">Aujourd'hui</span>
+      {enCours.length > 0 && (
+        <p class="tl-todayList">
+          Toujours en cours :{" "}
+          {enCours.map((p, k) => (
+            <>
+              <a href={`/projects/${p.slug}`}>{p.title}</a>
+              {k < enCours.length - 1 && <span class="dot"> · </span>}
+            </>
+          ))}
+        </p>
+      )}
     </div>
 
     {annees.map((g) => (
@@ -94,22 +105,12 @@ const enCours = projetsChronologiques.filter((p) => p.enCours);
       </div>
     ))}
 
-    <div class="tl-today tl-reveal" data-tl-today>
-      <span class="tl-todayDot" data-tl-today-dot aria-hidden="true"></span>
-      <span class="tl-todayLabel">Aujourd'hui</span>
-      {enCours.length > 0 && (
-        <p class="tl-todayList">
-          Toujours en cours :{" "}
-          {enCours.map((p, k) => (
-            <>
-              <a href={`/projects/${p.slug}`}>{p.title}</a>
-              {k < enCours.length - 1 && <span class="dot"> · </span>}
-            </>
-          ))}
-        </p>
-      )}
-    </div>
   </div>
+
+  <p class="tl-avant">
+    <span class="tl-avantLabel">Avant</span>
+    <span>{avant}</span>
+  </p>
 </section>
 
 <script>
@@ -118,7 +119,6 @@ const enCours = projetsChronologiques.filter((p) => p.enCours);
     const body  = tl.querySelector<HTMLElement>("[data-tl-body]")!;
     const axis  = tl.querySelector<HTMLElement>("[data-tl-axis]")!;
     const fill  = tl.querySelector<HTMLElement>("[data-tl-fill]")!;
-    const today = tl.querySelector<HTMLElement>("[data-tl-today]")!;
     const todayDot = tl.querySelector<HTMLElement>("[data-tl-today-dot]")!;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -166,13 +166,14 @@ const enCours = projetsChronologiques.filter((p) => p.enCours);
     });
 
     const placerTrails = () => {
-      const fin = centreY(todayDot);
+      // « Aujourd'hui » est en haut : le pointillé remonte du point du projet jusqu'à lui.
+      const haut = centreY(todayDot);
       const x = axis.offsetLeft + axis.offsetWidth / 2;
       dots.forEach((d, k) => {
-        const debut = centreY(d);
+        const bas = centreY(d);
         const t = trails[k];
-        t.style.top = `${debut}px`;
-        t.style.height = `${Math.max(0, fin - debut)}px`;
+        t.style.top = `${haut}px`;
+        t.style.height = `${Math.max(0, bas - haut)}px`;
         t.style.left = `${x + 6 + k * 5}px`;
       });
     };
@@ -183,7 +184,6 @@ const enCours = projetsChronologiques.filter((p) => p.enCours);
       const repere = window.innerHeight * 0.6;
       const p = Math.min(1, Math.max(0, (repere - r.top) / r.height));
       fill.style.height = `${p * 100}%`;
-      today.classList.toggle("is-reached", p >= 0.995);
     };
 
     let raf = 0;

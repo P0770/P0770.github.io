@@ -137,28 +137,24 @@ const education: Education[] = [
     credits: {
       total: 180,
       groupes: [
-        { titre: "2018 – 2019", lignes: [{ nom: "Anglais : introduction", ects: 2 }] },
         {
-          titre: "2019 – 2020",
+          // Une seule liste, sans années, triée du plus gros crédit au plus petit
+          titre: "Cours validés",
           lignes: [
-            { nom: "Biologie", ects: 8 },
+            { nom: "Biodiversité et écologie", ects: 10 },
             { nom: "Biologie animale", ects: 9 },
-            { nom: "Biologie végétale", ects: 7 },
+            { nom: "Chimie organique", ects: 9 },
+            { nom: "Biologie", ects: 8 },
             { nom: "Mathématique", ects: 8 },
             { nom: "Physique", ects: 8 },
-            { nom: "Chimie organique", ects: 9 },
-          ],
-        },
-        {
-          titre: "2020 – 2021",
-          lignes: [
-            { nom: "Introduction à l'embryologie animale", ects: 3 },
+            { nom: "Biologie végétale", ects: 7 },
             { nom: "Géologie et paléontologie", ects: 5 },
+            { nom: "Introduction à l'embryologie animale", ects: 3 },
             { nom: "Anglais 1", ects: 3 },
             { nom: "Introduction à la microbiologie", ects: 2 },
+            { nom: "Anglais : introduction", ects: 2 },
           ],
         },
-        { titre: "2021 – 2022", lignes: [{ nom: "Biodiversité et écologie", ects: 10 }] },
       ],
     },
   },
