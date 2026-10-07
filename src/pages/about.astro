@@ -1,6 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-import { site } from "../data/site";
+import { site, ectsGroupe, ectsValides } from "../data/site";
 ---
 
 <Base title={`À propos — ${site.name}`} description={site.seo.description}>
@@ -55,14 +55,63 @@ import { site } from "../data/site";
     <h2>Formation</h2>
     <div class="stack">
       {site.education.map((ed) => (
-        <article class="item">
-          <div class="itemTop">
-            <div>
-              <div class="itemTitle">{ed.school}</div>
-              <div class="itemSub">{ed.degree}</div>
-              {ed.note && <div class="itemNote">{ed.note}</div>}
+        <article class="item eduItem">
+          <div class="eduLogo" aria-hidden="true">
+            <span class="eduInitials">{ed.initiales}</span>
+            {ed.logo && (
+              <img
+                src={ed.logo}
+                alt=""
+                loading="lazy"
+                onerror="this.remove()"
+              />
+            )}
+          </div>
+
+          <div class="eduMain">
+            <div class="itemTop">
+              <div>
+                <div class="itemTitle">{ed.school}</div>
+                <div class="itemSub">{ed.degree}</div>
+                {ed.note && <div class="itemNote">{ed.note}</div>}
+              </div>
+              <div class="itemMeta">{ed.period}</div>
             </div>
-            <div class="itemMeta">{ed.period}</div>
+
+            {ed.credits && (
+              <details class="credits">
+                <summary>
+                  <span class="creditsTotal">
+                    {ectsValides(ed)} / {ed.credits.total} ECTS validés
+                  </span>
+                  <span class="creditsToggle">Voir le détail</span>
+                </summary>
+
+                <div class="creditsBody">
+                  {ed.credits.groupes.map((g) => (
+                    <div class="creditsGroup">
+                      <div class="creditsGroupHead">
+                        <span>{g.titre}</span>
+                        <span>{ectsGroupe(g)} ECTS</span>
+                      </div>
+                      <ul class="creditsList">
+                        {g.lignes.map((l) => (
+                          <li>
+                            <div class="creditsRow">
+                              <span class="creditsName">{l.nom}</span>
+                              <span class="creditsEcts">{l.ects} ECTS</span>
+                            </div>
+                            {l.cours && l.cours.length > 0 && (
+                              <p class="creditsCours">{l.cours.join(" · ")}</p>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </details>
+            )}
           </div>
         </article>
       ))}
