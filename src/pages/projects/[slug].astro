@@ -1,7 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { site } from "../../data/site";
-import { projects, type Project } from "../../data/projects";
+import { projects, getProject, type Project } from "../../data/projects";
 
 export function getStaticPaths() {
   return projects.map((project) => ({
@@ -13,23 +13,52 @@ export function getStaticPaths() {
 const { project } = Astro.props as { project: Project };
 const coverSrc = project.cover?.src ?? "/projects/placeholder.svg";
 const coverAlt = project.cover?.alt ?? project.title;
-const hasGallery = project.gallery && project.gallery.length > 0;
+const gallery  = project.gallery ?? [];
+const hasGallery    = gallery.length > 0;
+const hasHighlights = (project.highlights?.length ?? 0) > 0;
+
+// En-tête : seules les lignes renseignées sont affichées
+const infos = [
+  { label: "Période", value: project.periode },
+  { label: "Cadre",   value: project.cadre },
+  { label: "Équipe",  value: project.equipe },
+  { label: "Rôle",    value: project.role },
+  { label: "Budget",  value: project.budget },
+  { label: "Statut",  value: project.statut },
+].filter((i) => i.value);
+
+const related = (project.related ?? [])
+  .map((s) => getProject(s))
+  .filter((p): p is Project => Boolean(p));
 ---
 
 <Base title={`${project.title} — ${site.name}`} description={project.subtitle}>
 
   <div class="backRow">
-    <a class="backLink" href="/projects">← Tous les projets</a>
+    <a class="backLink" href="/projects">← Chronologie des projets</a>
   </div>
 
   <header class="projectHead">
+    <div class="projectHeadTop">
+      <span class="projectYear">{project.periode}</span>
+      {project.enCours && <span class="badge-live">En cours</span>}
+    </div>
     <h1>{project.title}</h1>
     <p class="lead">{project.subtitle}</p>
-    <div class="chips" style="margin-top:.75rem;">
-      <span class="chip chip-accent">{project.year}</span>
-      {project.role ? <span class="chip chip-accent">{project.role}</span> : null}
+
+    <dl class="projectInfos">
+      {infos.map((i) => (
+        <div class="projectInfo">
+          <dt>{i.label}</dt>
+          <dd>{i.value}</dd>
+        </div>
+      ))}
+    </dl>
+
+    <div class="chips" style="margin-top:1rem;">
       {project.tags.map((t) => <span class="chip">{t}</span>)}
     </div>
+
     {project.links && project.links.length > 0 && (
       <div style="margin-top:.9rem; display:flex; gap:.6rem; flex-wrap:wrap;">
         {project.links.map((l) => (
@@ -47,27 +76,46 @@ const hasGallery = project.gallery && project.gallery.length > 0;
   </header>
 
   <figure class="heroMedia">
-    <img src={coverSrc} alt={coverAlt} loading="eager" />
+    <img
+      src={coverSrc}
+      alt={coverAlt}
+      loading="eager"
+      onerror="this.onerror=null;this.src='/projects/placeholder.svg'"
+    />
     {project.cover?.caption ? <figcaption>{project.cover.caption}</figcaption> : null}
   </figure>
 
-  <section class="highlights" aria-label="Points clés">
-    <h2>Points clés</h2>
-    <ul>
-      {project.highlights.map((h) => <li>{h}</li>)}
-    </ul>
-  </section>
+  {hasHighlights && (
+    <section class="highlights" aria-label="Points clés">
+      <h2>Points clés</h2>
+      <ul>
+        {project.highlights!.map((h) => <li>{h}</li>)}
+      </ul>
+    </section>
+  )}
 
   {hasGallery && (
     <section class="gallery" aria-label="Galerie">
       <h2>Galerie</h2>
       <div class="galleryGrid">
-        {project.gallery!.map((img) => (
-          <div class="gallery-item" role="button" tabindex="0" aria-label={`Agrandir : ${img.alt}`}>
-            <img src={img.src} alt={img.alt} loading="lazy" />
-            {img.caption && <p class="gallery-caption">{img.caption}</p>}
-          </div>
-        ))}
+        {gallery.map((m) =>
+          m.type === "video" ? (
+            <div class="gallery-item gallery-video">
+              <video src={m.src} controls preload="metadata" playsinline aria-label={m.alt}></video>
+              {m.caption && <p class="gallery-caption">{m.caption}</p>}
+            </div>
+          ) : (
+            <div class="gallery-item" data-lb role="button" tabindex="0" aria-label={`Agrandir : ${m.alt}`}>
+              <img
+                src={m.src}
+                alt={m.alt}
+                loading="lazy"
+                onerror="this.onerror=null;this.src='/projects/placeholder.svg'"
+              />
+              {m.caption && <p class="gallery-caption">{m.caption}</p>}
+            </div>
+          )
+        )}
       </div>
     </section>
   )}
@@ -86,6 +134,17 @@ const hasGallery = project.gallery && project.gallery.length > 0;
     ))}
   </div>
 
+  {related.length > 0 && (
+    <section class="related" aria-label="Projets liés">
+      <h2>Projets liés</h2>
+      <div class="chips">
+        {related.map((p) => (
+          <a class="chip chip-link" href={`/projects/${p.slug}`}>{p.title} →</a>
+        ))}
+      </div>
+    </section>
+  )}
+
 </Base>
 
 <!-- Lightbox -->
@@ -101,7 +160,7 @@ const hasGallery = project.gallery && project.gallery.length > 0;
 
 <script is:inline>
   (function () {
-    const items   = document.querySelectorAll(".gallery-item");
+    const items   = document.querySelectorAll(".gallery-item[data-lb]");
     const lb      = document.getElementById("lightbox");
     const lbImg   = lb.querySelector(".lb-img");
     const lbCap   = lb.querySelector(".lb-caption");

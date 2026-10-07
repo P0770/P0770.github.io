@@ -2,9 +2,10 @@
 import Base from "../layouts/Base.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import { site } from "../data/site";
-import { projects } from "../data/projects";
+import { projetsRecents } from "../data/projects";
 
-const latest = projects.slice(-2).reverse();
+// Les 2 projets les plus récents (triés par date de début)
+const latest = projetsRecents.slice(0, 2);
 ---
 
 <Base title={`${site.name} — Portfolio`} description={site.seo.description}>

@@ -1,20 +1,33 @@
 ---
 import type { Project } from "../data/projects";
-const { project } = Astro.props as { project: Project };
+const { project, variant = "grid" } = Astro.props as {
+  project: Project;
+  variant?: "grid" | "timeline";
+};
 const href      = `/projects/${project.slug}`;
 const coverSrc  = project.cover?.src ?? "/projects/placeholder.svg";
 const coverAlt  = project.cover?.alt ?? project.title;
 ---
 
-<a class="projectCard" href={href} aria-label={`Voir le projet : ${project.title}`}>
+<a
+  class:list={["projectCard", { "projectCard--timeline": variant === "timeline" }]}
+  href={href}
+  aria-label={`Voir le projet : ${project.title}`}
+>
   <div class="projectThumb" aria-hidden="true">
-    <img src={coverSrc} alt={coverAlt} loading="lazy" />
+    <img
+      src={coverSrc}
+      alt={coverAlt}
+      loading="lazy"
+      onerror="this.onerror=null;this.src='/projects/placeholder.svg'"
+    />
   </div>
   <div class="projectText">
-    <div class="projectTitleRow">
-      <h3 class="projectTitle">{project.title}</h3>
-      <span class="projectYear">{project.year}</span>
+    <div class="projectMetaRow">
+      <span class="projectYear">{project.periode}</span>
+      {project.enCours && <span class="badge-live">En cours</span>}
     </div>
+    <h3 class="projectTitle">{project.title}</h3>
     <p class="projectSubtitle">{project.subtitle}</p>
     <div class="chips">
       {project.tags.slice(0, 4).map((t) => (
