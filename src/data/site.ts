@@ -181,6 +181,9 @@ export const site = {
 
   email: "matteopozzodiborgo@gmail.com",
 
+  /** CV téléchargeable : déposer le fichier PDF dans public/ avec ce nom */
+  cv: "/cv-matteo-pozzo-di-borgo.pdf",
+
   links: {
     github: "https://github.com/P0770",
     linkedin: "https://www.linkedin.com/in/matt%C3%A9o-pozzo-di-borgo-869396271",
@@ -189,7 +192,7 @@ export const site = {
   seo: {
     url: "https://P0770.github.io",
     description:
-      "Portfolio de Mattéo Pozzo di Borgo — étudiant en 3 ème année d'ingénierie microtechnique (spécialisation biomédicale) à HEPIA. Électronique embarquée, impression 3D, systèmes embarqués, CAO.",
+      "Portfolio de Mattéo Pozzo di Borgo — étudiant en 3e année d'ingénierie microtechnique (spécialisation biomédicale) à HEPIA. Électronique embarquée, impression 3D, systèmes embarqués, CAO.",
   },
 
   about: {
@@ -214,7 +217,7 @@ export const site = {
     },
     {
       company: "LGI Luxury Good Logistics",
-      location: "San Antonio, Suisse",
+      location: "San Antonino, Suisse",
       role: "Gestionnaire de stock",
       period: "2019",
       bullets: [

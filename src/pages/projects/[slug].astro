@@ -1,7 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { site } from "../../data/site";
-import { projects, getProject, type Project } from "../../data/projects";
+import { projects, projetsRecents, getProject, type Project } from "../../data/projects";
 
 export function getStaticPaths() {
   return projects.map((project) => ({
@@ -27,6 +27,11 @@ const infos = [
   { label: "Statut",  value: project.statut },
 ].filter((i) => i.value);
 
+// Navigation dans l'ordre de la chronologie (du plus récent au plus ancien)
+const index      = projetsRecents.findIndex((p) => p.slug === project.slug);
+const plusRecent = index > 0 ? projetsRecents[index - 1] : undefined;
+const plusAncien = index < projetsRecents.length - 1 ? projetsRecents[index + 1] : undefined;
+
 const related = (project.related ?? [])
   .map((s) => getProject(s))
   .filter((p): p is Project => Boolean(p));
@@ -39,10 +44,11 @@ const related = (project.related ?? [])
   </div>
 
   <header class="projectHead">
-    <div class="projectHeadTop">
-      <span class="projectYear">{project.periode}</span>
-      {project.enCours && <span class="badge-live">En cours</span>}
-    </div>
+    {project.enCours && (
+      <div class="projectHeadTop">
+        <span class="badge-live">En cours</span>
+      </div>
+    )}
     <h1>{project.title}</h1>
     <p class="lead">{project.subtitle}</p>
 
@@ -101,7 +107,7 @@ const related = (project.related ?? [])
         {gallery.map((m) =>
           m.type === "video" ? (
             <div class="gallery-item gallery-video">
-              <video src={m.src} controls preload="metadata" playsinline aria-label={m.alt}></video>
+              <video src={`${m.src}#t=0.1`} controls preload="metadata" playsinline aria-label={m.alt}></video>
               {m.caption && <p class="gallery-caption">{m.caption}</p>}
             </div>
           ) : (
@@ -144,6 +150,21 @@ const related = (project.related ?? [])
       </div>
     </section>
   )}
+
+  <nav class="projectNav" aria-label="Autres projets">
+    {plusRecent ? (
+      <a class="projectNavLink" href={`/projects/${plusRecent.slug}`}>
+        <span class="projectNavLabel">← Plus récent</span>
+        <span class="projectNavTitle">{plusRecent.title}</span>
+      </a>
+    ) : <span></span>}
+    {plusAncien ? (
+      <a class="projectNavLink projectNavNext" href={`/projects/${plusAncien.slug}`}>
+        <span class="projectNavLabel">Plus ancien →</span>
+        <span class="projectNavTitle">{plusAncien.title}</span>
+      </a>
+    ) : <span></span>}
+  </nav>
 
 </Base>
 

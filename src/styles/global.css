@@ -1293,3 +1293,64 @@ li { margin-bottom: .3rem; }
   background: var(--bg);
   padding: 0 .6rem;
 }
+
+/* ══════════════════════════════════════════════════════
+   Bouton CV, navigation entre projets, page 404
+   ══════════════════════════════════════════════════════ */
+.btn-cv { gap: .45rem; }
+
+.projectNav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+.projectNavLink {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-soft);
+  transition: border-color .15s, transform .15s;
+}
+.projectNavLink:hover { border-color: var(--accent); transform: translateY(-2px); opacity: 1; }
+.projectNavNext { text-align: right; }
+.projectNavLabel {
+  font-family: var(--mono);
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--accent);
+}
+.projectNavTitle { font-size: .92rem; font-weight: 600; line-height: 1.35; }
+
+.notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 6rem 0 3rem;
+}
+.notFoundCode {
+  font-size: clamp(4rem, 14vw, 7rem);
+  font-weight: 200;
+  letter-spacing: -.05em;
+  line-height: 1;
+  color: var(--accent);
+}
+.notFound h1 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  margin: .75rem 0 .5rem;
+}
+.notFound .ctaRow { justify-content: center; }
+
+@media (max-width: 640px) {
+  .projectNav { grid-template-columns: 1fr; }
+  .projectNavNext { text-align: left; }
+}

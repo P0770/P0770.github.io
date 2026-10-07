@@ -9,6 +9,8 @@ const {
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, site.seo.url).toString();
+// Image d'aperçu affichée quand on partage un lien du site (LinkedIn, WhatsApp…)
+const ogImage = new URL("/og-image.png", site.seo.url).toString();
 ---
 
 <!doctype html>
@@ -29,11 +31,19 @@ const canonical = new URL(Astro.url.pathname, site.seo.url).toString();
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2563eb" />
 
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="fr_CH" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
   </head>
 
   <body>

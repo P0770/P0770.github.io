@@ -1,0 +1,18 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site";
+---
+
+<Base title={`Page introuvable — ${site.name}`} description="Cette page n'existe pas.">
+  <section class="notFound">
+    <span class="notFoundCode">404</span>
+    <h1>Page introuvable</h1>
+    <p class="lead">
+      Cette page n'existe pas, ou elle a changé d'adresse.
+    </p>
+    <div class="ctaRow">
+      <a class="btn btn-primary" href="/">Retour à l'accueil</a>
+      <a class="btn" href="/projects">Voir les projets</a>
+    </div>
+  </section>
+</Base>
