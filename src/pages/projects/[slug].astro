@@ -106,8 +106,8 @@ const related = (project.related ?? [])
       <div class="galleryGrid">
         {gallery.map((m) =>
           m.type === "video" ? (
-            <div class="gallery-item gallery-video">
-              <video src={`${m.src}#t=0.1`} controls preload="metadata" playsinline aria-label={m.alt}></video>
+            <div class={`gallery-item gallery-video${m.portrait ? " gallery-video--portrait" : ""}`}>
+              <video src={`${m.src}#t=0.1`} controls preload="metadata" playsinline aria-label={m.alt} style={m.portrait ? `--r: ${m.ratio ?? "9/16"}` : undefined}></video>
               {m.caption && <p class="gallery-caption">{m.caption}</p>}
             </div>
           ) : (

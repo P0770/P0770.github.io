@@ -4,6 +4,10 @@ export type ProjectMedia = {
   caption?: string;
   /** "video" pour un fichier .mp4/.webm ; image par défaut */
   type?: "image" | "video";
+  /** Vidéo verticale (téléphone, drone) : affichée dans son vrai format au lieu du 16:9 */
+  portrait?: boolean;
+  /** Format largeur/hauteur d'une vidéo verticale, ex. "9/16" (iPhone) ou "3/4" — "9/16" par défaut */
+  ratio?: string;
 };
 
 export type ProjectSection = {
@@ -153,6 +157,11 @@ export const projects: Project[] = [
         src: "/projects/parcours-bille/demo.mp4",
         alt: "Vidéo du parcours de bille en fonctionnement",
         caption: "Le module en fonctionnement",
+      },
+      {
+        src: "/projects/parcours-bille/ma-partie.jpg",
+        alt: "Ma partie du parcours de bille : deux bras à pignons qui font monter la bille",
+        caption: "Ma partie du parcours",
       },
     ],
     sections: [
@@ -326,6 +335,14 @@ export const projects: Project[] = [
     related: ["impression-3d"],
     cover: { src: "/projects/drone-fpv/cover.jpg", alt: "Drone FPV" },
     gallery: [
+      {
+        type: "video",
+        src: "/projects/drone-fpv/vol.mp4",
+        alt: "Vidéo d'un petit vol en FPV au-dessus d'une rivière",
+        caption: "Un petit vol en FPV",
+        portrait: true,
+        ratio: "3/4",
+      },
       { src: "/projects/drone-fpv/diy-2-5.jpg", alt: "Drone 2,5 pouces DIY", caption: "Le 2,5\" entièrement DIY" },
       { src: "/projects/drone-fpv/flotte.jpg", alt: "Ma flotte de drones", caption: "Ma flotte" },
     ],
@@ -650,6 +667,68 @@ export const projects: Project[] = [
       },
     ],
   },
+  // ─────────────────────────────────────────
+  //  COMPTEUR DE BOUTEILLES — perso (juil. 2026)
+  // ─────────────────────────────────────────
+  {
+    slug: "compteur-bouteilles",
+    title: "Compteur de bouteilles pour un vigneron",
+    subtitle:
+      "Compteur autonome sur ESP32 qui détecte chaque bouteille remplie et bouchonnée par infrarouge et affiche le total en direct.",
+    debut: "2026-07",
+    fin: "2026-07",
+    periode: "Juil. 2026",
+    cadre: "Projet personnel, réalisé pour le domaine viticole de mon frère",
+    equipe: "Seul",
+    statut: "Terminé",
+    tags: ["ESP32", "C++", "Capteur IR", "OLED", "Embarqué"],
+    highlights: [
+      "Comptage des bouteilles remplies et bouchonnées, directement sur la partie rotative de la machine",
+      "Détection sans contact par capteur infrarouge réflectif",
+      "Total affiché en direct sur un écran OLED SSD1306",
+      "Firmware en C++ sur ESP32, alimenté simplement en USB-C",
+    ],
+    related: ["incubateur-cellules", "scanner-i2c"],
+    cover: {
+      src: "/projects/compteur-bouteilles/couverture.jpg",
+      alt: "Compteur de bouteilles installé sur la partie rotative de la machine d'embouteillage",
+      caption: "Le compteur installé sur la machine, capteur infrarouge face aux bouteilles",
+    },
+    gallery: [
+      {
+        src: "/projects/compteur-bouteilles/comptage.mp4",
+        alt: "Vidéo du compteur en train de compter les bouteilles",
+        caption: "Le compteur en action pendant la mise en bouteille",
+        type: "video",
+        portrait: true,
+        ratio: "9/16",
+      },
+    ],
+    sections: [
+      {
+        heading: "Le besoin",
+        paragraphs: [
+          "Mon frère est vigneron. Pendant la mise en bouteille, il voulait connaître le nombre de bouteilles remplies et bouchonnées, sans devoir les compter à la main.",
+        ],
+      },
+      {
+        heading: "Fonctionnement",
+        paragraphs: [
+          "Sur la machine, les bouteilles passent d'abord dans un système rotatif, puis sont déposées sur un tapis. Le comptage se fait sur la partie rotative : à chaque bouteille qui passe devant lui, le capteur infrarouge réflectif la détecte, l'ESP32 incrémente le compteur et l'écran affiche le nouveau total.",
+        ],
+      },
+      {
+        heading: "Matériel",
+        bullets: [
+          "ESP32, programmé en C++",
+          "Capteur infrarouge réflectif, pour détecter les bouteilles sans contact",
+          "Écran OLED SSD1306, pour afficher le total",
+          "Alimentation par le port USB-C de l'ESP32",
+        ],
+      },
+    ],
+  },
+
 ];
 
 // ── Tri chronologique ──

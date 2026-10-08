@@ -1474,3 +1474,16 @@ li { margin-bottom: .3rem; }
 @media (max-width: 480px) {
   .skillsGrid { grid-template-columns: 1fr; gap: 1.25rem; }
 }
+
+/* ── Vidéos verticales (téléphone, drone) ──
+   Affichées dans leur vrai format, centrées, sans dépasser l'écran en hauteur */
+.gallery-video--portrait video {
+  /* --r = format de la vidéo, donné dans la fiche (ex. 9/16) :
+     la taille est connue avant même que la vidéo se charge */
+  --r: 9/16;
+  aspect-ratio: var(--r);
+  width: min(100%, calc(80vh * var(--r)));
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+}
