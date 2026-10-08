@@ -212,6 +212,27 @@ const related = (project.related ?? [])
     lb.querySelector(".lb-prev").addEventListener("click", prev);
     lb.querySelector(".lb-next").addEventListener("click", next);
     lb.addEventListener("click", (e) => { if (e.target === lb) close(); });
+
+    // ── Balayage au doigt (téléphone) ──
+    // Gauche → image suivante, droite → précédente, vers le bas → fermer.
+    let x0 = null, y0 = null;
+    lb.addEventListener("touchstart", (e) => {
+      if (e.touches.length !== 1) { x0 = null; return; }
+      x0 = e.touches[0].clientX;
+      y0 = e.touches[0].clientY;
+    }, { passive: true });
+    lb.addEventListener("touchend", (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      const dy = e.changedTouches[0].clientY - y0;
+      x0 = y0 = null;
+      const SEUIL = 50; // px minimum pour compter comme un balayage
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > SEUIL) {
+        if (items.length > 1) (dx < 0 ? next : prev)();
+      } else if (dy > 90 && Math.abs(dy) > Math.abs(dx)) {
+        close();
+      }
+    }, { passive: true });
     document.addEventListener("keydown", (e) => {
       if (!lb.classList.contains("open")) return;
       if (e.key === "Escape")     close();

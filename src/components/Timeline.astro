@@ -70,7 +70,14 @@ const enCours = projetsChronologiques.filter((p) => p.enCours);
         <div class="tl-yearHead tl-reveal">
           <span class="tl-yearNum">{g.annee}</span>
           {formationParAnnee[g.annee] && (
-            <span class="tl-yearCtx">{formationParAnnee[g.annee]}</span>
+            <span class="tl-yearCtx">
+              {formationParAnnee[g.annee].split(" · ").map((morceau, i) => (
+                <>
+                  {i > 0 && " · "}
+                  <span class="tl-yearCtxPart">{morceau}</span>
+                </>
+              ))}
+            </span>
           )}
         </div>
 
@@ -169,12 +176,14 @@ const enCours = projetsChronologiques.filter((p) => p.enCours);
       // « Aujourd'hui » est en haut : le pointillé remonte du point du projet jusqu'à lui.
       const haut = centreY(todayDot);
       const x = axis.offsetLeft + axis.offsetWidth / 2;
+      // Sur téléphone, les pointillés se superposent en une seule ligne discrète
+      const pas = window.matchMedia("(max-width: 640px)").matches ? 0 : 5;
       dots.forEach((d, k) => {
         const bas = centreY(d);
         const t = trails[k];
         t.style.top = `${haut}px`;
         t.style.height = `${Math.max(0, bas - haut)}px`;
-        t.style.left = `${x + 6 + k * 5}px`;
+        t.style.left = `${x + 6 + k * pas}px`;
       });
     };
 

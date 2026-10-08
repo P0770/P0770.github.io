@@ -64,10 +64,20 @@ const isContact  = currentPath.startsWith("/contact");
     const open = nav.classList.toggle("nav-open");
     burger.setAttribute("aria-expanded", String(open));
   });
+  const fermerMenu = () => {
+    nav.classList.remove("nav-open");
+    burger.setAttribute("aria-expanded", "false");
+  };
   document.addEventListener("click", (e) => {
-    if (!burger.contains(e.target) && !nav.contains(e.target)) {
-      nav.classList.remove("nav-open");
-      burger.setAttribute("aria-expanded", "false");
+    if (!burger.contains(e.target) && !nav.contains(e.target)) fermerMenu();
+  });
+  // Toucher un lien du menu le referme
+  nav.querySelectorAll("a").forEach((a) => a.addEventListener("click", fermerMenu));
+  // Touche Échap
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && nav.classList.contains("nav-open")) {
+      fermerMenu();
+      burger.focus();
     }
   });
 </script>

@@ -1354,3 +1354,123 @@ li { margin-bottom: .3rem; }
   .projectNav { grid-template-columns: 1fr; }
   .projectNavNext { text-align: left; }
 }
+
+/* ══════════════════════════════════════════════════════
+   Adaptation téléphone
+   (placé en fin de fichier pour prendre le dessus ;
+    l'affichage ordinateur n'est pas modifié)
+   ══════════════════════════════════════════════════════ */
+
+/* Contexte d'année : les morceaux ne se coupent qu'aux « · » */
+.tl-yearCtxPart { white-space: nowrap; }
+
+/* ── Zone sûre des iPhone (encoche, coins arrondis) ── */
+.wrap {
+  padding-left:  max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
+}
+.footer   { padding-bottom: max(1.5rem, env(safe-area-inset-bottom)); }
+.lb-close { top: max(1rem, env(safe-area-inset-top)); }
+
+/* ── Écrans tactiles : pas d'effet de survol « bloqué » après un tap ── */
+@media (hover: none) {
+  .projectCard:hover,
+  .gallery-item:hover,
+  .projectNavLink:hover,
+  .contactCard:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: var(--border);
+  }
+  .projectCard:hover .projectThumb img { transform: none; }
+  /* Retour visuel au toucher à la place */
+  .projectCard:active,
+  .gallery-item:active,
+  .projectNavLink:active,
+  .contactCard:active { transform: scale(.985); border-color: var(--accent); }
+}
+
+/* ── Téléphone ── */
+@media (max-width: 640px) {
+  .wrap {
+    padding-left:  max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+
+  /* Zones de toucher ≈ 44 px */
+  .btn-icon,
+  .burger { width: 44px; height: 44px; }
+  .burger { padding: 13px 11px; }
+  .nav a { padding: .8rem .75rem; }
+  .footer-links { gap: 0; margin-left: -.6rem; }
+  .footer-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 .6rem;
+  }
+  .see-all,
+  .backLink { display: inline-flex; align-items: center; min-height: 44px; }
+  .brand { display: flex; flex-direction: column; justify-content: center; min-height: 44px; }
+  .tl-todayList { line-height: 2.1; }
+  .tl-todayList a { display: inline-block; padding: .3rem 0; line-height: 1.4; }
+
+  /* À propos : la date passe sur sa propre ligne */
+  .itemTop { flex-direction: column; gap: .3rem; }
+  .itemMeta { white-space: normal; }
+
+  /* À propos : compteur ECTS au-dessus, « Voir le détail » dessous */
+  .credits summary {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .35rem;
+    min-height: 44px;
+    padding: .65rem .85rem;
+  }
+
+  /* À propos : compétences sur 2 colonnes qui peuvent rétrécir */
+  .skillsGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .skillGroup h3 { overflow-wrap: anywhere; }
+  .skillGroup .chip { white-space: normal; }
+
+  /* Lisibilité : aucun texte sous 12 px */
+  .chip,
+  .projectCard--timeline .chip,
+  .badge-live,
+  .tl-when,
+  .tl-yearCtx,
+  .tl-avantLabel,
+  .tl-jalonDetail,
+  .projectYear,
+  .projectInfo dt,
+  .projectNavLabel,
+  .itemMeta,
+  .itemNote,
+  .creditsGroupHead,
+  .creditsTotal,
+  .creditsToggle,
+  .creditsCours,
+  .credits[open] .creditsToggle::before,
+  .gallery-caption,
+  .heroMedia figcaption,
+  .lb-caption,
+  .contactLabel { font-size: .75rem; }
+
+  /* Chronologie : un peu plus de largeur pour les cartes */
+  .tl-avant,
+  .tl-yearHead,
+  .tl-item,
+  .tl-left,
+  .tl-right,
+  .tl-jalon { padding-left: 1.6rem; }
+  .tl-yearHead::before { left: 1.6rem; }
+  .tl-left .tl-dot::before,
+  .tl-right .tl-dot::before { width: calc(1.6rem - 14.5px); }
+  .tl-today { column-gap: calc(1.6rem - 17px); }
+  .tl-yearCtx { line-height: 1.5; }
+}
+
+/* ── Petits téléphones : compétences sur une seule colonne ── */
+@media (max-width: 480px) {
+  .skillsGrid { grid-template-columns: 1fr; gap: 1.25rem; }
+}
