@@ -350,8 +350,6 @@ export const projects: Project[] = [
         portrait: true,
         ratio: "3/4",
       },
-      { src: "/projects/drone-fpv/diy-2-5.jpg", alt: "Drone 2,5 pouces DIY", caption: "Le 2,5\" entièrement DIY" },
-      { src: "/projects/drone-fpv/flotte.jpg", alt: "Ma flotte de drones", caption: "Ma flotte" },
     ],
     sections: [
       {
@@ -536,7 +534,14 @@ export const projects: Project[] = [
       "Saisie des réponses par mouvements détectés via l'accéléromètre du téléphone",
       "Interface graphique développée avec le framework Kivy",
     ],
-    cover: { src: "/projects/jeu-amc/cover.jpg", alt: "Interface du jeu C de Soirée" },
+    cover: { src: "/projects/jeu-amc/cover.jpg", alt: "Logo du jeu : point d'interrogation lumineux et lettres QDN" },
+    gallery: [
+      {
+        src: "/projects/jeu-amc/interface.jpg",
+        alt: "Écran d'accueil du jeu sur PC et sur tablette Android",
+        caption: "L'écran d'accueil : un joueur crée la partie, l'autre la rejoint avec l'adresse IP de l'hôte",
+      },
+    ],
     sections: [
       {
         heading: "Contexte",
@@ -593,21 +598,6 @@ export const projects: Project[] = [
         caption: "Le boîtier biologique amovible et sa valise",
         portrait: true,
         ratio: "9/16",
-      },
-      {
-        src: "/projects/incubateur-cellules/assemblage.jpg",
-        alt: "Incubateur cellules — assemblage des pièces dans la valise",
-        caption: "Assemblage des pièces dans la valise — modèle Creo",
-      },
-      {
-        src: "/projects/incubateur-cellules/pick-and-place.jpg",
-        alt: "Boîtier biologique et connecteurs aimantés",
-        caption: "Le boîtier « pick and place » et ses connecteurs aimantés",
-      },
-      {
-        src: "/projects/incubateur-cellules/ecran-marche.jpg",
-        alt: "Écran EN MARCHE",
-        caption: "Interface ST7789 — état MARCHE avec barres de progression T, HR, CO₂",
       },
     ],
     sections: [
