@@ -219,12 +219,12 @@ export const projects: Project[] = [
     cover: {
       src: "/projects/impression-3d/support.jpg",
       alt: "Pièce blanche imprimée en 3D tenue en main",
-      caption: "À compléter",
+      caption: "Une pièce sur mesure, modélisée puis imprimée",
     },
     gallery: [
-      { src: "/projects/impression-3d/boitier.jpg", alt: "Boîtier imprimé en 3D avec sa carte électronique", caption: "À compléter" },
-      { src: "/projects/impression-3d/pieces-plateau.jpg", alt: "Pièces imprimées en 3D sur le plateau", caption: "À compléter" },
-      { src: "/projects/impression-3d/pieces-reparation.jpg", alt: "Trois pièces imprimées en 3D", caption: "À compléter" },
+      { src: "/projects/impression-3d/boitier.jpg", alt: "Boîtier imprimé en 3D avec sa carte électronique", caption: "Un boîtier imprimé pour accueillir une carte électronique" },
+      { src: "/projects/impression-3d/pieces-plateau.jpg", alt: "Pièces imprimées en 3D sur le plateau", caption: "Une série de pièces tout juste sorties du plateau" },
+      { src: "/projects/impression-3d/pieces-reparation.jpg", alt: "Trois pièces imprimées en 3D", caption: "Plusieurs essais d'une même pièce" },
     ],
     sections: [
       {
@@ -398,9 +398,9 @@ export const projects: Project[] = [
         alt: "Vidéo du concours de robots",
         caption: "L'épreuve",
       },
-      { src: "/projects/concours-robots/robot-2.jpg", alt: "Robot porteur", caption: "À compléter" },
-      { src: "/projects/concours-robots/robot-3.jpg", alt: "Robot explorateur", caption: "À compléter" },
-      { src: "/projects/concours-robots/atelier.jpg", alt: "Les robots en construction à l'atelier", caption: "À compléter" },
+      { src: "/projects/concours-robots/robot-2.jpg", alt: "Robot explorateur (camion de pompiers) et robot porteur (caserne)", caption: "Le camion explorateur à côté de la caserne, le robot porteur" },
+      { src: "/projects/concours-robots/robot-3.jpg", alt: "Robot porteur en forme de caserne, porte fermée", caption: "La caserne : le robot porteur, porte fermée" },
+      { src: "/projects/concours-robots/atelier.jpg", alt: "Les robots en construction à l'atelier", caption: "Les robots en construction à l'atelier" },
     ],
     sections: [
       {
@@ -493,9 +493,9 @@ export const projects: Project[] = [
         type: "video",
         src: "/projects/lampe-braun/demo.mp4",
         alt: "Vidéo de la lampe allumée",
-        caption: "À compléter",
+        caption: "La lampe allumée",
       },
-      { src: "/projects/lampe-braun/detail.jpg", alt: "Détail de la lampe", caption: "À compléter" },
+      { src: "/projects/lampe-braun/detail.jpg", alt: "Lampe de chevet éteinte", caption: "La lampe éteinte" },
     ],
     sections: [
       {
@@ -590,7 +590,7 @@ export const projects: Project[] = [
         type: "video",
         src: "/projects/incubateur-cellules/demo.mp4",
         alt: "Vidéo du prototype de l'incubateur",
-        caption: "À compléter",
+        caption: "Le boîtier biologique amovible et sa valise",
         portrait: true,
         ratio: "9/16",
       },
