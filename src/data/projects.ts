@@ -217,10 +217,15 @@ export const projects: Project[] = [
     tags: ["Bambu Lab P1S", "Inventor", "Prototypage", "Réparation"],
     related: ["etiqueteuse", "concours-robots", "lampe-braun", "drone-fpv", "incubateur-cellules"],
     cover: {
-      src: "/projects/impression-3d/imprimante.jpg",
-      alt: "Imprimante 3D Bambu Lab P1S",
-      caption: "Ma Bambu Lab P1S",
+      src: "/projects/impression-3d/support.jpg",
+      alt: "Pièce blanche imprimée en 3D tenue en main",
+      caption: "À compléter",
     },
+    gallery: [
+      { src: "/projects/impression-3d/boitier.jpg", alt: "Boîtier imprimé en 3D avec sa carte électronique", caption: "À compléter" },
+      { src: "/projects/impression-3d/pieces-plateau.jpg", alt: "Pièces imprimées en 3D sur le plateau", caption: "À compléter" },
+      { src: "/projects/impression-3d/pieces-reparation.jpg", alt: "Trois pièces imprimées en 3D", caption: "À compléter" },
+    ],
     sections: [
       {
         heading: "Le projet",
@@ -266,6 +271,8 @@ export const projects: Project[] = [
         src: "/projects/etiqueteuse/presentation.mp4",
         alt: "Vidéo de présentation de l'étiqueteuse",
         caption: "Vidéo de présentation du projet",
+        portrait: true,
+        ratio: "9/16",
       },
       {
         src: "/projects/etiqueteuse/cablage.jpg",
@@ -393,6 +400,7 @@ export const projects: Project[] = [
       },
       { src: "/projects/concours-robots/robot-2.jpg", alt: "Robot porteur", caption: "À compléter" },
       { src: "/projects/concours-robots/robot-3.jpg", alt: "Robot explorateur", caption: "À compléter" },
+      { src: "/projects/concours-robots/atelier.jpg", alt: "Les robots en construction à l'atelier", caption: "À compléter" },
     ],
     sections: [
       {
@@ -481,6 +489,12 @@ export const projects: Project[] = [
     related: ["impression-3d"],
     cover: { src: "/projects/lampe-braun/lampe.jpg", alt: "Lampe de chevet inspirée du Braun HL70" },
     gallery: [
+      {
+        type: "video",
+        src: "/projects/lampe-braun/demo.mp4",
+        alt: "Vidéo de la lampe allumée",
+        caption: "À compléter",
+      },
       { src: "/projects/lampe-braun/detail.jpg", alt: "Détail de la lampe", caption: "À compléter" },
     ],
     sections: [
@@ -567,11 +581,24 @@ export const projects: Project[] = [
       "Toutes les pièces mécaniques conçues sous Creo et fabriquées par impression 3D",
     ],
     cover: {
-      src: "/projects/incubateur-cellules/assemblage.jpg",
-      alt: "Incubateur cellules — assemblage des pièces dans la valise",
-      caption: "Assemblage des pièces dans la valise — modèle Creo",
+      src: "/projects/incubateur-cellules/prototype.jpg",
+      alt: "Prototype de l'incubateur ouvert dans sa valise",
+      caption: "Le prototype dans sa valise",
     },
     gallery: [
+      {
+        type: "video",
+        src: "/projects/incubateur-cellules/demo.mp4",
+        alt: "Vidéo du prototype de l'incubateur",
+        caption: "À compléter",
+        portrait: true,
+        ratio: "9/16",
+      },
+      {
+        src: "/projects/incubateur-cellules/assemblage.jpg",
+        alt: "Incubateur cellules — assemblage des pièces dans la valise",
+        caption: "Assemblage des pièces dans la valise — modèle Creo",
+      },
       {
         src: "/projects/incubateur-cellules/pick-and-place.jpg",
         alt: "Boîtier biologique et connecteurs aimantés",
