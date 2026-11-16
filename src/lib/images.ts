@@ -21,7 +21,7 @@ const cache = new Map<string, { width: number; height: number } | null>();
 
 /** Seules ces images reçoivent des versions WebP (le script traite les mêmes) */
 export const estOptimisable = (src: string) =>
-  /\.(jpe?g|png)$/i.test(src) && (src.startsWith("/projects/") || src === "/me.jpg");
+  /\.(jpe?g|png)$/i.test(src) && (src.startsWith("/projects/") || src.startsWith("/about/") || src === "/me.jpg");
 
 /** Dimensions de l'image telle qu'elle sera publiée (après réduction à 1600 px max) */
 export async function dimensions(src: string) {

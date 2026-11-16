@@ -60,12 +60,20 @@ const domaines = [
           <a class="btn" href={lien(lang, "/about")}>{T.navApropos}</a>
           <a class="btn" href={site.cv} download>{T.telechargerCv}</a>
         </div>
-        <div class="accueil-portrait">
-          <Img src="/me.jpg" alt={T.portraitAlt} sizes="76px" loading="eager" fallback={false} />
-          <p>{T.portraitTexte}</p>
-        </div>
       </div>
       <DessinChassis />
+    </section>
+
+    <section class="moi" aria-labelledby="moi-titre">
+      <figure class="moi-photo">
+        <Img src="/me.jpg" alt={T.portraitAlt} sizes="(max-width: 860px) 100vw, 420px" fallback={false} />
+      </figure>
+      <div class="moi-texte">
+        <h2 id="moi-titre">{T.moiTitre}</h2>
+        <p class="moi-accroche">{T.moiTexte}</p>
+        <p class="moi-langues">{T.portraitTexte}</p>
+        <a class="moi-lien" href={lien(lang, "/about")}>{T.moiLien}</a>
+      </div>
     </section>
 
     <section class="domaines" aria-label={T.domainesAria}>

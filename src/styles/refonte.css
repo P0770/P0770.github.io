@@ -530,3 +530,72 @@ a.contactCard:hover { border-color: var(--text); transform: translateY(-2px); bo
   .actions { gap: .35rem; }
   .langSwitch { min-width: 0; padding: 0 .45rem; }
 }
+
+/* ── Accueil : « Qui je suis » ── */
+.moi {
+  display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem); align-items: center;
+  padding: clamp(2.5rem, 6vw, 5rem) 0; border-top: 1px solid var(--line);
+}
+.moi-photo { margin: 0; position: relative; }
+.moi-photo::before {               /* cadre cuivre décalé, pour la profondeur */
+  content: ""; position: absolute; inset: 0; transform: translate(14px, 14px);
+  border: 1.5px solid var(--copper); pointer-events: none;
+}
+.moi-photo img { position: relative; width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+.moi-texte h2 { font-size: clamp(2rem, 4vw, 3rem); font-stretch: 118%; font-weight: 760; letter-spacing: -.02em; margin: 0 0 1rem; }
+.moi-accroche { font-size: clamp(1.1rem, 1.6vw, 1.35rem); line-height: 1.55; max-width: 46ch; margin: 0 0 1rem; }
+.moi-langues { color: var(--muted); margin: 0 0 1.5rem; }
+.moi-lien { font-weight: 650; color: var(--accent); text-decoration: underline; text-underline-offset: .25em; }
+@media (max-width: 860px) {
+  .moi { grid-template-columns: minmax(0, 1fr); }
+  .moi-photo { max-width: 420px; margin-right: 14px; }
+}
+
+/* ── À propos : présentation et photos ── */
+.apropos-tete {
+  display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
+  gap: clamp(2rem, 5vw, 5rem); align-items: center;
+}
+.apropos-texte p { font-size: 1.05rem; line-height: 1.65; max-width: 62ch; margin: 1rem 0 0; }
+.apropos-texte p:first-of-type { font-size: clamp(1.15rem, 1.7vw, 1.35rem); margin-top: 1.25rem; }
+.apropos-portrait {
+  margin: 0; background: var(--paper); padding: .7rem .7rem 0;
+  border: 1px solid var(--line); box-shadow: 10px 12px 0 -2px var(--surface);
+  transform: rotate(1.6deg);
+}
+.apropos-portrait img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+.apropos-portrait figcaption, .hors-photo figcaption {
+  font-stretch: 85%; font-size: .9rem; line-height: 1.4; color: var(--muted); padding: .75rem .2rem 1rem;
+}
+@media (max-width: 860px) {
+  .apropos-tete { grid-template-columns: minmax(0, 1fr); }
+  .apropos-portrait { max-width: 420px; }
+}
+
+.hors { padding: clamp(2rem, 5vw, 3.5rem) 0 clamp(2.5rem, 5vw, 4rem); }
+.hors h2 { margin-bottom: 1.75rem; }
+.hors-photos {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 2rem); align-items: start;
+}
+.hors-photo {
+  margin: 0; background: var(--paper); padding: .6rem .6rem 0;
+  border: 1px solid var(--line); box-shadow: 6px 8px 0 -2px var(--surface);
+  transform: rotate(var(--r, 0deg)) translateY(var(--y, 0));
+  transition: transform .35s var(--ease), box-shadow .35s var(--ease);
+  position: relative;
+}
+.hors-photo:nth-child(1) { --r: -2.2deg; }
+.hors-photo:nth-child(2) { --r: 1.6deg;  --y: 1.5rem; }
+.hors-photo:nth-child(3) { --r: -1deg;   --y: .4rem; }
+.hors-photo:nth-child(4) { --r: 2.4deg;  --y: 1.8rem; }
+.hors-photo:hover { transform: rotate(0deg) translateY(-.4rem) scale(1.03); box-shadow: 10px 14px 0 -2px var(--surface); z-index: 2; }
+.hors-photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; }
+.hors-photo:nth-child(1) img { object-position: 30% center; }
+@media (max-width: 1000px) { .hors-photos { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2.5rem; } }
+@media (max-width: 480px) {
+  .hors-photos { grid-template-columns: minmax(0, 1fr); padding: 0 .5rem; }
+  .hors-photo { --y: 0 !important; }
+}
+@media (prefers-reduced-motion: reduce) { .hors-photo { transition: none; } }

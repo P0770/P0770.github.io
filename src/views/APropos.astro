@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import Img from "../components/Img.astro";
 import { ectsGroupe, ectsValides } from "../data/site";
 import { siteDe } from "../data/donnees";
 import { t, langDe } from "../i18n/ui";
@@ -10,9 +11,27 @@ const site = siteDe(lang);
 
 <Base title={`${T.aproposTitre} — ${site.name}`} description={site.seo.description}>
 
-  <section class="pageHead">
-    <h1>{T.aproposTitre}</h1>
-    <p class="lead">{site.about.intro}</p>
+  <section class="pageHead apropos-tete">
+    <div class="apropos-texte">
+      <h1>{T.aproposTitre}</h1>
+      {T.presentation.map((para) => <p>{para}</p>)}
+    </div>
+    <figure class="apropos-portrait">
+      <Img src="/about/glacier.jpg" alt={T.glacierAlt} sizes="(max-width: 860px) 100vw, 440px" loading="eager" fallback={false} />
+      <figcaption>{T.glacierLegende}</figcaption>
+    </figure>
+  </section>
+
+  <section class="hors" aria-labelledby="hors-titre">
+    <h2 id="hors-titre">{T.horsTitre}</h2>
+    <div class="hors-photos">
+      {T.photos.map((ph) => (
+        <figure class="hors-photo">
+          <Img src={ph.src} alt={ph.alt} sizes="(max-width: 640px) 80vw, (max-width: 1100px) 45vw, 320px" fallback={false} />
+          <figcaption>{ph.legende}</figcaption>
+        </figure>
+      ))}
+    </div>
   </section>
 
   <!-- Comment je travaille + infos -->

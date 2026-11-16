@@ -28,6 +28,7 @@ async function* fichiers(dossier) {
 /** Mêmes images que estOptimisable() dans src/lib/images.ts */
 const estOptimisable = (chemin) =>
   (chemin.startsWith(join(DOSSIER, "projects") + sep) && !chemin.includes("-poster.")) ||
+  chemin.startsWith(join(DOSSIER, "about") + sep) ||
   chemin === join(DOSSIER, "me.jpg");
 
 let total = 0, gagne = 0, webp = 0;
