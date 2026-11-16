@@ -367,7 +367,10 @@ export const projects: Project[] = [
     periode: "Depuis mars 2024",
     cadre: "Projet personnel",
     statut: "En cours",
-    tags: ["Bambu Lab P1S", "Inventor", "Prototypage", "Réparation"],
+    tags: ["Bambu Lab P1S", "Inventor", "Prototypage", "Réparation", "PLA"],
+    links: [
+      { label: "Mes modèles STL (GitHub)", href: "https://github.com/P0770/impression-3d" },
+    ],
     related: ["etiqueteuse", "concours-robots", "lampe-braun", "drone-fpv", "incubateur-cellules"],
     cover: {
       src: "/projects/impression-3d/support.jpg",
@@ -378,6 +381,7 @@ export const projects: Project[] = [
       { src: "/projects/impression-3d/boitier.jpg", alt: "Boîtier imprimé en 3D avec sa carte électronique", caption: "Un boîtier imprimé pour accueillir une carte électronique" },
       { src: "/projects/impression-3d/pieces-plateau.jpg", alt: "Pièces imprimées en 3D sur le plateau", caption: "Une série de pièces tout juste sorties du plateau" },
       { src: "/projects/impression-3d/pieces-reparation.jpg", alt: "Trois pièces imprimées en 3D", caption: "Plusieurs essais d'une même pièce" },
+      { src: "/projects/impression-3d/fc-protect.jpg", alt: "Rendu 3D du cadre de protection de la carte AIO du LR4", caption: "Protection de l'AIO du LR4, 6ᵉ version", entier: true },
     ],
     sections: [
       {
@@ -386,6 +390,58 @@ export const projects: Project[] = [
           "J'ai acquis une Bambu Lab P1S dès sa sortie ; elle est vite devenue l'outil central de presque tous mes projets. Elle me sert à trois choses : prototyper mes idées, fabriquer les pièces de mes autres projets (étiqueteuse, robot du concours, lampe, drones, incubateur — voir les projets liés ci-dessous), et réparer le quotidien en remodélisant des pièces cassées, comme des branches de lunettes ou des pièces de table.",
           "J'y ai appris le procédé en profondeur : réglages d'impression et choix des matériaux selon l'usage (PLA, PETG, TPU). Modélisation sous Inventor, tranchage avec Bambu Studio et OrcaSlicer.",
         ],
+      },
+      {
+        heading: "Pièces pour mes drones",
+        paragraphs: [
+          "Un châssis 2,5\", une garde d'hélices et un support pour la carte AIO (contrôleur de vol et variateurs sur une seule carte), tous imprimés en PLA. Le détail est sur la page des drones.",
+          "J'ai aussi dessiné un cadre de 30 × 30 × 4 mm qui protège la carte AIO de mon Flywoo LR4. La version publiée est la 6ᵉ.",
+        ],
+        figure: {
+          src: "/projects/impression-3d/drone-pieces.jpg",
+          alt: "Rendus 3D du châssis de drone, de la garde d'hélices et du support de l'AIO",
+          caption: "Châssis, garde d'hélices et support de l'AIO",
+        },
+      },
+      {
+        heading: "Support sel et poivre",
+        paragraphs: [
+          "Un support qui tient une salière et une poivrière ensemble, avec une anse pour les transporter. J'en ai fait deux versions. La seconde est plus compacte : elle passe de 75,8 à 52,4 cm³ de matière, soit (75,8 − 52,4) / 75,8 ≈ 31 % de matière en moins.",
+        ],
+        figure: {
+          src: "/projects/impression-3d/sel-poivre.jpg",
+          alt: "Rendus 3D des deux versions du support pour salière et poivrière",
+          caption: "Version 1 (130 × 170 × 65 mm) et version 2 (139 × 115 × 59 mm)",
+        },
+      },
+      {
+        heading: "Boîte de rangement",
+        paragraphs: [
+          "Une boîte de 80 × 80 × 15 mm qui range un jouet. Son empreinte en creux suit sa forme organique, avec des parties fines et arrondies : une forme intéressante et compliquée à modéliser.",
+        ],
+        figure: {
+          src: "/projects/impression-3d/squeeshie.jpg",
+          alt: "Rendu 3D de la boîte de rangement avec son empreinte en creux",
+          caption: "La boîte et son empreinte en creux",
+        },
+      },
+      {
+        heading: "Masse des pièces",
+        paragraphs: [
+          "Le volume se calcule à partir du fichier STL. Multiplié par la masse volumique du PLA, environ 1,24 g/cm³, il donne la masse d'une pièce imprimée pleine. C'est un maximum : la masse réelle dépend des parois et du remplissage choisis.",
+        ],
+        tableau: {
+          entetes: ["Pièce", "Volume", "Masse maximale"],
+          lignes: [
+            ["Châssis de drone", "4,45 cm³", "4,45 × 1,24 = 5,5 g"],
+            ["Garde d'hélices", "13,61 cm³", "13,61 × 1,24 = 16,9 g"],
+            ["Support de l'AIO", "2,15 cm³", "2,15 × 1,24 = 2,7 g"],
+            ["Protection de l'AIO du LR4", "1,21 cm³", "1,21 × 1,24 = 1,5 g"],
+            ["Support sel et poivre, v1", "75,83 cm³", "75,83 × 1,24 = 94,0 g"],
+            ["Support sel et poivre, v2", "52,38 cm³", "52,38 × 1,24 = 65,0 g"],
+            ["Boîte de rangement", "59,66 cm³", "59,66 × 1,24 = 74,0 g"],
+          ],
+        },
       },
     ],
   },
@@ -604,6 +660,19 @@ export const projects: Project[] = [
         apres: [
           "Au sol : casque DJI Goggles 3, radio en ExpressLRS, et des batteries LiPo 1S, 3S et 4S selon le drone.",
         ],
+      },
+      {
+        heading: "Pièces imprimées en 3D",
+        paragraphs: [
+          "J'ai conçu sur Inventor et imprimé en PLA plusieurs pièces pour mes drones : un châssis 2,5\", une garde d'hélices, un support pour la carte AIO et un cadre de protection pour l'AIO du LR4, arrivé à sa 6ᵉ version.",
+          "Sur mon châssis, les centres des moteurs sont à 101,6 mm en diagonale et à 73,3 mm entre deux moteurs voisins. Une hélice de 2,5\" mesure 2,5 × 25,4 = 63,5 mm de diamètre, ce qui laisse 73,3 − 63,5 = 9,8 mm entre deux hélices voisines.",
+          "J'ai aussi imprimé un châssis 2,5\" compatible Kayoumini téléchargé sur MakerWorld, que je n'ai pas conçu.",
+        ],
+        figure: {
+          src: "/projects/drone-fpv/pieces-imprimees.jpg",
+          alt: "Rendus 3D de mon châssis de drone, de la garde d'hélices et du support de la carte AIO",
+          caption: "Mes pièces de drone : châssis, garde d'hélices et support de l'AIO",
+        },
       },
       {
         heading: "Configuration Betaflight",
