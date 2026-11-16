@@ -8,12 +8,37 @@ export type ProjectMedia = {
   portrait?: boolean;
   /** Format largeur/hauteur d'une vidéo verticale, ex. "9/16" (iPhone) ou "3/4" — "9/16" par défaut */
   ratio?: string;
+  /** Image affichée en entier dans la galerie, sans recadrage (rendus CAO, photos verticales, captures) */
+  entier?: boolean;
+};
+
+/** Figure insérée dans le texte d'une section (graphique, schéma, diagramme) */
+export type ProjectFigure = {
+  src: string;
+  alt: string;
+  caption?: string;
+};
+
+/** Tableau simple inséré dans une section */
+export type ProjectTable = {
+  entetes: string[];
+  lignes: string[][];
+  /** Note sous le tableau */
+  note?: string;
 };
 
 export type ProjectSection = {
   heading: string;
   paragraphs?: string[];
+  /** Figure affichée après les paragraphes, avant la liste */
+  figure?: ProjectFigure;
+  /** true = figure placée tout à la fin de la section (après la liste et les paragraphes « apres ») */
+  figureEnFin?: boolean;
   bullets?: string[];
+  /** Tableau affiché à la fin de la section */
+  tableau?: ProjectTable;
+  /** Paragraphes affichés après la figure, la liste et le tableau */
+  apres?: string[];
 };
 
 export type ProjectLink = {
@@ -581,9 +606,12 @@ export const projects: Project[] = [
     periode: "Mars – juin 2026",
     cadre: "2e année HEPIA (MT2) — Projet Thématique, spécialisation biomédicale",
     statut: "Terminé — prototype fonctionnel validé",
+    links: [
+      { label: "Code et fichiers du projet (GitHub)", href: "https://github.com/P0770/incubateur-transportable-pb0326" },
+    ],
     tags: ["ESP32", "C++", "Régulation", "Machine à états", "Creo", "Impression 3D", "Biomédical"],
     highlights: [
-      "Milieu biologique maintenu : 37 °C ±0,5 °C, HR ≈ 100 %, pH 7,2–7,4 pendant 1 h de transport",
+      "Objectif : maintenir 37 °C ±0,5 °C, HR ≈ 100 % et pH 7,2–7,4 pendant 1 h de transport",
       "Système « pick and place » : boîtier préparé à part puis déposé, connexions établies par connecteurs aimantés",
       "Architecture ESP32 + SHT35 (T/HR) + SCD40/Nafion (CO₂) + résistance chauffante + électrovanne CO₂",
       "Firmware en C++ structuré autour d'une machine à états finis à 6 phases (INIT → CHECK → BUFFER → MARCHE → PAUSE → ERREUR)",
@@ -602,6 +630,30 @@ export const projects: Project[] = [
         caption: "Le boîtier biologique amovible et sa valise",
         portrait: true,
         ratio: "9/16",
+      },
+      {
+        src: "/projects/incubateur-cellules/cao-valise.jpg",
+        alt: "Rendu CAO de la valise ouverte avec l'aménagement intérieur",
+        caption: "Assemblage CAO complet dans la valise",
+        entier: true,
+      },
+      {
+        src: "/projects/incubateur-cellules/cao-support.jpg",
+        alt: "Rendu CAO du support de la boîte de culture sur la grille de fond",
+        caption: "Support de la boîte de culture, cales et porte-connecteurs aimantés",
+        entier: true,
+      },
+      {
+        src: "/projects/incubateur-cellules/montage.jpg",
+        alt: "Valise ouverte pendant le montage : grille, supports imprimés et câblage",
+        caption: "Du modèle au prototype : le montage dans la valise",
+        entier: true,
+      },
+      {
+        src: "/projects/incubateur-cellules/ecran-en-marche.jpg",
+        alt: "Écran du prototype en mode MARCHE affichant température, humidité et CO₂",
+        caption: "L'écran en mode MARCHE : T = 37,1 °C pour une consigne de 37,0 °C",
+        entier: true,
       },
     ],
     sections: [
@@ -624,18 +676,46 @@ export const projects: Project[] = [
         ],
       },
       {
+        heading: "Démarche de choix",
+        paragraphs: [
+          "Pour chaque sous-système, plusieurs solutions ont été décrites puis comparées par une matrice de décision pondérée (notes sur 5, multipliées par le poids de chaque critère). Le tableau résume la solution retenue et la meilleure alternative écartée.",
+        ],
+        tableau: {
+          entetes: ["Sous-système", "Solution retenue", "Score", "Alternative suivante"],
+          lignes: [
+            ["Chauffage", "Résistance chauffante", "80", "Module Peltier (65)"],
+            ["Contrôle du pH", "Injection de CO₂ par électrovanne", "88", "Tampon HEPES (44)"],
+            ["Humidification", "Éponge cellulose passive", "102", "Membrane microporeuse (74)"],
+            ["Capteur T / HR", "SHT35", "77", "DS18B20 (57)"],
+            ["Capteur CO₂", "SCD40 + membrane Nafion", "84", "SCD40 seul (67)"],
+            ["Microcontrôleur", "ESP32", "100", "Raspberry Pi (74)"],
+            ["Alimentation", "LiPo 3S 5000 mAh + BMS", "79", "LiPo 3S 2200 mAh (72)"],
+          ],
+          note: "Les scores maximaux diffèrent d'une matrice à l'autre (nombre et poids des critères différents) : ils se comparent à l'intérieur d'une ligne, pas entre les lignes.",
+        },
+      },
+      {
         heading: "Architecture retenue",
         paragraphs: [
           "L'ensemble s'organise autour d'un boîtier biologique amovible intégré dans la valise. Chaque sous-système a été choisi par matrice de décision pondérée :",
         ],
         bullets: [
-          "Chauffage — résistance bobinée RS PRO 50 W/8,2 Ω, pilotée par MOSFET IRLZ44N",
+          "Chauffage — résistance bobinée RS PRO 8,2 Ω (50 W nominaux ; sous 12 V elle dissipe P = U²/R = 144/8,2 ≈ 17,6 W), pilotée par MOSFET IRLZ44N",
           "Humidification — éponge cellulose passive (ratio eau disponible / eau nécessaire ≈ 2 500)",
-          "pH / CO₂ — injection par électrovanne SMC V114 (NC), détendeur vélo, réservoir CO₂ ≈ 100 g",
+          "pH / CO₂ — injection de CO₂ par électrovanne : réservoir CO₂ → détendeur → électrovanne SMC V114 (normalement fermée) → zone biologique",
           "Mesures — SHT35 (T+HR, ±0,1 °C) dans zone biologique ; SCD40 + membrane Nafion (CO₂, ±50 ppm) hors zone humide",
           "Interface — écran ST7789 EYESPI 2,0\" avec barres de progression, LEDs RGB d'alerte, buzzer",
           "Alimentation — 2 × LiPo 3S 5000 mAh + BMS, DC-DC 12 V (résistance + EV) et régulateur 5 V (ESP32 + capteurs). Autonomie estimée ≥ 2 h.",
         ],
+        apres: [
+          "Les trois charges de puissance (résistance, électrovanne, ventilateur) sont commandées de la même façon : un MOSFET IRLZ44N côté masse, une résistance de grille de 100 Ω et une diode de roue libre 1N4007 qui protège le transistor lors de la coupure d'une charge inductive.",
+        ],
+        figure: {
+          src: "/projects/incubateur-cellules/schema-actionneurs.png",
+          alt: "Schéma électronique des actionneurs : résistance de chauffe, électrovanne et ventilateur pilotés par MOSFET",
+          caption: "Feuille « Actionneurs » du schéma électronique (EasyEDA) — cliquer pour agrandir",
+        },
+        figureEnFin: true,
       },
       {
         heading: "Ma plus grande fierté : le système « pick and place »",
@@ -654,11 +734,16 @@ export const projects: Project[] = [
         paragraphs: [
           "Le firmware v4.0 (C++, ESP32-DevKitC) structure le comportement autour d'une machine à états finis à 6 phases :",
         ],
+        figure: {
+          src: "/projects/incubateur-cellules/machine-etats.svg",
+          alt: "Diagramme de la machine à états : INIT, CHECK, BUFFER, MARCHE, PAUSE et ERREUR avec leurs transitions",
+          caption: "Machine à états du firmware v4.0.1 — un seul bouton GO pilote toutes les transitions",
+        },
         bullets: [
           "INIT — initialisation des variables, splash écran 3 s",
           "CHECK — scan I²C toutes les 2 s, vérification SHT35 et SCD40",
           "BUFFER — affichage live T/HR/CO₂, attente fermeture de l'enceinte et appui GO",
-          "MARCHE — régulation active : résistance chauffante, injection CO₂ toutes les 5 s, chronomètre",
+          "MARCHE — régulation active : résistance chauffante en tout-ou-rien, injection de CO₂ par électrovanne, chronomètre",
           "PAUSE — résistance coupée, ventilateur maintenu, retour MARCHE ou BUFFER",
           "ERREUR — tous actionneurs coupés, LED rouge + buzzer clignotants, message à l'écran",
         ],
@@ -667,7 +752,25 @@ export const projects: Project[] = [
         heading: "Résultats et validation",
         paragraphs: [
           "Le prototype a été testé avec la boîte de culture vide. Température, humidité et CO₂ se maintiennent dans les seuils visés lors de la mise en marche. La gestion des erreurs fonctionne correctement : les actionneurs se coupent et l'alerte s'active dès qu'un seuil critique est franchi.",
-          "Prototype fonctionnel, cahier des charges respecté.",
+          "Prototype fonctionnel : l'affichage, la régulation et les sécurités se comportent comme prévu lors des essais. La tenue de la température sur une heure complète n'a pas encore été mesurée et enregistrée.",
+        ],
+        figure: {
+          src: "/projects/incubateur-cellules/simulation-temperature-humidite.png",
+          alt: "Graphique de simulation : montée en température jusqu'à 37 °C puis oscillation autour de la consigne, et humidité qui monte vers 94 %",
+          caption: "Simulation numérique (pas une mesure) : modèle thermique à 3 nœuds avec la loi de commande réelle du firmware. Montée à 36,5 °C en ≈ 17 min, puis oscillation entre 36,8 et 37,5 °C ; humidité au-dessus du seuil de 85 % après ≈ 24 min, puis ≈ 94 %.",
+        },
+        apres: [
+          "La simulation reprend la loi de commande du firmware (résistance de 17,6 W en tout-ou-rien, seuil 37,1 °C, lecture toutes les 2 s) et une ambiance de 21 °C. Elle montre deux points à surveiller : de légers dépassements au-delà de 37,5 °C, qui justifient le passage à une régulation PID, et une humidité mesurée inférieure à 100 % tant que l'air est plus chaud que l'eau de l'éponge.",
+          "Prochaine étape : enregistrer une heure complète de mesures réelles (le firmware affiche déjà T et HR toutes les 2 s sur le port série) pour comparer le modèle à la réalité.",
+        ],
+      },
+      {
+        heading: "Difficultés rencontrées",
+        bullets: [
+          "Boîtier — difficulté d'alignement du boîtier biologique sur les connecteurs, d'où l'embase de réglage qui laisse un jeu de positionnement",
+          "Hermétisation — besoin de rendre le contenant hermétique",
+          "Composants — problème de commande",
+          "Le plus exigeant : faire tenir l'ensemble du projet dans la valise, protéger le capteur de CO₂ de l'humidité et passer du modèle 3D propre au montage réel",
         ],
       },
       {

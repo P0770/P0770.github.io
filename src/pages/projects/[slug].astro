@@ -123,7 +123,7 @@ const related = (project.related ?? [])
               {m.caption && <p class="gallery-caption">{m.caption}</p>}
             </div>
           ) : (
-            <div class="gallery-item" data-lb role="button" tabindex="0" aria-label={`Agrandir : ${m.alt}`}>
+            <div class={`gallery-item${m.entier ? " gallery-item--entier" : ""}`} data-lb role="button" tabindex="0" aria-label={`Agrandir : ${m.alt}`}>
               <Img
                 src={m.src}
                 alt={m.alt}
@@ -142,11 +142,45 @@ const related = (project.related ?? [])
       <article class="contentBlock">
         <h2>{s.heading}</h2>
         {s.paragraphs?.map((p) => <p>{p}</p>)}
+        {s.figure && !s.figureEnFin && (
+          <figure class="contentFigure">
+            {/* Clic = ouvrir l'image en grand dans un nouvel onglet */}
+            <a href={s.figure.src} target="_blank" rel="noreferrer" aria-label={`Ouvrir en grand : ${s.figure.alt}`}>
+              <Img src={s.figure.src} alt={s.figure.alt} sizes="(max-width: 800px) 100vw, 760px" fallback={false} />
+            </a>
+            {s.figure.caption && <figcaption>{s.figure.caption}</figcaption>}
+          </figure>
+        )}
         {s.bullets?.length ? (
           <ul>
             {s.bullets.map((b) => <li>{b}</li>)}
           </ul>
         ) : null}
+        {s.tableau && (
+          <div class="contentTableWrap">
+            <table class="contentTable">
+              <thead>
+                <tr>{s.tableau.entetes.map((h) => <th scope="col">{h}</th>)}</tr>
+              </thead>
+              <tbody>
+                {s.tableau.lignes.map((l) => (
+                  <tr>{l.map((c, i) => (i === 0 ? <th scope="row">{c}</th> : <td>{c}</td>))}</tr>
+                ))}
+              </tbody>
+            </table>
+            {s.tableau.note && <p class="contentTableNote">{s.tableau.note}</p>}
+          </div>
+        )}
+        {s.apres?.map((p) => <p>{p}</p>)}
+        {s.figure && s.figureEnFin && (
+          <figure class="contentFigure">
+            {/* Clic = ouvrir l'image en grand dans un nouvel onglet */}
+            <a href={s.figure.src} target="_blank" rel="noreferrer" aria-label={`Ouvrir en grand : ${s.figure.alt}`}>
+              <Img src={s.figure.src} alt={s.figure.alt} sizes="(max-width: 800px) 100vw, 760px" fallback={false} />
+            </a>
+            {s.figure.caption && <figcaption>{s.figure.caption}</figcaption>}
+          </figure>
+        )}
       </article>
     ))}
   </div>
