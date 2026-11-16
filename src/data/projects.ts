@@ -660,7 +660,10 @@ export const projects: Project[] = [
     periode: "Déc. 2025",
     cadre: "Projet personnel",
     statut: "Terminé",
-    tags: ["CAO", "Impression 3D", "Électronique", "Réemploi"],
+    tags: ["CAO", "Inventor", "Impression 3D", "Électronique", "Réemploi"],
+    links: [
+      { label: "Fichiers CAO et STL (GitHub)", href: "https://github.com/P0770/lampe-chevet" },
+    ],
     related: ["impression-3d"],
     cover: { src: "/projects/lampe-braun/lampe.jpg", alt: "Lampe de chevet inspirée du Braun HL70" },
     gallery: [
@@ -678,6 +681,44 @@ export const projects: Project[] = [
         paragraphs: [
           "Une lampe de chevet qui reprend la forme du célèbre ventilateur Braun HL70, à l'identique, mais déclinée dans mes propres couleurs. Le cœur du projet était la modélisation en CAO : reproduire fidèlement les lignes de cet objet culte, ce qui m'a énormément fait progresser en conception 3D.",
           "La lampe est ensuite imprimée en 3D, avec une électronique simple autour d'une bande LED récupérée sur une ancienne lampe et réemployée pour l'occasion.",
+        ],
+      },
+      {
+        heading: "Conception CAO",
+        paragraphs: [
+          "La lampe est modélisée sous Inventor : sept pièces réunies dans un assemblage, conçues pour s'emboîter et accueillir l'électronique telle quelle.",
+        ],
+        figure: {
+          src: "/projects/lampe-braun/pieces-cao.jpg",
+          alt: "Rendus des six pièces principales de la lampe : pied, support de la LED, coque extérieure, boîtier central, plaque et disque de fermeture",
+          caption: "Les pièces principales, rendues à partir des fichiers STL (couleurs proches de l'impression réelle)",
+        },
+        tableau: {
+          entetes: ["Pièce", "Rôle", "Dimensions (mm)"],
+          lignes: [
+            ["Pied", "Support de la lampe posée à l'horizontale", "140 × 83 × 68"],
+            ["Support de la LED", "Porte la bande LED", "120 × 77 × 73"],
+            ["Coque extérieure", "Enveloppe courbe qui reprend la silhouette du HL70", "130 × 111 × 92"],
+            ["Boîtier central", "Loge la batterie et la carte électronique", "70 × 70 × 70"],
+            ["Plaque et disque de fermeture", "Ferment les extrémités", "77 × 73 × 6 et Ø 70 × 6"],
+            ["Support de carte", "Maintient la carte électronique en place", "—"],
+            ["Bouton", "Prolonge le bouton d'origine jusqu'à l'extérieur", "4,6 × 4 × 4,6"],
+          ],
+        },
+      },
+      {
+        heading: "Électronique réemployée",
+        paragraphs: [
+          "Plutôt que de concevoir une électronique, j'ai démonté une lampe frontale rechargeable du commerce (200 lumens, éclairage à 270°) pour en récupérer l'électronique complète : bande LED, batterie, carte de charge et bouton. La lampe a ensuite été dessinée autour de ces composants, sans les modifier.",
+          "C'est l'inverse de la démarche habituelle : les dimensions de la carte, de la batterie et de la bande LED imposaient la géométrie intérieure. Un support maintient la carte, une petite pièce prolonge le bouton d'origine jusqu'à l'extérieur, et le port de charge reste accessible : la lampe se recharge comme la frontale d'origine, batterie comprise.",
+        ],
+      },
+      {
+        heading: "Impression",
+        bullets: [
+          "Imprimante Bambu Lab P1S avec le module multicouleur AMS",
+          "PLA pour les pièces de structure et de couleur",
+          "PETG transparent pour laisser passer la lumière",
         ],
       },
     ],
