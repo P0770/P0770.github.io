@@ -85,24 +85,28 @@ export type Project = {
 // la chronologie trie automatiquement par date de début (champ `debut`).
 export const projects: Project[] = [
   // ─────────────────────────────────────────
-  //  BUS I²C — CPNV (déc. 2023)
+  //  BUS I²C — CPNV (févr. – mars 2024)
   // ─────────────────────────────────────────
   {
     slug: "scanner-i2c",
     title: "Exploration du bus I²C",
     subtitle:
       "Banc de test puis PCB sous KiCad pour comprendre le bus I²C et les périphériques qu'on peut y raccorder.",
-    debut: "2023-12",
-    fin: "2023-12",
-    periode: "Déc. 2023",
-    cadre: "Année préparatoire ingénieur · CPNV — projet de synthèse du cours de programmation",
+    debut: "2024-02",
+    fin: "2024-03",
+    periode: "Févr. – mars 2024",
+    cadre: "Année préparatoire ingénieur · CPNV — MCT, cours d'électronique, projet moyen M2446 (projet de synthèse du cours de programmation)",
     equipe: "Binôme",
     statut: "Terminé",
-    tags: ["I²C", "Arduino", "C++", "KiCad", "Oscilloscope"],
+    tags: ["I²C", "Arduino", "C++", "KiCad", "Oscilloscope", "MCP23017", "RTC"],
+    links: [
+      { label: "Code et documentation (GitHub)", href: "https://github.com/P0770/bus-i2c-m2446" },
+    ],
     highlights: [
       "Étude du signal I²C à l'oscilloscope : lignes SDA / SCL, trames et adresses",
       "Tests de plusieurs périphériques : écran, capteur de température, mémoire EEPROM, circuits d'extension de sorties",
       "Passage du prototype sur plaque d'essai à une PCB conçue sous KiCad",
+      "Menu à six programmes, scanner d'adresses I²C et alarme sonore si un esclave ne répond plus",
     ],
     cover: {
       src: "/projects/scanner-i2c/produit-fini.jpg",
@@ -114,6 +118,12 @@ export const projects: Project[] = [
         src: "/projects/scanner-i2c/plaque-essai.jpg",
         alt: "Dispositif I²C sur plaque d'essai",
         caption: "Le dispositif sur plaque d'essai (banc de test)",
+      },
+      {
+        src: "/projects/scanner-i2c/pcb.jpg",
+        alt: "Le shield I²C sur PCB avec l'écran couleur affichant la température",
+        caption: "Le shield terminé, programme 1 (température) à l'écran",
+        entier: true,
       },
     ],
     sections: [
@@ -130,6 +140,7 @@ export const projects: Project[] = [
           "Mise au point du dispositif sur plaque d'essai (banc de test)",
           "Tests de plusieurs périphériques I²C : un écran, un capteur de température, une mémoire EEPROM et des circuits d'extension pour piloter des sorties",
           "Conception et production de la PCB sous KiCad, avec l'apprentissage de toute la chaîne de fabrication",
+          "Écriture de tout le programme de l'Arduino ; projet réalisé en binôme avec Guilhem Rozier Vilardell",
         ],
       },
       {
@@ -137,6 +148,48 @@ export const projects: Project[] = [
         paragraphs: [
           "Arduino · C++ · KiCad · oscilloscope · écran, capteur de température, EEPROM, extensions d'E/S",
         ],
+      },
+      {
+        heading: "Cahier des charges",
+        paragraphs: [
+          "Le shield se monte sur un Arduino MEGA 1280. Il réunit sur un même bus I²C une extension d'entrées/sorties MCP23017, un capteur de température, une horloge temps réel et un connecteur d'extension. Un écran, quatre boutons et un mini haut-parleur servent d'interface.",
+        ],
+        tableau: {
+          entetes: ["Demandé", "Réalisé"],
+          lignes: [
+            ["Menu : température, heure, E/S du MCP23017, mémoire", "Menu à six programmes"],
+            ["Commander chaque sortie du MCP23017 (8 entrées, 8 sorties)", "Réalisé"],
+            ["Tester toutes les adresses I²C et lister les esclaves", "Scanner des adresses 1 à 126"],
+            ["Alarme si un esclave ne répond pas (880 Hz, 3 s)", "Alarme alternant 800 Hz et 100 Hz tant que le bus est incomplet"],
+            ["Capteur TC74", "MCP9808 dans la version finale"],
+            ["Mémoire externe 24LC01, remise à FFh au démarrage", "Mémoire EEPROM interne de l'Arduino, remise à 0"],
+          ],
+          note: "La mémoire externe n'a pas été intégrée à la validation finale, comme l'indique l'en-tête du programme.",
+        },
+        figure: {
+          src: "/projects/scanner-i2c/bus-i2c.svg",
+          alt: "Schéma du bus I²C : l'Arduino MEGA relié par SDA et SCL au MCP23017 (0x27), au MCP9808 (0x18), au DS3231 (0x68) et au connecteur d'extension ; l'écran SSD1351 est en SPI",
+          caption: "Le bus I²C et les adresses des esclaves, d'après le programme final",
+        },
+      },
+      {
+        heading: "Le programme",
+        paragraphs: [
+          "On fait défiler les six programmes avec UP et DOWN, on entre avec ENTER et on sort avec EXIT : température, heure et date, commande du MCP23017, mémoire, scanner I²C et texte libre enregistré en mémoire.",
+          "En parallèle, toutes les 500 ms, le programme rescanne les 126 adresses. S'il trouve moins de trois esclaves, le haut-parleur sonne ; quand un périphérique est branché ou retiré, il émet un bip montant ou descendant. Au démarrage, maintenir UP et DOWN plus de 2 s efface toute la mémoire.",
+        ],
+      },
+      {
+        heading: "Le bus I²C à l'oscilloscope",
+        paragraphs: [
+          "Dans notre étude, nous avons mesuré les lignes SDA (données) et SCL (horloge) à l'oscilloscope, grâce à des points de mesure prévus sur le circuit. On y voit le start (SDA passe à l'état bas pendant que SCL est haut), l'adresse de l'esclave, les données et le stop.",
+          "On peut aussi estimer, en théorie, le temps que prend le scan. À 100 kHz, la fréquence par défaut de l'Arduino, un bit dure 1 / 100 000 = 10 µs. Tester une adresse demande environ 11 bits (start, 7 bits d'adresse, lecture/écriture, acquittement, stop), soit 11 × 10 µs = 110 µs. Un scan complet prend donc 126 × 110 µs ≈ 13,9 ms, et, répété toutes les 500 ms, il occupe le bus environ 13,9 / 500 ≈ 2,8 % du temps.",
+        ],
+        figure: {
+          src: "/projects/scanner-i2c/oscillo-sda-scl.jpg",
+          alt: "Capture d'oscilloscope des lignes SDA et SCL pendant une communication I²C",
+          caption: "Lignes SDA et SCL pendant un échange, capture de notre étude",
+        },
       },
       {
         heading: "Résultat",
@@ -154,7 +207,7 @@ export const projects: Project[] = [
   },
 
   // ─────────────────────────────────────────
-  //  PARCOURS DE BILLE — CPNV (janv. – mars 2024)
+  //  PARCOURS DE BILLE — CPNV (janv. 2024)
   // ─────────────────────────────────────────
   {
     slug: "parcours-bille",
