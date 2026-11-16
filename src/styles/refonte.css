@@ -431,6 +431,7 @@ a:hover .reperes::after,  a:focus-visible .reperes::after  { opacity: 1; bottom:
 .contentBlock h2 { font-size: clamp(1.3rem, 2vw, 1.55rem); font-stretch: 112%; margin-bottom: .9rem; }
 .contentBlock p, .contentBlock ul li { font-size: 1.02rem; line-height: 1.7; color: var(--text); opacity: .86; }
 .dessin--attente .dessin-svg * { animation-play-state: paused !important; }
+.dessin--reset .dessin-svg * { animation: none !important; }
 
 /* ── Chronologie : piste de circuit imprimé ── */
 .tl-js .tl-axis { opacity: 0; }

@@ -44,11 +44,28 @@ const T = t(lang);
   // L'animation ne démarre que lorsque le dessin est visible (utile sur téléphone, où il est plus bas)
   (function () {
     var f = document.querySelector(".dessin");
+    var occupe = true;
     if (!f || !("IntersectionObserver" in window)) return;
     f.classList.add("dessin--attente");
     var io = new IntersectionObserver(function (e) {
-      if (e[0].isIntersecting) { f.classList.remove("dessin--attente"); io.disconnect(); }
+      if (e[0].isIntersecting) {
+        f.classList.remove("dessin--attente"); io.disconnect();
+        setTimeout(function () { occupe = false; }, 3600);
+      }
     }, { threshold: 0.35 });
     io.observe(f);
+
+    // Rejouer l'animation au survol (ou au toucher sur téléphone), une fois la précédente terminée
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    function rejouer() {
+      if (occupe) return;
+      occupe = true;
+      f.classList.add("dessin--reset");
+      void f.offsetWidth; // force le navigateur à repartir de zéro
+      f.classList.remove("dessin--reset");
+      setTimeout(function () { occupe = false; }, 3600);
+    }
+    f.addEventListener("mouseenter", rejouer);
+    f.querySelector(".dessin-svg").addEventListener("click", rejouer);
   })();
 </script>
