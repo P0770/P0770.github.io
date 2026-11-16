@@ -797,17 +797,19 @@ export const projects: Project[] = [
   // ─────────────────────────────────────────
   {
     slug: "jeu-amc",
-    title: "« C de Soirée » — Jeu en réseau local",
+    title: "« Qui de nous ? » — Jeu de soirée en réseau local",
     subtitle:
-      "Jeu de soirée multijoueur en Python/Kivy : création de salons pour jouer ensemble sur le même Wi-Fi.",
+      "Jeu de soirée multijoueur en Python/Kivy, sur PC et Android : un joueur héberge la partie, les autres la rejoignent sur le même Wi-Fi.",
     debut: "2026-03",
     fin: "2026-05",
     periode: "Mars – mai 2026",
     cadre: "2e année HEPIA (MT2) — cours AMC (Application Mobile et Capteur)",
     equipe: "Binôme",
+    role: "Interface, déploiement Android, tests sur tablette",
     statut: "Terminé",
-    tags: ["Python", "Kivy", "TCP", "Réseau", "Accéléromètre", "Git"],
+    tags: ["Python", "Kivy", "Android", "Buildozer", "TCP", "Accéléromètre", "Git"],
     links: [
+      { label: "Code du jeu (GitHub)", href: "https://github.com/P0770/qui-de-nous" },
       {
         label: "Dépôt Git HEPIA",
         href: "https://gitedu.hesge.ch/amc/amc26/amc26_jeu_bento_pozzo",
@@ -815,10 +817,10 @@ export const projects: Project[] = [
     ],
     highlights: [
       "Jeu de soirée multijoueur en réseau local : chaque joueur se connecte depuis son appareil",
-      "Création de salons pour jouer ensemble sur le même Wi-Fi",
+      "Un joueur héberge la partie, les autres la rejoignent avec son adresse IP sur le même Wi-Fi",
       "Communication client/serveur en TCP (sockets Python) sur le réseau local",
-      "Saisie des réponses par mouvements détectés via l'accéléromètre du téléphone",
-      "Interface graphique développée avec le framework Kivy",
+      "Lancement de la partie en secouant l'appareil hôte, détecté par l'accéléromètre",
+      "Interface graphique développée avec le framework Kivy, application Android compilée avec Buildozer",
     ],
     cover: { src: "/projects/jeu-amc/cover.jpg", alt: "Logo du jeu : point d'interrogation lumineux et lettres QDN" },
     gallery: [
@@ -827,6 +829,12 @@ export const projects: Project[] = [
         alt: "Écran d'accueil du jeu sur PC et sur tablette Android",
         caption: "L'écran d'accueil : un joueur crée la partie, l'autre la rejoint avec l'adresse IP de l'hôte",
       },
+      { src: "/projects/jeu-amc/ecran-menu.jpg", alt: "Menu du jeu sur PC et sur tablette", caption: "Menu : pseudo, créer ou rejoindre une partie", entier: true },
+      { src: "/projects/jeu-amc/ecran-salon.jpg", alt: "Salon d'attente avec la liste des joueurs", caption: "Salon d'attente : l'hôte secoue l'appareil pour lancer la partie", entier: true },
+      { src: "/projects/jeu-amc/ecran-question.jpg", alt: "Écran de rédaction de la question", caption: "Le joueur désigné complète « Qui de nous… » et choisit sa cible secrète", entier: true },
+      { src: "/projects/jeu-amc/ecran-vote.jpg", alt: "Écran de vote", caption: "Les autres joueurs votent", entier: true },
+      { src: "/projects/jeu-amc/ecran-resultats.jpg", alt: "Résultats de la manche", caption: "Résultats de la manche et scores", entier: true },
+      { src: "/projects/jeu-amc/ecran-victoire.jpg", alt: "Écran de fin de partie", caption: "Fin de partie et classement", entier: true },
     ],
     sections: [
       {
@@ -836,15 +844,55 @@ export const projects: Project[] = [
         ],
       },
       {
+        heading: "Règles du jeu",
+        paragraphs: [
+          "À chaque manche, un joueur désigné complète la phrase « Qui de nous… » (par exemple « …est le plus susceptible ? ») et choisit secrètement la personne qu'il vise. Les autres joueurs votent pour la personne qu'ils pensent être la bonne réponse : chaque bonne réponse rapporte 1 point. Après 5 manches, le joueur qui a le plus de points gagne.",
+        ],
+      },
+      {
         heading: "Architecture réseau",
         paragraphs: [
-          "Le jeu fonctionne en architecture client/serveur sur réseau local. Un nœud fait tourner le serveur (gestion de l'état du jeu, synchronisation) et les autres joueurs s'y connectent en tant que clients via TCP, en rejoignant des salons de jeu.",
+          "Le jeu fonctionne en architecture client/serveur sur réseau local. Un nœud fait tourner le serveur (gestion de l'état du jeu, synchronisation) et les autres joueurs s'y connectent en tant que clients via TCP, en rejoignant la partie de l'hôte.",
         ],
+        figure: {
+          src: "/projects/jeu-amc/architecture.svg",
+          alt: "Schéma : parcours des six écrans du jeu, puis l'hôte et ses threads reliés aux joueurs par TCP, avec la liste des messages échangés",
+          caption: "Parcours des écrans et communication réseau (TCP, port 55555, messages JSON précédés de leur taille)",
+        },
       },
       {
         heading: "Interface et accéléromètre",
         paragraphs: [
-          "L'interface a été développée avec Kivy, framework Python pour les interfaces tactiles. Les réponses se donnent par des mouvements du téléphone, détectés grâce à son accéléromètre.",
+          "L'interface a été développée avec Kivy, framework Python pour les interfaces tactiles. L'accéléromètre sert à lancer la partie : dans le salon d'attente, l'hôte secoue son appareil. Le capteur est lu toutes les 50 ms, et une secousse est détectée quand |Δx| + |Δy| + |Δz| dépasse 14,5.",
+        ],
+      },
+      {
+        heading: "Ma partie : l'interface et le déploiement Android",
+        bullets: [
+          "Design de l'interface : thème sombre, couleurs, boutons et mises en page des six écrans",
+          "Compilation de l'application Android (APK) avec Buildozer, sur une machine virtuelle pilotée en SSH",
+          "Résolution d'un bug Android : « [Errno 1] Operation not permitted » à la connexion, car la détection automatique des permissions ne repérait pas l'usage des sockets ; la permission INTERNET a été ajoutée explicitement",
+          "Tests et débogage sur tablette Android et sur PC, captures d'écran et présentation finale",
+        ],
+        apres: [
+          "Mon binôme s'est chargé de l'architecture réseau, de la logique de jeu et de la détection de secousse.",
+        ],
+      },
+      {
+        heading: "Difficultés",
+        bullets: [
+          "Le Wi-Fi de HEPIA isole les appareils les uns des autres (isolation AP) : impossible de se connecter entre joueurs, d'où l'utilisation d'un partage de connexion",
+          "La police de Kivy n'affiche pas les emojis",
+          "Une mise en page fixe, mal adaptée aux différentes tailles d'écran",
+          "Les joueurs virtuels (bots) n'ont pas pu être rendus fonctionnels",
+        ],
+      },
+      {
+        heading: "Pistes d'amélioration",
+        bullets: [
+          "Reconnexion automatique après une déconnexion",
+          "Bouton de démarrage de secours sur les appareils sans accéléromètre",
+          "Minuteur pour le vote",
         ],
       },
     ],
@@ -1064,12 +1112,17 @@ export const projects: Project[] = [
     cadre: "Projet personnel, réalisé pour le domaine viticole de mon frère",
     equipe: "Seul",
     statut: "Terminé",
-    tags: ["ESP32", "C++", "Capteur IR", "OLED", "Embarqué"],
+    tags: ["ESP32", "C++", "Capteur IR", "OLED", "Embarqué", "CAO", "Impression 3D"],
+    links: [
+      { label: "Code et fichiers CAO (GitHub)", href: "https://github.com/P0770/bottlecounter" },
+    ],
     highlights: [
       "Comptage des bouteilles remplies et bouchonnées, directement sur la partie rotative de la machine",
       "Détection sans contact par capteur infrarouge réflectif",
       "Total affiché en direct sur un écran OLED SSD1306",
       "Firmware en C++ sur ESP32, alimenté simplement en USB-C",
+      "Boutons Marche/Arrêt et Remise à zéro, LED d'état, total conservé en mémoire flash",
+      "Boîtier conçu sur Inventor et imprimé en 3D, fixé sur une pince universelle du commerce",
     ],
     related: ["incubateur-cellules", "scanner-i2c"],
     cover: {
@@ -1107,6 +1160,53 @@ export const projects: Project[] = [
           "Capteur infrarouge réflectif, pour détecter les bouteilles sans contact",
           "Écran OLED SSD1306, pour afficher le total",
           "Alimentation par le port USB-C de l'ESP32",
+        ],
+      },
+      {
+        heading: "Interface et câblage",
+        paragraphs: [
+          "L'ESP32 pilote un écran, un capteur, deux boutons et deux LED. Les boutons sont reliés à la masse et utilisent les résistances de tirage internes de l'ESP32 : un appui fait passer l'entrée à l'état bas.",
+        ],
+        tableau: {
+          entetes: ["Élément", "Broche ESP32", "Rôle"],
+          lignes: [
+            ["Écran OLED SSD1306", "GPIO 2 (SDA), GPIO 15 (SCL)", "Affichage du total, bus I²C, adresse 0x3C"],
+            ["Capteur IR réflectif", "GPIO 13", "Sortie à l'état bas quand une bouteille passe"],
+            ["Bouton Marche/Arrêt", "GPIO 22", "Lance ou suspend le comptage"],
+            ["Bouton Remise à zéro", "GPIO 23", "Remet le total à 0"],
+            ["LED verte", "GPIO 19", "Comptage actif"],
+            ["LED rouge", "GPIO 21", "Bouteille devant le capteur"],
+          ],
+        },
+        figure: {
+          src: "/projects/compteur-bouteilles/cablage.svg",
+          alt: "Schéma de câblage de l'ESP32 avec l'écran OLED, le capteur infrarouge, les deux boutons et les deux LED",
+          caption: "Câblage de la version finale, d'après les broches du code",
+        },
+      },
+      {
+        heading: "Logique de comptage",
+        paragraphs: [
+          "Le programme ne compte pas la présence d'une bouteille mais son arrivée : un passage est compté sur le front descendant du signal du capteur, quand il passe de l'état haut à l'état bas. Une bouteille immobile devant le capteur n'est donc comptée qu'une seule fois.",
+          "Après chaque comptage, les fronts suivants sont ignorés pendant 150 ms. Ce délai anti-rebond évite de compter deux fois une bouteille dont le bord ou l'étiquette fait varier le signal. Il fixe aussi la cadence maximale : 1 / 0,150 s ≈ 6,7 bouteilles par seconde, soit environ 6,7 × 60 ≈ 400 bouteilles par minute, bien au-delà du rythme de la machine.",
+          "Le total est enregistré dans la mémoire flash de l'ESP32 toutes les 10 bouteilles, à l'arrêt et à la remise à zéro : après une coupure de courant pendant la mise en bouteille, le compteur repart du dernier total enregistré, avec au plus 9 bouteilles à recompter.",
+        ],
+      },
+      {
+        heading: "Boîtier",
+        paragraphs: [
+          "J'ai conçu le boîtier sur Inventor pour qu'il s'adapte à une pince universelle achetée dans le commerce. Il se compose de deux pièces imprimées en 3D : le boîtier, qui reçoit l'électronique, l'écran et le capteur, et une plaque vissée sur la pince. Le compteur se pose ainsi sur la machine sans la modifier.",
+        ],
+        figure: {
+          src: "/projects/compteur-bouteilles/boitier.jpg",
+          alt: "Rendu 3D des deux pièces du boîtier : le boîtier de 66 × 123 × 26 mm et la plaque de fixation de 71 × 8 × 68 mm",
+          caption: "Les deux pièces imprimées : le boîtier (66 × 123 × 26 mm) et la plaque de fixation sur la pince (71 × 8 × 68 mm)",
+        },
+      },
+      {
+        heading: "Évolution du code",
+        paragraphs: [
+          "Le projet a d'abord été écrit en MicroPython, en quatre versions successives. La première pose la base : une machine à états qui ignore les détections trop courtes, et la sauvegarde du total. Les suivantes ajoutent l'écran OLED, puis les LED, puis l'écran d'accueil et l'affichage en grands chiffres. La version finale a été réécrite en C++ avec l'environnement Arduino. Toutes les versions sont dans le dépôt GitHub.",
         ],
       },
     ],

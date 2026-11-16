@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 470" font-family="Inter, system-ui, sans-serif">
+  <title>Architecture du jeu Qui de nous : parcours des écrans et communication entre l'hôte et les joueurs</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6b7280"/></marker>
+    <marker id="v" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#7c3aed"/></marker>
+  </defs>
+  <rect width="1000" height="470" rx="14" fill="#fff"/>
+
+  <!-- Parcours des écrans -->
+  <text x="30" y="40" font-size="14" font-weight="600" fill="#111">Parcours des écrans (Kivy ScreenManager)</text>
+  <g font-size="12.5" fill="#111" text-anchor="middle">
+    <rect x="30"  y="60" width="130" height="50" rx="9" fill="#f5f3ff" stroke="#c4b5fd"/><text x="95"  y="90">Menu</text>
+    <rect x="190" y="60" width="130" height="50" rx="9" fill="#f5f3ff" stroke="#c4b5fd"/><text x="255" y="90">Salon d'attente</text>
+    <rect x="350" y="60" width="130" height="50" rx="9" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/><text x="415" y="90">Question</text>
+    <rect x="510" y="60" width="130" height="50" rx="9" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/><text x="575" y="90">Vote</text>
+    <rect x="670" y="60" width="130" height="50" rx="9" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/><text x="735" y="90">Résultats</text>
+    <rect x="830" y="60" width="140" height="50" rx="9" fill="#f5f3ff" stroke="#c4b5fd"/><text x="900" y="90">Victoire</text>
+  </g>
+  <g stroke="#6b7280" stroke-width="1.5" fill="none">
+    <path d="M160 85 H184" marker-end="url(#a)"/><path d="M320 85 H344" marker-end="url(#a)"/>
+    <path d="M480 85 H504" marker-end="url(#a)"/><path d="M640 85 H664" marker-end="url(#a)"/><path d="M800 85 H824" marker-end="url(#a)"/>
+    <path d="M735 110 V132 H415 V116" stroke="#7c3aed" marker-end="url(#v)"/>
+  </g>
+  <text x="575" y="150" text-anchor="middle" font-size="11.5" fill="#6d28d9">manche suivante (5 manches)</text>
+  <text x="255" y="130" text-anchor="middle" font-size="11" fill="#6b7280">l'hôte secoue l'appareil</text>
+  <text x="255" y="144" text-anchor="middle" font-size="11" fill="#6b7280">pour lancer la partie</text>
+
+  <!-- Réseau -->
+  <text x="30" y="200" font-size="14" font-weight="600" fill="#111">Réseau local : un hôte, plusieurs joueurs (TCP, port 55555)</text>
+  <rect x="30" y="220" width="330" height="200" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="195" y="248" text-anchor="middle" font-size="14" font-weight="600" fill="#111">Appareil hôte</text>
+  <g font-size="12" fill="#374151">
+    <rect x="50" y="264" width="290" height="34" rx="7" fill="#fff" stroke="#bfdbfe"/><text x="66" y="286">thread serveur : accepte les connexions</text>
+    <rect x="50" y="306" width="290" height="34" rx="7" fill="#fff" stroke="#bfdbfe"/><text x="66" y="328">un thread par joueur connecté</text>
+    <rect x="50" y="348" width="290" height="34" rx="7" fill="#fff" stroke="#bfdbfe"/><text x="66" y="370">état du jeu partagé, protégé par un verrou</text>
+  </g>
+  <text x="195" y="408" text-anchor="middle" font-size="11" fill="#6b7280">mises à jour de l'interface via Clock.schedule_once</text>
+
+  <g font-size="12.5" fill="#111" text-anchor="middle">
+    <rect x="660" y="230" width="150" height="54" rx="9" fill="#f7f7f8" stroke="#d1d5db"/><text x="735" y="254">Joueur 2</text><text x="735" y="272" font-size="11" fill="#6b7280">thread de réception</text>
+    <rect x="660" y="298" width="150" height="54" rx="9" fill="#f7f7f8" stroke="#d1d5db"/><text x="735" y="322">Joueur 3</text><text x="735" y="340" font-size="11" fill="#6b7280">thread de réception</text>
+    <rect x="660" y="366" width="150" height="54" rx="9" fill="#f7f7f8" stroke="#d1d5db"/><text x="735" y="390">Joueur n</text><text x="735" y="408" font-size="11" fill="#6b7280">PC ou Android</text>
+  </g>
+  <g stroke="#6b7280" stroke-width="1.5" fill="none">
+    <path d="M366 290 L654 257" marker-start="url(#a)" marker-end="url(#a)"/>
+    <path d="M366 320 L654 325" marker-start="url(#a)" marker-end="url(#a)"/>
+    <path d="M366 350 L654 393" marker-start="url(#a)" marker-end="url(#a)"/>
+  </g>
+  <rect x="440" y="270" width="150" height="80" rx="8" fill="#fff" stroke="#e5e7eb"/>
+  <text x="515" y="292" text-anchor="middle" font-size="11.5" font-weight="600" fill="#111">Message</text>
+  <text x="515" y="311" text-anchor="middle" font-size="11" font-family="ui-monospace, Menlo, monospace" fill="#1e40af">[taille: 4 octets]</text>
+  <text x="515" y="328" text-anchor="middle" font-size="11" font-family="ui-monospace, Menlo, monospace" fill="#1e40af">[JSON UTF-8]</text>
+  <text x="515" y="342" text-anchor="middle" font-size="10" fill="#6b7280">taille en big-endian</text>
+
+  <g font-size="11.5" fill="#374151">
+    <text x="840" y="250">Envoyés par l'hôte :</text>
+    <text x="840" y="268" font-family="ui-monospace, Menlo, monospace" fill="#1e40af">player_list</text>
+    <text x="840" y="284" font-family="ui-monospace, Menlo, monospace" fill="#1e40af">game_start</text>
+    <text x="840" y="300" font-family="ui-monospace, Menlo, monospace" fill="#1e40af">start_vote</text>
+    <text x="840" y="316" font-family="ui-monospace, Menlo, monospace" fill="#1e40af">round_results</text>
+    <text x="840" y="332" font-family="ui-monospace, Menlo, monospace" fill="#1e40af">next_round</text>
+    <text x="840" y="348" font-family="ui-monospace, Menlo, monospace" fill="#1e40af">game_over</text>
+    <text x="840" y="376">Envoyés par un joueur :</text>
+    <text x="840" y="394" font-family="ui-monospace, Menlo, monospace" fill="#1e40af">join · question_set</text>
+    <text x="840" y="410" font-family="ui-monospace, Menlo, monospace" fill="#1e40af">vote</text>
+  </g>
+</svg>
