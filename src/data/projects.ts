@@ -277,15 +277,18 @@ export const projects: Project[] = [
     periode: "Mars – juin 2024",
     cadre: "Année préparatoire ingénieur · CPNV — projet final de l'année",
     equipe: "Binôme",
-    role: "Programmation et électronique (la CAO et la mécanique étaient assurées par mon binôme)",
-    budget: "Environ 10 000 CHF",
+    role: "Projet mené à deux : conception, études, fabrication, câblage et programmation réalisés ensemble",
+    budget: "Matériel : 7 374 CHF",
     statut: "Terminé",
-    tags: ["Automate Siemens", "Ladder", "TIA Portal", "Pneumatique", "Câblage"],
+    tags: ["Automate Siemens", "Ladder", "TIA Portal", "Pneumatique", "Câblage", "HMI", "Inventor"],
+    links: [
+      { label: "Documentation, schémas, programme et CAO (GitHub)", href: "https://github.com/P0770/etiqueteuse-pots-miel" },
+    ],
     highlights: [
       "Machine complète : détection du pot, convoyage, réglage de hauteur, étiquetage, évacuation",
       "Programmation intégrale en Ladder sous TIA Portal",
       "Électronique et câblage de l'armoire : capteurs, moteurs, électrovannes des vérins pneumatiques",
-      "Projet au budget d'environ 10 000 CHF",
+      "12 pots/min, deux fois plus vite qu'à la main, pour environ 7 400 CHF de matériel",
     ],
     cover: {
       src: "/projects/etiqueteuse/machine.jpg",
@@ -305,6 +308,17 @@ export const projects: Project[] = [
         src: "/projects/etiqueteuse/cablage.jpg",
         alt: "Câblage à l'arrière de la machine",
         caption: "Le câblage à l'arrière de la machine",
+      },
+      {
+        src: "/projects/etiqueteuse/assemblage-general.jpg",
+        alt: "Rendu 3D de l'assemblage général de l'étiqueteuse dans son bâti",
+        caption: "Assemblage général sur Inventor",
+      },
+      {
+        src: "/projects/etiqueteuse/poster.jpg",
+        alt: "Poster de présentation du projet M2471 Étiqueteuse à pots",
+        caption: "Le poster présenté en fin de projet",
+        entier: true,
       },
     ],
     sections: [
@@ -328,7 +342,7 @@ export const projects: Project[] = [
           "Programmation complète de la machine en Ladder sous TIA Portal : détection du pot, convoyage, réglage de la hauteur de la tête d'étiquetage, étiquetage, évacuation",
           "Conception et réalisation de la partie électronique : raccordement des capteurs, des moteurs et des électrovannes des vérins pneumatiques à l'automate",
           "Câblage de l'armoire",
-          "Intégration avec la partie mécanique conçue par mon binôme (courroies, système d'élévation, pièces imprimées en 3D)",
+          "Conception mécanique, études et fabrication menées avec mon binôme (convoyeurs, système d'élévation, pièces imprimées en 3D)",
         ],
       },
       {
@@ -336,6 +350,70 @@ export const projects: Project[] = [
         paragraphs: [
           "Automate Siemens S7-1200 · TIA Portal · Ladder · vérins pneumatiques · capteurs · moteurs · courroies · Inventor · impression 3D",
         ],
+      },
+      {
+        heading: "Cahier des charges et résultats",
+        paragraphs: [
+          "Nous avons rédigé le cahier des charges au début du projet, et le rapport de transmission fait le bilan exigence par exigence. La machine remplit toutes les fonctions demandées, mais deux exigences chiffrées ne sont pas atteintes.",
+        ],
+        tableau: {
+          entetes: ["Exigence", "Demandé", "Obtenu"],
+          lignes: [
+            ["Cadence", "Au moins la cadence manuelle, 6 pots/min", "12 pots/min"],
+            ["Taux de réussite", "98 % minimum", "82 %"],
+            ["Encombrement", "600 × 600 × 600 mm", "600 × 800 × 400 mm avec le boîtier électrique externe, conforme sans lui"],
+            ["Formats de pots", "2 profils préprogrammés", "Grand pot Ø 80 × 133,5 mm et petit pot Ø 65 × 86 mm, plus un mode manuel"],
+            ["Fonctions", "Écran de commande, comptage, hauteur automatique, contrôle du type de pot", "Réalisées"],
+          ],
+          note: "Le boîtier de la platine électrique a été ajouté en cours de projet pour la protéger du miel.",
+        },
+      },
+      {
+        heading: "Cadence et fiabilité",
+        paragraphs: [
+          "Pour fixer la cadence minimale, nous avons d'abord posé 25 étiquettes à la main. Il fallait en moyenne 11,66 s par pot, soit 60 / 11,66 ≈ 5,1 pots par minute, arrondis à 6 pots/min dans l'étude. Seules 15 étiquettes sur 25 étaient bien centrées (à ± 2 mm près), soit 60 %.",
+          "La machine étiquette 12 pots par minute, soit 60 / 12 = 5 s par pot : environ 11,66 / 5 ≈ 2,3 fois plus vite qu'à la main.",
+          "Le taux de réussite atteint 82 % au lieu des 98 % visés : sur 100 pots, cela fait en moyenne 18 pots ratés au lieu de 2 au plus. Deux causes ont été identifiées. L'étiquette se plie quand elle sort trop tôt, avant l'arrivée du pot. Et les étiquettes dévient progressivement, ce qui oblige à les recentrer à la main environ toutes les 20 étiquettes.",
+        ],
+      },
+      {
+        heading: "Architecture de commande",
+        paragraphs: [
+          "Un automate Siemens S7-1200 (CPU 1214C), complété d'un module de 16 entrées / 16 sorties et d'une carte de sorties rapides, lit les capteurs et pilote les convoyeurs, le moteur des étiquettes en PWM, le moteur pas à pas de la hauteur et les électrovannes des vérins. L'écran tactile KTP700 lui est relié en Ethernet. Un arrêt d'urgence et un relais de sécurité protègent l'opérateur.",
+        ],
+        figure: {
+          src: "/projects/etiqueteuse/architecture.svg",
+          alt: "Schéma de l'architecture de commande : capteurs, automate S7-1200, écran KTP700, actionneurs, sécurité et alimentations",
+          caption: "Architecture de commande, d'après le schéma électrique du projet",
+        },
+      },
+      {
+        heading: "Interface opérateur",
+        paragraphs: [
+          "L'écran tactile propose quatre modes : grand pot, petit pot, automatique (les deux formats, chacun à sa hauteur) et manuel (n'importe quel pot, à une hauteur choisie). Dans les deux premiers modes, un pot du mauvais format est envoyé vers la sortie sans être étiqueté.",
+          "Chaque mode a son compteur, et la machine peut s'arrêter seule quand un nombre de pots fixé à l'avance est atteint. Les hauteurs par défaut se règlent dans des recettes. Après une erreur ou un arrêt d'urgence, la machine passe en mode bourrage et attend que l'opérateur ait validé une liste de vérifications.",
+        ],
+        figure: {
+          src: "/projects/etiqueteuse/hmi-menu.jpg",
+          alt: "Menu principal de l'écran tactile avec les boutons des quatre modes, le compteur et les recettes",
+          caption: "Menu principal de l'écran tactile",
+        },
+      },
+      {
+        heading: "Bilan et améliorations",
+        paragraphs: [
+          "Dans le rapport de transmission, nous avons listé ce qu'il faudrait changer dans une version suivante :",
+        ],
+        bullets: [
+          "Renforcer les mâchoires qui entraînent le rouleau d'étiquettes : les freins ajoutés contre la déviation augmentent l'effort qu'elles doivent transmettre",
+          "Réglage de hauteur : passer à des axes d'au moins 14 mm de diamètre (8 mm aujourd'hui) trempés après usinage, et placer un moteur à côté de chaque axe plutôt qu'un seul, légèrement décalé du centre de gravité",
+          "Découpler la rotation du pot du défilement des étiquettes, pour pouvoir continuer à presser l'étiquette sans en dérouler une deuxième",
+        ],
+        figure: {
+          src: "/projects/etiqueteuse/systeme-etiquetage.jpg",
+          alt: "Rendu 3D de la version finale du système d'étiquetage avec la tête, les rouleaux et le rouleau de rotation du pot",
+          caption: "Version finale du système d'étiquetage",
+        },
       },
       {
         heading: "Résultat",
@@ -346,7 +424,7 @@ export const projects: Project[] = [
       {
         heading: "Ce que j'en retiens",
         paragraphs: [
-          "Mener la partie commande d'une vraie machine automatisée, de la logique Ladder au câblage, en coordination étroite avec la mécanique, sur un projet au budget d'environ 10 000 CHF.",
+          "Mener la partie commande d'une vraie machine automatisée, de la logique Ladder au câblage, en coordination étroite avec la mécanique, sur un projet d'environ 7 400 CHF de matériel.",
         ],
       },
     ],
