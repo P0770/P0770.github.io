@@ -359,21 +359,21 @@ export const projects: Project[] = [
     slug: "drone-fpv",
     title: "Drones FPV",
     subtitle:
-      "Pilotage, réparation et construction de drones FPV, du 2\" DIY au 4\" longue distance.",
+      "Pilotage FPV en vidéo numérique DJI : deux drones achetés et configurés, un micro-drone assemblé moi-même.",
     debut: "2025-01",
     enCours: true,
     periode: "Depuis janv. 2025",
     cadre: "Projet personnel",
     statut: "En cours",
-    tags: ["FPV", "Betaflight", "Brasure", "Impression 3D"],
+    tags: ["FPV", "Betaflight", "DJI O4", "ExpressLRS", "Impression 3D", "Brasure"],
     related: ["impression-3d"],
-    cover: { src: "/projects/drone-fpv/cover.jpg", alt: "Drone FPV" },
+    cover: { src: "/projects/drone-fpv/cover.jpg", alt: "Le Matrix HD, micro-drone FPV assemblé moi-même", caption: "Le Matrix HD, assemblé moi-même" },
     gallery: [
       {
         type: "video",
         src: "/projects/drone-fpv/vol.mp4",
         alt: "Vidéo d'un petit vol en FPV au-dessus d'une rivière",
-        caption: "Un petit vol en FPV",
+        caption: "Un petit vol en FPV, avec le Flywoo Firefly 18",
         portrait: true,
         ratio: "3/4",
       },
@@ -385,6 +385,40 @@ export const projects: Project[] = [
           "Je pilote, répare et construis mes propres drones FPV, pour comprendre leur conception et réaliser des vidéos aériennes.",
           "J'ai quatre drones : deux achetés prêts à voler (un 4\" longue distance et un 2,5\" polyvalent, mon préféré), et deux montés par moi, dont un 2,5\" entièrement DIY avec châssis imprimé en 3D et électronique brasée à la main.",
           "Au fil du temps, j'ai beaucoup réparé et débogué sous Betaflight, remplacé cartes et caméras, et imprimé des pièces d'optimisation. Je vole en immersion avec un casque DJI, pour du contenu promotionnel et des vidéos cinématiques.",
+        ],
+      },
+      {
+        heading: "Mon équipement",
+        tableau: {
+          entetes: ["Drone", "Origine", "Contrôleur de vol", "Vidéo", "Particularités"],
+          lignes: [
+            ["Flywoo Explorer LR4", "Acheté, configuré par moi", "Flywoo F722 Pro V2 (STM32F722, double gyroscope)", "DJI O4 Pro", "Longue distance, moins de 250 g, GPS"],
+            ["Flywoo Firefly 18", "Acheté", "—", "Numérique DJI", "Celui de la vidéo ci-dessus"],
+            ["Matrix HD", "Assemblé moi-même", "BETAFPV G473 (STM32G473, base Meteor75 Pro)", "DJI O4 Lite", "Micro-drone, pièces imprimées en 3D"],
+          ],
+        },
+        apres: [
+          "Au sol : casque DJI Goggles 3, radio en ExpressLRS, et des batteries LiPo 1S, 3S et 4S selon le drone.",
+        ],
+      },
+      {
+        heading: "Configuration Betaflight",
+        paragraphs: [
+          "Les deux drones dont j'ai la configuration tournent sous Betaflight 4.5.1. Les points principaux :",
+        ],
+        bullets: [
+          "Moteurs en DShot300 bidirectionnel : le contrôleur de vol connaît la vitesse réelle de chaque moteur, ce qui active le filtre RPM (3 harmoniques) pour retirer précisément le bruit des moteurs du gyroscope",
+          "Radio ExpressLRS (protocole CRSF) sur un port série dédié",
+          "Informations de vol (tension, temps, qualité de liaison, GPS) affichées en HD dans le casque DJI via MSP DisplayPort",
+          "Réglage des PID avec les curseurs simplifiés de Betaflight, plus nerveux sur le LR4 qui est plus lourd",
+          "Vitesses de rotation adaptées à l'usage : douces avec expo sur le Matrix HD pour filmer, linéaires sur le LR4",
+          "Interrupteurs : armement, modes de vol (Angle, Horizon, Acro), retournement après un crash, buzzer de recherche",
+        ],
+      },
+      {
+        heading: "Sécurité : le retour automatique du LR4",
+        paragraphs: [
+          "Pour le vol longue distance, le LR4 est équipé d'un GPS et configuré en GPS Rescue. Si la liaison radio est perdue, le failsafe force le canal qui déclenche ce mode : le drone monte à 50 m, revient vers son point de départ à environ 20 m/s, commence sa descente à 200 m de ce point et se pose. Un interrupteur permet aussi de couper l'alimentation 10 V de l'émetteur vidéo.",
         ],
       },
     ],
