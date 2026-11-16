@@ -634,7 +634,10 @@ export const projects: Project[] = [
     periode: "Depuis l'été 2025",
     cadre: "Projet personnel",
     statut: "En cours",
-    tags: ["Raspberry Pi", "Docker", "Cloudflare Tunnel", "Auto-hébergement"],
+    tags: ["Raspberry Pi", "Docker", "Cloudflare Tunnel", "Auto-hébergement", "Nextcloud", "Jellyfin", "Linux"],
+    links: [
+      { label: "Guide d'installation et configuration (GitHub)", href: "https://github.com/P0770/picloud" },
+    ],
     cover: { src: "/projects/serveur-raspberry/montage.jpg", alt: "Serveur Raspberry Pi 5" },
     sections: [
       {
@@ -642,6 +645,71 @@ export const projects: Project[] = [
         paragraphs: [
           "Tout est parti d'un bloqueur de publicités monté sur un premier Raspberry Pi : ce projet m'a lancé dans l'auto-hébergement. J'ai ensuite voulu héberger mes propres services, chez moi, sur mon matériel.",
           "Le serveur tourne sur un Raspberry Pi 5 avec SSD, dans un boîtier qui assure l'alimentation et la gestion de l'ensemble. Il héberge un stockage cloud familial et une médiathèque vidéo, à la manière d'un Netflix personnel. Les services tournent dans des conteneurs Docker et sont exposés sur mon propre domaine via un Cloudflare Tunnel, sans ouvrir de port sur ma box.",
+        ],
+      },
+      {
+        heading: "Matériel",
+        tableau: {
+          entetes: ["Élément", "Détail"],
+          lignes: [
+            ["Ordinateur", "Raspberry Pi 5, 4 Go de RAM"],
+            ["Stockage", "SSD NVMe de 1 To en ext4 (916 Go utilisables), monté automatiquement au démarrage"],
+            ["Système", "Raspberry Pi OS Lite 64 bits, sans interface graphique"],
+            ["Administration", "SSH depuis le réseau local, conteneurs gérés avec Portainer"],
+          ],
+        },
+      },
+      {
+        heading: "Services",
+        tableau: {
+          entetes: ["Service", "Rôle"],
+          lignes: [
+            ["Nextcloud", "Cloud familial : un compte par membre de la famille, synchronisation des fichiers et un dossier partagé"],
+            ["Jellyfin", "Médiathèque vidéo, avec des bibliothèques séparées"],
+            ["Portainer", "Interface d'administration des conteneurs Docker"],
+            ["cloudflared", "Client du tunnel Cloudflare, qui relie le serveur à internet sans ouvrir de port"],
+          ],
+        },
+        apres: [
+          "Nextcloud et Jellyfin partagent un même dossier sur le SSD : une vidéo déposée par la famille dans Nextcloud apparaît automatiquement dans Jellyfin.",
+        ],
+      },
+      {
+        heading: "Architecture",
+        paragraphs: [
+          "Le point clé est le tunnel Cloudflare : c'est le Raspberry Pi qui ouvre une connexion chiffrée sortante vers Cloudflare, puis Cloudflare fait passer les visiteurs par ce tunnel. Ma box n'a donc aucun port ouvert, et mon adresse IP n'est jamais exposée. Chaque service a son propre sous-domaine, servi en HTTPS par Cloudflare.",
+        ],
+        figure: {
+          src: "/projects/serveur-raspberry/architecture.svg",
+          alt: "Schéma de l'architecture : utilisateurs, Cloudflare, tunnel chiffré vers le conteneur cloudflared, puis Nextcloud et Jellyfin sur le SSD",
+          caption: "Architecture du serveur (noms de domaine remplacés par des valeurs génériques)",
+        },
+        apres: [
+          "Quand le Raspberry Pi est éteint, le domaine affiche une erreur 502 : Cloudflare répond toujours, mais ne trouve plus le serveur à l'autre bout du tunnel.",
+        ],
+      },
+      {
+        heading: "Problèmes résolus",
+        tableau: {
+          entetes: ["Problème", "Cause", "Solution"],
+          lignes: [
+            ["Connexion SSH refusée après une réinstallation", "La clé d'identification du Pi change à chaque réinstallation", "Suppression de l'ancienne clé connue (ssh-keygen -R)"],
+            ["Données Nextcloud sur la carte SD", "Volume Docker créé par défaut", "Conteneur recréé avec ses données sur le SSD"],
+            ["SSD absent après un redémarrage", "Disque non déclaré dans /etc/fstab", "Ajout du SSD à fstab pour un montage automatique"],
+            ["Portainer inaccessible par le tunnel", "Le tunnel visait le port HTTPS de Portainer", "Route vers le port HTTP interne, le HTTPS étant assuré par Cloudflare"],
+            ["Nextcloud refusait le nom de domaine", "Domaine absent de la liste trusted_domains", "Ajout du domaine avec l'outil occ de Nextcloud"],
+            ["Dossier partagé illisible dans Nextcloud", "Mauvais propriétaire des fichiers", "Attribution du dossier à l'utilisateur du serveur web (www-data)"],
+            ["Partage de fichiers « non autorisé »", "API de partage désactivée", "Activation dans l'administration de Nextcloud"],
+          ],
+        },
+      },
+      {
+        heading: "Prochaines étapes",
+        bullets: [
+          "Sauvegardes automatiques vers mon NAS : aujourd'hui, toutes les données reposent sur un seul SSD",
+          "Authentification Cloudflare Access devant les interfaces d'administration",
+          "Héberger Overleaf Community Edition pour partager des projets LaTeX",
+          "Passer des commandes docker run à un fichier docker-compose versionné (déjà préparé dans le dépôt GitHub)",
         ],
       },
     ],
