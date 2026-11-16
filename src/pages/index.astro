@@ -1,11 +1,14 @@
 ---
 import Base from "../layouts/Base.astro";
 import ProjectCard from "../components/ProjectCard.astro";
+import Img from "../components/Img.astro";
 import { site } from "../data/site";
 import { projetsRecents } from "../data/projects";
 
-// Les 2 projets les plus récents (triés par date de début)
-const latest = projetsRecents.slice(0, 2);
+// Projets mis en avant : ceux marqués « vedette: true » dans src/data/projects.ts
+// (du plus récent au plus ancien). S'il n'y en a aucun, les 2 plus récents.
+const vedettes = projetsRecents.filter((p) => p.vedette);
+const latest = vedettes.length > 0 ? vedettes : projetsRecents.slice(0, 2);
 ---
 
 <Base title={`${site.name} — Portfolio`} description={site.seo.description}>
@@ -13,7 +16,14 @@ const latest = projetsRecents.slice(0, 2);
   <!-- HERO -->
   <section class="hero" aria-label="Introduction">
     <div class="heroLeft">
-      <img src="/me.jpg" alt="Photo de Mattéo" class="portrait" loading="eager" />
+      <Img
+        src="/me.jpg"
+        alt="Mattéo Pozzo di Borgo à son poste de soudure"
+        class="portrait"
+        sizes="(max-width: 900px) 240px, 380px"
+        loading="eager"
+        fallback={false}
+      />
     </div>
 
     <div class="heroRight">
@@ -23,8 +33,8 @@ const latest = projetsRecents.slice(0, 2);
         spécialisation biomédicale.
       </p>
       <p class="lead">
-        Électronique embarquée, impression 3D, systèmes embarqués — du banc de labo au
-        prototype fonctionnel.
+        J'aime concevoir des objets complets : l'électronique, le code embarqué et les
+        pièces imprimées en 3D, jusqu'à ce que ça fonctionne vraiment.
       </p>
       <div class="ctaRow">
         <a class="btn btn-primary" href="/projects">Projets</a>
@@ -38,10 +48,10 @@ const latest = projetsRecents.slice(0, 2);
     </div>
   </section>
 
-  <!-- LATEST PROJECTS -->
-  <section aria-label="Derniers projets">
+  <!-- PROJETS MIS EN AVANT -->
+  <section aria-label="Projets phares">
     <div class="section-head">
-      <h2>Derniers projets</h2>
+      <h2>Projets phares</h2>
       <a class="see-all" href="/projects">Tous les projets →</a>
     </div>
     <div class="projectsGrid">

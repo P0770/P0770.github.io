@@ -11,6 +11,31 @@ const {
 const canonical = new URL(Astro.url.pathname, site.seo.url).toString();
 // Image d'aperçu affichée quand on partage un lien du site (LinkedIn, WhatsApp…)
 const ogImage = new URL("/og-image.png", site.seo.url).toString();
+
+// Fiche « Person » lisible par Google (page d'accueil uniquement) :
+// aide à associer ton nom à ce site, LinkedIn et GitHub dans les résultats de recherche.
+const isHome = Astro.url.pathname === "/";
+const personne = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  url: new URL("/", site.seo.url).toString(),
+  image: new URL("/me.jpg", site.seo.url).toString(),
+  email: `mailto:${site.email}`,
+  jobTitle: "Étudiant en ingénierie microtechnique (spécialisation biomédicale)",
+  affiliation: {
+    "@type": "CollegeOrUniversity",
+    name: "HEPIA — Haute école du paysage, d'ingénierie et d'architecture de Genève (HES-SO)",
+    url: "https://www.hesge.ch/hepia/",
+  },
+  alumniOf: [
+    { "@type": "CollegeOrUniversity", name: "Université de Liège" },
+    { "@type": "EducationalOrganization", name: "CPNV — Centre professionnel du Nord vaudois" },
+  ],
+  address: { "@type": "PostalAddress", addressLocality: "Lausanne", addressCountry: "CH" },
+  knowsLanguage: ["fr", "en", "it", "de"],
+  sameAs: [site.links.linkedin, site.links.github],
+};
 ---
 
 <!doctype html>
@@ -44,6 +69,8 @@ const ogImage = new URL("/og-image.png", site.seo.url).toString();
     <meta property="og:locale" content="fr_CH" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage} />
+
+    {isHome && <script type="application/ld+json" set:html={JSON.stringify(personne)} />}
   </head>
 
   <body>

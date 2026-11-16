@@ -34,6 +34,8 @@ export type Project = {
   fin?: string;
   /** Projet toujours en cours : badge + trait pointillé jusqu'à « Aujourd'hui » */
   enCours?: boolean;
+  /** Projet mis en avant sur la page d'accueil (idéalement 2 ou 3 projets au total) */
+  vedette?: boolean;
   /** Texte affiché pour la période, ex. "Mars – juin 2024" */
   periode: string;
 
@@ -368,6 +370,7 @@ export const projects: Project[] = [
   // ─────────────────────────────────────────
   {
     slug: "concours-robots",
+    vedette: true,
     title: "Concours de robots",
     subtitle:
       "Deux robots coopérants en Bluetooth : un porteur à pont dépliable et un explorateur, pour franchir un précipice et vider un bac.",
@@ -569,6 +572,7 @@ export const projects: Project[] = [
   // ─────────────────────────────────────────
   {
     slug: "incubateur-cellules",
+    vedette: true,
     title: "Incubateur transportable de cellules",
     subtitle:
       "Boîtier autonome transportant des cellules vivantes entre Lausanne et Genève, à 37 °C, humidité et pH régulés.",
@@ -689,6 +693,7 @@ export const projects: Project[] = [
   // ─────────────────────────────────────────
   {
     slug: "compteur-bouteilles",
+    vedette: true,
     title: "Compteur de bouteilles pour un vigneron",
     subtitle:
       "Compteur autonome sur ESP32 qui détecte chaque bouteille remplie et bouchonnée par infrarouge et affiche le total en direct.",

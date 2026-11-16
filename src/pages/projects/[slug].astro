@@ -1,6 +1,8 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { site } from "../../data/site";
+import Img from "../../components/Img.astro";
+import { posterVideo } from "../../lib/images";
 import { projects, projetsRecents, getProject, type Project } from "../../data/projects";
 
 export function getStaticPaths() {
@@ -82,11 +84,11 @@ const related = (project.related ?? [])
   </header>
 
   <figure class="heroMedia">
-    <img
+    <Img
       src={coverSrc}
       alt={coverAlt}
+      sizes="(max-width: 1100px) 100vw, 1060px"
       loading="eager"
-      onerror="this.onerror=null;this.src='/projects/placeholder.svg'"
     />
     {project.cover?.caption ? <figcaption>{project.cover.caption}</figcaption> : null}
   </figure>
@@ -107,16 +109,25 @@ const related = (project.related ?? [])
         {gallery.map((m) =>
           m.type === "video" ? (
             <div class={`gallery-item gallery-video${m.portrait ? " gallery-video--portrait" : ""}`}>
-              <video src={`${m.src}#t=0.1`} controls preload="metadata" playsinline aria-label={m.alt} style={m.portrait ? `--r: ${m.ratio ?? "9/16"}` : undefined}></video>
+              {/* preload="none" : la vidéo n'est téléchargée qu'au clic sur Lecture.
+                   L'image d'aperçu « nom-poster.jpg » est affichée en attendant. */}
+              <video
+                src={m.src}
+                poster={posterVideo(m.src)}
+                controls
+                preload={posterVideo(m.src) ? "none" : "metadata"}
+                playsinline
+                aria-label={m.alt}
+                style={m.portrait ? `--r: ${m.ratio ?? "9/16"}` : undefined}
+              ></video>
               {m.caption && <p class="gallery-caption">{m.caption}</p>}
             </div>
           ) : (
             <div class="gallery-item" data-lb role="button" tabindex="0" aria-label={`Agrandir : ${m.alt}`}>
-              <img
+              <Img
                 src={m.src}
                 alt={m.alt}
-                loading="lazy"
-                onerror="this.onerror=null;this.src='/projects/placeholder.svg'"
+                sizes="(max-width: 640px) 100vw, 360px"
               />
               {m.caption && <p class="gallery-caption">{m.caption}</p>}
             </div>
@@ -186,8 +197,10 @@ const related = (project.related ?? [])
     const lbImg   = lb.querySelector(".lb-img");
     const lbCap   = lb.querySelector(".lb-caption");
     let cur = 0;
+    let dernierFocus = null; // élément à re-sélectionner à la fermeture
 
     function open(i) {
+      if (!lb.classList.contains("open")) dernierFocus = document.activeElement;
       cur = i;
       const item = items[i];
       lbImg.src = item.querySelector("img").src;
@@ -196,10 +209,14 @@ const related = (project.related ?? [])
       lbCap.textContent = cap ? cap.textContent : "";
       lb.classList.add("open");
       document.body.style.overflow = "hidden";
+      lb.querySelector(".lb-close").focus();
     }
     function close() {
       lb.classList.remove("open");
       document.body.style.overflow = "";
+      // Le focus revient sur la photo qui avait été ouverte
+      if (dernierFocus && dernierFocus.focus) dernierFocus.focus();
+      dernierFocus = null;
     }
     function prev() { open((cur - 1 + items.length) % items.length); }
     function next() { open((cur + 1) % items.length); }
@@ -236,6 +253,14 @@ const related = (project.related ?? [])
     document.addEventListener("keydown", (e) => {
       if (!lb.classList.contains("open")) return;
       if (e.key === "Escape")     close();
+      // Tab reste à l'intérieur de la vue agrandie (boutons Fermer / Précédent / Suivant)
+      if (e.key === "Tab") {
+        const boutons = [...lb.querySelectorAll("button")];
+        const i = boutons.indexOf(document.activeElement);
+        e.preventDefault();
+        const n = boutons.length;
+        boutons[(i + (e.shiftKey ? -1 : 1) + n) % n].focus();
+      }
       if (e.key === "ArrowLeft")  prev();
       if (e.key === "ArrowRight") next();
     });

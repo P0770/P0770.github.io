@@ -197,7 +197,7 @@ export const site = {
 
   about: {
     intro:
-      "Étudiant en 3e année de Bachelor en ingénierie microtechnique à HEPIA (HES-SO Genève), spécialisation biomédicale. Mon parcours mêle biologie, ingénierie et fabrication — du banc de labo au prototype fonctionnel.",
+      "Étudiant en 3e année de Bachelor en ingénierie microtechnique à HEPIA (HES-SO Genève), spécialisation biomédicale. Après des études de biologie à l'Université de Liège, je me suis tourné vers l'ingénierie : cette double culture m'oriente naturellement vers les dispositifs biomédicaux.",
     bullets: [
       "Je construis autant que je code : du schéma électronique à la pièce imprimée en 3D, je préfère avoir un prototype entre les mains.",
       "Curieux de tout ce qui touche à l'embarqué, au réseau et à la conception mécanique.",

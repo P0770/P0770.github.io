@@ -58,7 +58,9 @@ body {
   text-rendering: optimizeLegibility;
   transition: background 0.2s, color 0.2s;
 }
-img { max-width: 100%; display: block; }
+img { max-width: 100%; height: auto; display: block; }
+/* <picture> (versions WebP) ne doit pas changer la mise en page de l'image */
+picture { display: contents; }
 a { color: inherit; text-decoration: none; }
 a:hover { opacity: .85; }
 ul, ol { padding-left: 1.25rem; }
@@ -747,6 +749,14 @@ li { margin-bottom: .3rem; }
 .contactCard:hover {
   border-color: var(--accent);
   box-shadow: var(--shadow-sm);
+}
+/* Carte d'information (non cliquable) : pas d'effet au survol */
+.contactCard--static,
+.contactCard--static:hover {
+  cursor: default;
+  border-color: var(--border);
+  box-shadow: none;
+  transform: none;
 }
 .contactIcon {
   width: 40px; height: 40px;

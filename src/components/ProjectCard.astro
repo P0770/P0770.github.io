@@ -1,5 +1,6 @@
 ---
 import type { Project } from "../data/projects";
+import Img from "./Img.astro";
 const { project, variant = "grid" } = Astro.props as {
   project: Project;
   variant?: "grid" | "timeline";
@@ -15,11 +16,10 @@ const coverAlt  = project.cover?.alt ?? project.title;
   aria-label={`Voir le projet : ${project.title}`}
 >
   <div class="projectThumb" aria-hidden="true">
-    <img
+    <Img
       src={coverSrc}
       alt={coverAlt}
-      loading="lazy"
-      onerror="this.onerror=null;this.src='/projects/placeholder.svg'"
+      sizes="(max-width: 700px) 100vw, 540px"
     />
   </div>
   <div class="projectText">

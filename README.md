@@ -15,7 +15,8 @@ npm run dev
 |------|-----|
 | Infos personnelles (nom, bio, expériences, compétences) | `src/data/site.ts` |
 | Projets (titre, texte, photos) | `src/data/projects.ts` |
-| Photo de profil | `public/me.jpg` |
+| Photo de profil | `public/me.jpg` (carré, 800 × 800 px conseillé) |
+| Projets affichés sur l'accueil | `vedette: true` dans `src/data/projects.ts` |
 | Photos d'un projet | `public/projects/<nom-du-projet>/` |
 
 ### Ajouter un projet
@@ -27,7 +28,19 @@ npm run dev
 
 ### Photo de profil
 
-Placer votre photo dans `public/` sous le nom `me.jpg`.
+Placer votre photo dans `public/` sous le nom `me.jpg`, recadrée en carré
+(800 × 800 px : l'image est affichée jusqu'à 380 px, donc 760 px sur un écran Retina).
+
+### Vidéos
+
+Pour chaque vidéo `nom.mp4`, déposer à côté une image d'aperçu `nom-poster.jpg`.
+La vidéo n'est alors téléchargée qu'au clic sur Lecture (page plus rapide).
+Sans aperçu, la vidéo fonctionne quand même (préchargement partiel).
+
+### Images
+
+Rien à faire : à chaque mise en ligne, le site crée automatiquement des versions
+WebP légères (480 px, 960 px, pleine taille) des photos de `public/projects/` et de `me.jpg`.
 
 ### Chercher les textes à compléter
 
@@ -40,3 +53,4 @@ tous les passages à remplacer par vos propres informations.
 2. Pousser ce dossier sur la branche `main`
 3. `Settings → Pages → Source : GitHub Actions`
 4. Le site se reconstruit automatiquement à chaque commit
+5. Garder `package-lock.json` dans le dépôt : il fixe les versions exactes des dépendances (`npm ci`)
