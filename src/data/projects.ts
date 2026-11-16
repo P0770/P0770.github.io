@@ -162,16 +162,20 @@ export const projects: Project[] = [
     subtitle:
       "Module automatisé sous automate Siemens, intégré à un grand circuit de bille commun à toute la classe.",
     debut: "2024-01",
-    fin: "2024-03",
-    periode: "Janv. – mars 2024",
-    cadre: "Année préparatoire ingénieur · CPNV — projet court d'introduction à l'automatisation",
+    fin: "2024-01",
+    periode: "23 – 30 janv. 2024",
+    cadre: "Année préparatoire ingénieur · CPNV — MCT, module M2 « Système simple », projet court d'introduction à l'automatisation",
     equipe: "Binôme",
     statut: "Terminé",
-    tags: ["Automate Siemens", "Ladder", "TIA Portal", "Impression 3D"],
+    tags: ["Automate Siemens", "Ladder", "TIA Portal", "Impression 3D", "Machine d'état", "Inventor"],
+    links: [
+      { label: "CAO, programme et documentation (GitHub)", href: "https://github.com/P0770/parcours-bille-m2421" },
+    ],
     highlights: [
-      "Déplacement latéral et montée de la bille imposés, en 20 à 25 secondes",
+      "Déplacement latéral et montée de la bille imposés, en 20 s ± 5 s",
       "Mécanisme de transfert à deux pinces décrivant une trajectoire en forme de 8",
       "Module intégré au circuit commun de toute la classe",
+      "100 billes sur 100 réussies au test de fiabilité",
     ],
     cover: {
       src: "/projects/parcours-bille/module.jpg",
@@ -190,12 +194,34 @@ export const projects: Project[] = [
         alt: "Ma partie du parcours de bille : deux bras à pignons qui font monter la bille",
         caption: "Ma partie du parcours",
       },
+      {
+        type: "video",
+        src: "/projects/parcours-bille/test-changement.mp4",
+        alt: "Test du module de changement de sens monté sur sa plaque",
+        caption: "Test du module de changement de sens",
+      },
+      {
+        src: "/projects/parcours-bille/engrenages.jpg",
+        alt: "Les deux grandes roues dentées du module de changement de sens",
+        caption: "Les roues dentées qui entraînent les deux pinces",
+      },
+      {
+        src: "/projects/parcours-bille/changement-assemble.jpg",
+        alt: "Premier assemblage des roues et des pinces du module de changement de sens",
+        caption: "Premier assemblage des roues et des pinces",
+      },
+      {
+        type: "video",
+        src: "/projects/parcours-bille/test-montee.mp4",
+        alt: "Test du module de montée de la bille",
+        caption: "Test du module de montée, réalisé par mon binôme",
+      },
     ],
     sections: [
       {
         heading: "Contexte et objectif",
         paragraphs: [
-          "Chaque binôme devait construire un cadre dans lequel une bille se déplace de façon entièrement automatique. Le cahier des charges imposait un déplacement latéral et une montée en hauteur, le tout en 20 à 25 secondes.",
+          "Chaque binôme devait construire un cadre dans lequel une bille se déplace de façon entièrement automatique. Le cahier des charges imposait un déplacement latéral et une montée en hauteur, le tout en 20 s ± 5 s.",
           "À la fin, les modules de toute la classe étaient empilés et reliés pour former un seul circuit continu : la bille traverse les dispositifs de chacun.",
         ],
       },
@@ -204,13 +230,60 @@ export const projects: Project[] = [
         bullets: [
           "Conception et réalisation du mécanisme de transfert latéral, à deux roues entraînées par un même moteur. Sur chaque roue, le bas de la tige de la pince est fixé à la roue, et le milieu de la tige coulisse dans un guide placé au-dessus du centre de la roue. Quand la roue tourne, l'extrémité de la pince décrit une trajectoire en forme de 8 : elle saisit la bille, la soulève, la dépose dans la pince voisine et revient à sa position initiale. La seconde pince fait le même mouvement en sens inverse et dépose la bille à la sortie du module.",
           "Conception des pièces en CAO et impression 3D",
-          "Participation à l'intégration : actionneurs, capteurs et programmation de l'automate",
+          "Programmation de l'automate en Ladder sous TIA Portal : machine d'état, défauts, pilotage des moteurs pas à pas, des capteurs et du solénoïde de sortie",
+          "Mon binôme Romain Schröder s'est chargé du module de montée et du schéma électrique",
         ],
       },
       {
         heading: "Technique",
         paragraphs: [
           "Automate Siemens S7-1200 · TIA Portal · Ladder · moteur · capteurs · CAO · impression 3D",
+        ],
+      },
+      {
+        heading: "Cahier des charges",
+        tableau: {
+          entetes: ["Exigence", "Demandé", "Obtenu"],
+          lignes: [
+            ["Parcours", "Au moins un changement de direction et une montée motorisée", "Un module de montée et un module de changement de sens"],
+            ["Temps de parcours", "20 s ± 5 s, soit entre 15 et 25 s", "Respecté"],
+            ["Fiabilité", "Au plus 1 échec sur 100 billes, soit 99 %", "100 billes sur 100, soit 100 %"],
+            ["Matériel imposé", "CPU 1212C, relais de sécurité, arrêt d'urgence, écran KTP400", "Intégré"],
+            ["Liaison entre maquettes", "Bille retenue en sortie tant que la maquette du dessous n'est pas prête", "Solénoïde de retenue et contact sec « Wait »"],
+          ],
+        },
+      },
+      {
+        heading: "Machine d'état et programmation",
+        paragraphs: [
+          "Le client imposait une machine d'état à quatre états, affichés sur l'écran : Stop (machine arrêtée), Wait (en attente d'une bille), Busy (une bille est dans la maquette) et Default (défaut). Un appui sur l'arrêt d'urgence, ou une bille qui n'est pas ressortie au bout de 25 s, déclenche le défaut : la maquette s'arrête aussitôt et ne repart qu'après un acquittement avec le bouton Set.",
+          "Les maquettes sont empilées et reliées par un contact sec : quand il est fermé, la maquette du dessous est en Wait. Tant que ce n'est pas le cas, un solénoïde retient la bille à la sortie.",
+        ],
+        figure: {
+          src: "/projects/parcours-bille/machine-etat.svg",
+          alt: "Diagramme de la machine d'état : Stop, Wait, Busy et Default, avec leurs transitions",
+          caption: "Machine d'état imposée par le cahier des charges",
+        },
+      },
+      {
+        heading: "Matériel",
+        tableau: {
+          entetes: ["Fonction", "Composant"],
+          lignes: [
+            ["Commande", "Automate Siemens S7-1200 CPU 1212C, écran KTP400 Basic, switch Ethernet"],
+            ["Sécurité", "Relais de sécurité Schneider XPSAC, arrêt d'urgence"],
+            ["Mouvements", "2 moteurs pas à pas QSH4218 (montée et changement de sens), pilotés par des cartes TMC2208"],
+            ["Retenue en sortie", "Solénoïde TAU-0730"],
+            ["Détection", "3 capteurs photoélectriques, 1 barrière lumineuse, 1 capteur inductif"],
+            ["Mécanique", "28 pièces imprimées en PLA, 10 axes usinés, engrenages, plaque en PMMA, profilés item"],
+          ],
+        },
+      },
+      {
+        heading: "Fiabilité et bilan",
+        paragraphs: [
+          "Au départ, nous voulions plusieurs modules de changement de sens et un aiguillage pour faire une boucle. Le module de changement s'est révélé bien plus gros et complexe que prévu. Nous n'en avons gardé qu'un seul, et le module de montée a été simplifié.",
+          "Au test final, la maquette a réussi 100 billes sur 100, après le remplacement d'une dernière pièce imprimée le jour du rendu. Pour une version suivante, nous avions noté d'améliorer les rails et les raccords entre modules, de réduire le frottement du module de montée et d'ajouter un aiguillage.",
         ],
       },
       {
