@@ -56,7 +56,6 @@ const T = t(lang);
     io.observe(f);
 
     // Rejouer l'animation au survol (ou au toucher sur téléphone), une fois la précédente terminée
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     function rejouer() {
       if (occupe) return;
       occupe = true;
