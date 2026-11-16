@@ -398,19 +398,25 @@ export const projects: Project[] = [
     vedette: true,
     title: "Concours de robots",
     subtitle:
-      "Deux robots coopérants en Bluetooth : un porteur à pont dépliable et un explorateur, pour franchir un précipice et vider un bac.",
+      "Deux robots coopérants en Bluetooth : un porteur à pont dépliable et un explorateur, pour franchir un précipice et remplir une citerne.",
     debut: "2025-03",
     fin: "2025-06",
     periode: "Mars – juin 2025",
     cadre: "1re année HEPIA (MT1) — concours de robots",
-    equipe: "Équipe de 5",
+    equipe: "Équipe de 5 (groupe RVEZ)",
     role: "Responsable électronique et code",
     statut: "Terminé — prix d'esthétisme",
-    tags: ["Arduino", "Bluetooth", "C++", "Robotique", "Infrarouge"],
+    budget: "183,47 CHF sur 200 CHF autorisés",
+    links: [
+      { label: "Code et fichiers du projet (GitHub)", href: "https://github.com/P0770/concours-robots-hepia" },
+    ],
+    tags: ["Arduino", "Bluetooth", "C++", "Robotique", "PID"],
     highlights: [
       "Prix d'esthétisme remporté et épreuve réussie",
       "Deux robots indépendants en communication Bluetooth maître / esclave",
       "Pont dépliable et pompe péristaltique pour accomplir la mission",
+      "Trajectoire du grand robot corrigée par PID, avec le gyroscope du petit robot transporté à son bord",
+      "Mission entièrement autonome après l'appui sur START, avec arrêt d'urgence et coupure en cas de perte du Bluetooth",
     ],
     cover: {
       src: "/projects/concours-robots/robot-1.jpg",
@@ -420,19 +426,58 @@ export const projects: Project[] = [
     gallery: [
       {
         type: "video",
-        src: "/projects/concours-robots/concours.mp4",
-        alt: "Vidéo du concours de robots",
-        caption: "L'épreuve",
+        src: "/projects/concours-robots/concours-extrait.mp4",
+        alt: "Vidéo du concours : déploiement du pont et traversée du petit robot",
+        caption: "Le concours : le pont se déplie et le petit robot traverse (extrait de 80 s)",
       },
       { src: "/projects/concours-robots/robot-2.jpg", alt: "Robot explorateur (camion de pompiers) et robot porteur (caserne)", caption: "Le camion explorateur à côté de la caserne, le robot porteur" },
       { src: "/projects/concours-robots/robot-3.jpg", alt: "Robot porteur en forme de caserne, porte fermée", caption: "La caserne : le robot porteur, porte fermée" },
       { src: "/projects/concours-robots/atelier.jpg", alt: "Les robots en construction à l'atelier", caption: "Les robots en construction à l'atelier" },
+      {
+        src: "/projects/concours-robots/cao-assemblage.jpg",
+        alt: "Rendu CAO des deux robots avec le pont déplié",
+        caption: "Assemblage CAO : le grand robot, le pont déplié et le petit robot",
+        entier: true,
+      },
+      {
+        src: "/projects/concours-robots/cao-grand-robot.jpg",
+        alt: "Rendu CAO du grand robot avec le réservoir surélevé et la pompe",
+        caption: "Grand robot : réservoir surélevé et pompe péristaltique",
+        entier: true,
+      },
+      {
+        src: "/projects/concours-robots/cao-petit-robot.jpg",
+        alt: "Rendu CAO du petit robot avec sa bobine de tuyau",
+        caption: "Petit robot : la bobine qui déroule le tuyau",
+        entier: true,
+      },
+      {
+        src: "/projects/concours-robots/prototype-ouvert.jpg",
+        alt: "Prototype du grand robot ouvert, câblage visible et pont replié",
+        caption: "Le prototype du grand robot pendant le montage",
+        entier: true,
+      },
+      {
+        type: "video",
+        src: "/projects/concours-robots/test-pont.mp4",
+        alt: "Vidéo de test du déploiement du pont",
+        caption: "Test complet du déploiement du pont (19 mai 2025)",
+      },
+      {
+        type: "video",
+        src: "/projects/concours-robots/pompe-demo.mp4",
+        alt: "Vidéo de démonstration de la pompe péristaltique",
+        caption: "Démonstration de la pompe péristaltique",
+        portrait: true,
+        ratio: "9/16",
+      },
     ],
     sections: [
       {
         heading: "Contexte et objectif",
         paragraphs: [
-          "La mission : traverser une planche, franchir un précipice, retraverser, puis vider un bac d'eau rempli au préalable. Notre réponse reposait sur deux robots indépendants qui coopèrent et communiquent en Bluetooth.",
+          "Le concours du Projet découverte de 1re année : apporter environ 0,8 L d'eau dans une citerne située de l'autre côté d'un précipice. Le parcours se compose d'une table de 3 m, d'un vide de 50 cm, puis d'une seconde table de 3 m. Une fois la citerne remplie, le robot doit reculer de 50 cm et s'arrêter. Tout se fait de manière autonome après le départ, avec un budget de 200 CHF.",
+          "Notre réponse reposait sur deux robots indépendants qui coopèrent et communiquent en Bluetooth.",
         ],
       },
       {
@@ -450,18 +495,88 @@ export const projects: Project[] = [
           "Conception de toute l'électronique des deux robots",
           "Programmation complète en C++ (Arduino)",
           "Communication Bluetooth maître / esclave : le gros robot commande le petit pour synchroniser les phases de la mission",
-          "Intégration des capteurs infrarouges pour la détection du bord du précipice (arrêt à l'extrémité), des moteurs et de la pompe péristaltique",
+          "Intégration des interrupteurs de fin de course pour la détection du bord (arrêt à l'extrémité de la table), des moteurs, du servomoteur et de la pompe péristaltique",
+          "Régulation PID de la trajectoire du grand robot à partir du gyroscope MPU6050 du petit robot",
         ],
       },
       {
         heading: "Technique",
+        bullets: [
+          "Contrôle — Arduino Mega sur le grand robot (maître), Arduino Uno sur le petit robot (esclave)",
+          "Communication — 2 modules Bluetooth HC-05 à 9600 bauds ; la broche STATE du module maître signale une perte de liaison",
+          "Propulsion — moteurs Modelcraft RB350100 à réducteur 1:100, pilotés par des ponts en H L298N",
+          "Capteurs — gyroscope MPU6050 (I²C) sur le petit robot ; interrupteurs de fin de course pour détecter le bord des tables",
+          "Pont — deux plateaux en bois de 300 mm renforcés par des cornières aluminium, déployés par un treuil motorisé",
+          "Eau — pompe péristaltique GROTHEN G3000 alimentée en 24 V, tuyau déroulé par une bobine imprimée en 3D",
+          "Dépose du tube — servomoteur actionné au départ, pour plonger le tube dans le réservoir sans intervention humaine",
+          "Interface — boutons START et STOP (arrêt d'urgence)",
+        ],
+        figure: {
+          src: "/projects/concours-robots/cablage.svg",
+          alt: "Schéma de câblage des deux robots avec les broches Arduino utilisées",
+          caption: "Schéma de principe reconstitué d'après les broches du code final (le schéma électrique d'origine n'a pas été conservé)",
+        },
+        figureEnFin: true,
+      },
+      {
+        heading: "Communication et régulation",
         paragraphs: [
-          "2 × Arduino Mega · modules Bluetooth · capteurs infrarouges · moteurs · pompe péristaltique · pont dépliable · impression 3D",
+          "Le grand robot doit rouler droit sur 3 m jusqu'au bord, alors que ses deux moteurs ne tournent jamais exactement à la même vitesse. Le seul gyroscope disponible, un MPU6050, est monté sur le petit robot… qui voyage justement à bord du grand robot pendant cette phase. Le petit robot envoie donc sa vitesse de rotation par Bluetooth toutes les 50 ms ; le grand robot l'intègre dans le temps pour reconstruire son propre cap, puis corrige ses deux moteurs par un régulateur PID (Kp = 6, Ki = 0,05, Kd = 0,6) : vitesse gauche = vitesse cible − correction, vitesse droite = vitesse cible + correction.",
+          "Toute la mission est découpée en états. Le maître pilote la séquence et attend un accusé de réception de l'esclave avant de passer à l'étape suivante :",
+        ],
+        figure: {
+          src: "/projects/concours-robots/sequence-mission.svg",
+          alt: "Diagramme de séquence des échanges Bluetooth entre le robot maître et le robot esclave, état par état",
+          caption: "Déroulement de la mission et messages échangés, d'après le code final des deux robots",
+        },
+        tableau: {
+          entetes: ["Message", "Envoyé par", "Effet"],
+          lignes: [
+            ["ETAT1", "Maître", "L'esclave commence à envoyer sa vitesse de rotation"],
+            ["G:<valeur>", "Esclave", "Vitesse de rotation (°/s) pour le PID du maître"],
+            ["STOP_ANGLE", "Maître", "Bord atteint : fin de l'envoi"],
+            ["ETAT3", "Maître", "L'esclave traverse le pont et roule jusqu'au bord"],
+            ["ETAT5", "Maître", "L'esclave recule pendant 3 s"],
+            ["FIN_ETAT", "Esclave", "Accusé de réception : le maître passe à l'état suivant"],
+          ],
+        },
+      },
+      {
+        heading: "Dimensionnement et essais",
+        paragraphs: [
+          "Pompe — La pompe péristaltique GROTHEN G3000 a été testée sur 3 m de tuyau avec un réservoir de 750 mL :",
+        ],
+        tableau: {
+          entetes: ["Tension", "Temps de vidage", "Débit moyen"],
+          lignes: [
+            ["12 V", "60 s", "750 / 60 = 12,5 mL/s"],
+            ["24 V", "30 s", "750 / 30 = 25 mL/s"],
+          ],
+          note: "Pertes mesurées : environ 30 mL, soit 30 / 750 = 4 % du volume, sous la tolérance de 10 %. D'où l'ajout d'une batterie 24 V dédiée à la pompe, et un réservoir placé en hauteur pour que la gravité aide à vider le tuyau. Le jour du concours, la pompe tournait environ 30 s.",
+        },
+        apres: [
+          "Pont — Il devait franchir un vide de 500 mm, porter un robot de 4 kg au maximum et tenir replié dans 400 × 400 × 100 mm. Solution retenue : un pont-levis à deux plateaux de 300 mm articulés par des charnières, descendu par un fil enroulé sur un treuil ; des élastiques déplient le second plateau une fois que le bras de levier devient suffisant.",
+          "Moteurs de roues — Couple en régime continu C = 6 kgf·cm = 6 × 9,81 N × 0,01 m ≈ 0,589 N·m. Avec deux moteurs et des roues de rayon R = 0,06 m, la force motrice vaut F = n·C / R = 2 × 0,589 / 0,06 ≈ 19,6 N. La résistance au roulement d'un robot de 10 kg vaut F_r = μr·m·g = 0,03 × 10 × 9,81 ≈ 2,94 N. Force nette : 19,6 − 2,94 ≈ 16,7 N, soit une accélération a = 16,7 / 10 ≈ 1,67 m/s². À 52 tr/min en charge, la vitesse vaut v = 52 / 60 × 2π × 0,06 ≈ 0,33 m/s : les 3 m de table se parcourent en environ 9 s. (Ce calcul corrige celui du rapport de revue 2, qui mélangeait kgf et newtons et trouvait 3 N ; la conclusion — moteurs largement suffisants — reste la même.)",
         ],
       },
       {
         heading: "Résultat",
         paragraphs: ["Nous avons remporté le prix d'esthétisme et réussi l'épreuve."],
+      },
+      {
+        heading: "Difficultés rencontrées",
+        bullets: [
+          "Pont — lors de la démonstration de la revue 2, une attache du fil a cassé et le pont est descendu trop vite. Le fil a ensuite été fixé directement dans un trou du profilé aluminium, et la vitesse du treuil réduite pour un déploiement progressif",
+          "Préparation — le câble du treuil devait être réenroulé à la main entre deux essais, dans une zone peu accessible",
+          "Électronique — un problème de shield a empêché les premiers essais des moteurs avec le code",
+          "Coopération — faire dialoguer deux systèmes autonomes en temps réel, avec accusés de réception et gestion de la perte de liaison",
+        ],
+        figure: {
+          src: "/projects/concours-robots/pont-deploiement.jpg",
+          alt: "Trois étapes du déploiement du pont : replié, en cours de descente, déplié",
+          caption: "Déploiement du pont en trois temps, lors d'un test",
+        },
+        figureEnFin: true,
       },
       {
         heading: "Ce que j'en retiens",

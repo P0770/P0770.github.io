@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" font-family="Inter, system-ui, sans-serif">
+  <title>Schéma de câblage des deux robots, reconstitué d'après le code final</title>
+  <rect width="1000" height="600" rx="14" fill="#fff"/>
+  <g stroke="#94a3b8" stroke-width="1.4" fill="none">
+    <!-- Maître : liaisons -->
+    <path d="M150 112 H230"/><path d="M150 182 H230"/><path d="M150 252 H230"/><path d="M150 322 H230"/><path d="M150 392 H230"/><path d="M150 462 H230"/>
+    <path d="M430 112 H340"/><path d="M430 222 H340"/><path d="M430 332 H340"/>
+  </g>
+
+  <!-- ===== MAÎTRE ===== -->
+  <text x="30" y="40" font-size="15" font-weight="600" fill="#111">Robot maître (grand robot)</text>
+  <rect x="230" y="70" width="110" height="420" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="1.6"/>
+  <text x="285" y="275" text-anchor="middle" font-size="14" font-weight="600" fill="#111">Arduino</text>
+  <text x="285" y="293" text-anchor="middle" font-size="14" font-weight="600" fill="#111">Mega</text>
+
+  <g font-size="11.5" fill="#111">
+    <rect x="20" y="90" width="130" height="44" rx="8" fill="#f7f7f8" stroke="#d1d5db"/><text x="85" y="108" text-anchor="middle">HC-05 (Bluetooth)</text><text x="85" y="124" text-anchor="middle" font-size="10.5" fill="#6b7280">Serial1 · STATE</text>
+    <rect x="20" y="160" width="130" height="44" rx="8" fill="#f7f7f8" stroke="#d1d5db"/><text x="85" y="178" text-anchor="middle">Interrupteur de bord</text><text x="85" y="194" text-anchor="middle" font-size="10.5" fill="#6b7280">fin de course</text>
+    <rect x="20" y="230" width="130" height="44" rx="8" fill="#f7f7f8" stroke="#d1d5db"/><text x="85" y="248" text-anchor="middle">Bouton START</text><text x="85" y="264" text-anchor="middle" font-size="10.5" fill="#6b7280">pull-up interne</text>
+    <rect x="20" y="300" width="130" height="44" rx="8" fill="#fef2f2" stroke="#fca5a5"/><text x="85" y="318" text-anchor="middle">Bouton STOP</text><text x="85" y="334" text-anchor="middle" font-size="10.5" fill="#6b7280">arrêt d'urgence</text>
+    <rect x="20" y="370" width="130" height="44" rx="8" fill="#f7f7f8" stroke="#d1d5db"/><text x="85" y="388" text-anchor="middle">Servomoteur</text><text x="85" y="404" text-anchor="middle" font-size="10.5" fill="#6b7280">dépose du tube</text>
+    <rect x="20" y="440" width="130" height="44" rx="8" fill="#f7f7f8" stroke="#d1d5db"/><text x="85" y="458" text-anchor="middle">Pompe G3000 24 V</text><text x="85" y="474" text-anchor="middle" font-size="10.5" fill="#6b7280">via relais V23079</text>
+
+    <rect x="430" y="80" width="170" height="64" rx="8" fill="#f7f7f8" stroke="#d1d5db"/><text x="515" y="100" text-anchor="middle">L298N n° 1</text><text x="515" y="116" text-anchor="middle" font-size="10.5" fill="#6b7280">2 moteurs de roues</text><text x="515" y="131" text-anchor="middle" font-size="10.5" fill="#6b7280">Modelcraft 1:100</text>
+    <rect x="430" y="190" width="170" height="64" rx="8" fill="#f7f7f8" stroke="#d1d5db"/><text x="515" y="210" text-anchor="middle">L298N n° 2</text><text x="515" y="226" text-anchor="middle" font-size="10.5" fill="#6b7280">moteur du treuil</text><text x="515" y="241" text-anchor="middle" font-size="10.5" fill="#6b7280">(déploiement du pont)</text>
+    <rect x="430" y="300" width="170" height="64" rx="8" fill="#fffbeb" stroke="#fcd34d"/><text x="515" y="320" text-anchor="middle">Alimentation</text><text x="515" y="336" text-anchor="middle" font-size="10.5" fill="#6b7280">12 V : moteurs, cartes</text><text x="515" y="351" text-anchor="middle" font-size="10.5" fill="#6b7280">24 V : pompe</text>
+  </g>
+  <g font-size="10.5" font-family="ui-monospace, Menlo, monospace" fill="#1e40af">
+    <text x="190" y="104" text-anchor="middle">TX1/RX1</text><text x="190" y="128" text-anchor="middle">STATE D24</text>
+    <text x="190" y="176" text-anchor="middle">D4</text>
+    <text x="190" y="246" text-anchor="middle">D17</text>
+    <text x="190" y="316" text-anchor="middle">D22</text>
+    <text x="190" y="386" text-anchor="middle">D31</text>
+    <text x="190" y="456" text-anchor="middle">D6 · D7</text>
+    <text x="385" y="104" text-anchor="middle">D3 D5</text><text x="385" y="128" text-anchor="middle">D9 D10</text><text x="385" y="142" text-anchor="middle">D12 D13</text>
+    <text x="385" y="214" text-anchor="middle">D44</text><text x="385" y="238" text-anchor="middle">D46 D48</text>
+  </g>
+
+  <!-- ===== ESCLAVE ===== -->
+  <text x="630" y="40" font-size="15" font-weight="600" fill="#111">Robot esclave (petit robot)</text>
+  <rect x="660" y="110" width="100" height="400" rx="10" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.6"/>
+  <text x="710" y="305" text-anchor="middle" font-size="14" font-weight="600" fill="#111">Arduino</text>
+  <text x="710" y="323" text-anchor="middle" font-size="14" font-weight="600" fill="#111">Uno</text>
+  <g font-size="11.5" fill="#111">
+    <rect x="850" y="120" width="135" height="64" rx="8" fill="#f7f7f8" stroke="#d1d5db"/><text x="917" y="146" text-anchor="middle">HC-05 (Bluetooth)</text><text x="917" y="164" text-anchor="middle" font-size="10.5" fill="#6b7280">SoftwareSerial</text>
+    <rect x="850" y="230" width="135" height="64" rx="8" fill="#f7f7f8" stroke="#d1d5db"/><text x="917" y="256" text-anchor="middle">MPU6050</text><text x="917" y="274" text-anchor="middle" font-size="10.5" fill="#6b7280">gyroscope (I²C)</text>
+    <rect x="850" y="340" width="135" height="64" rx="8" fill="#f7f7f8" stroke="#d1d5db"/><text x="917" y="360" text-anchor="middle">L298N</text><text x="917" y="376" text-anchor="middle" font-size="10.5" fill="#6b7280">2 moteurs de roues</text><text x="917" y="391" text-anchor="middle" font-size="10.5" fill="#6b7280">Modelcraft 1:100</text>
+    <rect x="850" y="450" width="135" height="64" rx="8" fill="#f7f7f8" stroke="#d1d5db"/><text x="917" y="476" text-anchor="middle">Interrupteur de bord</text><text x="917" y="494" text-anchor="middle" font-size="10.5" fill="#6b7280">fin de course</text>
+  </g>
+  <g stroke="#94a3b8" stroke-width="1.4"><path d="M760 152 H850"/><path d="M760 262 H850"/><path d="M760 372 H850"/><path d="M760 482 H850"/></g>
+  <g font-size="10.5" font-family="ui-monospace, Menlo, monospace" fill="#115e59">
+    <text x="805" y="146" text-anchor="middle">D7/D8</text>
+    <text x="805" y="256" text-anchor="middle">A4/A5</text>
+    <text x="805" y="364" text-anchor="middle">D3 D5 D9</text>
+    <text x="805" y="390" text-anchor="middle">D10 D12</text><text x="805" y="403" text-anchor="middle">D13</text>
+    <text x="805" y="476" text-anchor="middle">D4</text>
+  </g>
+
+  <!-- Liaison Bluetooth -->
+  <path d="M85 90 C85 20, 917 20, 917 120" fill="none" stroke="#2563eb" stroke-width="1.4" stroke-dasharray="6 5"/>
+  <text x="500" y="62" text-anchor="middle" font-size="11.5" fill="#2563eb">liaison Bluetooth maître ↔ esclave, 9600 bauds</text>
+
+  <text x="20" y="560" font-size="11" fill="#9ca3af">Schéma de principe reconstitué d'après les broches déclarées dans le code final (Master_END, Slave_8) et l'inventaire du rapport de revue 2.</text>
+  <text x="20" y="578" font-size="11" fill="#9ca3af">Le schéma électrique d'origine n'a pas été conservé. Alimentations d'après le rapport : 12 V pour les moteurs, batterie 24 V dédiée à la pompe.</text>
+</svg>
