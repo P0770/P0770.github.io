@@ -1,0 +1,10 @@
+---
+import type { Project } from "../data/projects";
+import { typeProjet } from "../lib/typeProjet";
+import { langDe } from "../i18n/ui";
+const { project } = Astro.props as { project: Project };
+const t = typeProjet(project, langDe(Astro.url.pathname));
+---
+<span class:list={["typeBadge", `typeBadge--${t.kind}`]}>
+  <span class="typeBadge-mark" aria-hidden="true"></span>{t.label}
+</span>

@@ -394,7 +394,7 @@ export const projects: Project[] = [
       {
         heading: "Pièces pour mes drones",
         paragraphs: [
-          "Un châssis 2,5\", une garde d'hélices et un support pour la carte AIO (contrôleur de vol et variateurs sur une seule carte), tous imprimés en PLA. Le détail est sur la page des drones.",
+          "Le châssis de mon micro-drone Matrix HD, sa garde d'hélices et un support pour la carte AIO (contrôleur de vol et variateurs sur une seule carte), tous imprimés en PLA. Le détail est sur la page des drones.",
           "J'ai aussi dessiné un cadre de 30 × 30 × 4 mm qui protège la carte AIO de mon Flywoo LR4. La version publiée est la 6ᵉ.",
         ],
         figure: {
@@ -664,14 +664,14 @@ export const projects: Project[] = [
       {
         heading: "Pièces imprimées en 3D",
         paragraphs: [
-          "J'ai conçu sur Inventor et imprimé en PLA plusieurs pièces pour mes drones : un châssis 2,5\", une garde d'hélices, un support pour la carte AIO et un cadre de protection pour l'AIO du LR4, arrivé à sa 6ᵉ version.",
-          "Sur mon châssis, les centres des moteurs sont à 101,6 mm en diagonale et à 73,3 mm entre deux moteurs voisins. Une hélice de 2,5\" mesure 2,5 × 25,4 = 63,5 mm de diamètre, ce qui laisse 73,3 − 63,5 = 9,8 mm entre deux hélices voisines.",
-          "J'ai aussi imprimé un châssis 2,5\" compatible Kayoumini téléchargé sur MakerWorld, que je n'ai pas conçu.",
+          "J'ai conçu sur Inventor et imprimé en PLA plusieurs pièces pour mes drones : le châssis du Matrix HD, sa garde d'hélices, un support pour la carte AIO et un cadre de protection pour l'AIO du LR4, arrivé à sa 6ᵉ version.",
+          "Sur mon châssis, les moteurs sont aux sommets d'un carré de 50 mm de côté : deux moteurs opposés sont donc à 50 × √2 ≈ 70,7 mm l'un de l'autre, la taille d'un micro-drone de classe 75 mm. Deux hélices voisines ne doivent pas se toucher : leur diamètre doit rester inférieur à 50 mm. La garde d'hélices se fixe sur les quatre trous en bout de bras, à 134,6 mm en diagonale.",
+          "J'ai aussi imprimé un châssis 2,5\" compatible Kayoumini téléchargé sur MakerWorld, que je n'ai pas conçu : ses moteurs sont à 111,8 mm en diagonale.",
         ],
         figure: {
           src: "/projects/drone-fpv/pieces-imprimees.jpg",
-          alt: "Rendus 3D de mon châssis de drone, de la garde d'hélices et du support de la carte AIO",
-          caption: "Mes pièces de drone : châssis, garde d'hélices et support de l'AIO",
+          alt: "Rendus 3D du châssis du Matrix HD, de sa garde d'hélices et du support de la carte AIO",
+          caption: "Mes pièces pour le Matrix HD : châssis, garde d'hélices et support de l'AIO",
         },
       },
       {

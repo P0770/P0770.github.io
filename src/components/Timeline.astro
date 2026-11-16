@@ -1,7 +1,14 @@
 ---
 import ProjectCard from "./ProjectCard.astro";
-import { projetsChronologiques, type Project } from "../data/projects";
-import { jalons, avant, formationParAnnee } from "../data/timeline";
+import type { Project } from "../data/projects";
+import { chronologiques, timelineDe } from "../data/donnees";
+import { typeProjet } from "../lib/typeProjet";
+import { t, langDe, lien } from "../i18n/ui";
+
+const lang = langDe(Astro.url.pathname);
+const T = t(lang);
+const projetsChronologiques = chronologiques(lang);
+const { jalons, avant, formationParAnnee } = timelineDe(lang);
 
 type Evenement =
   | { kind: "jalon"; cle: string; quand: string; titre: string; detail?: string }
@@ -25,10 +32,9 @@ const bruts: Evenement[] = [
   })),
 ].sort((a, b) => b.cle.localeCompare(a.cle));
 
-// 2. Alternance gauche / droite des cartes projet.
-let i = 0;
+// 2. Côté de la carte : projets d'école à gauche, projets perso à droite.
 for (const ev of bruts) {
-  if (ev.kind === "projet") ev.cote = i++ % 2 === 0 ? "left" : "right";
+  if (ev.kind === "projet") ev.cote = typeProjet(ev.project, lang).kind === "ecole" ? "left" : "right";
 }
 
 // 3. Regroupement par année civile (2026, 2025, …).
@@ -43,7 +49,11 @@ for (const ev of bruts) {
 const enCours = projetsChronologiques.filter((p) => p.enCours);
 ---
 
-<section class="tl" data-tl aria-label="Chronologie des projets">
+<section class="tl" data-tl aria-label={T.tlAria}>
+  <div class="tl-colonnes" aria-hidden="true">
+    <span class="typeBadge typeBadge--ecole"><span class="typeBadge-mark"></span>{T.colonneEcole}</span>
+    <span class="typeBadge typeBadge--perso"><span class="typeBadge-mark"></span>{T.colonnePerso}</span>
+  </div>
   <div class="tl-body" data-tl-body>
     <div class="tl-axis" data-tl-axis aria-hidden="true">
       <div class="tl-axisFill" data-tl-fill></div>
@@ -51,13 +61,13 @@ const enCours = projetsChronologiques.filter((p) => p.enCours);
 
     <div class="tl-today tl-reveal" data-tl-today>
       <span class="tl-todayDot" data-tl-today-dot aria-hidden="true"></span>
-      <span class="tl-todayLabel">Aujourd'hui</span>
+      <span class="tl-todayLabel">{T.aujourdhui}</span>
       {enCours.length > 0 && (
         <p class="tl-todayList">
-          Toujours en cours :{" "}
+          {T.toujoursEnCours}{" "}
           {enCours.map((p, k) => (
             <>
-              <a href={`/projects/${p.slug}`}>{p.title}</a>
+              <a href={lien(lang, `/projects/${p.slug}`)}>{p.title}</a>
               {k < enCours.length - 1 && <span class="dot"> · </span>}
             </>
           ))}
@@ -115,7 +125,7 @@ const enCours = projetsChronologiques.filter((p) => p.enCours);
   </div>
 
   <p class="tl-avant">
-    <span class="tl-avantLabel">Avant</span>
+    <span class="tl-avantLabel">{T.avant}</span>
     <span>{avant}</span>
   </p>
 </section>
@@ -187,12 +197,71 @@ const enCours = projetsChronologiques.filter((p) => p.enCours);
       });
     };
 
-    // ── Remplissage de la ligne au défilement ──
+    // ── Piste de circuit imprimé ──
+    // La ligne centrale est une piste en zigzag : à chaque projet, elle bifurque à 45°
+    // vers sa carte (gauche = école, droite = perso), passe par un « via », puis revient.
+    const NS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("class", "tl-piste");
+    svg.setAttribute("aria-hidden", "true");
+    body.prepend(svg);
+    const base = document.createElementNS(NS, "path");
+    base.setAttribute("class", "tl-piste-base");
+    const cuivre = document.createElementNS(NS, "path");
+    cuivre.setAttribute("class", "tl-piste-cuivre");
+    const vias = document.createElementNS(NS, "g");
+    svg.append(base, cuivre, vias);
+    let longueur = 0;
+
+    const tracer = () => {
+      const W = body.offsetWidth, H = body.offsetHeight;
+      svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+      svg.setAttribute("width", String(W));
+      svg.setAttribute("height", String(H));
+      const mobile = window.matchMedia("(max-width: 860px)").matches;
+      const cx = axis.offsetLeft + axis.offsetWidth / 2;
+      const J = mobile ? 13 : 24;           // amplitude de la bifurcation
+      const y0 = centreY(todayDot);
+      let d = `M${cx},${y0}`;
+      vias.replaceChildren();
+      const items = Array.from(tl.querySelectorAll<HTMLElement>(".tl-item"));
+      items.forEach((it, k) => {
+        const dot = it.querySelector<HTMLElement>(".tl-dot")!;
+        const y = centreY(dot);
+        const s = mobile || it.classList.contains("tl-right") ? 1 : -1;
+        // Variation légère, pour un tracé moins mécanique
+        const j = J + (k % 3) * (mobile ? 2 : 5);
+        const xv = cx + s * j;
+        d += ` V${y - j} L${xv},${y} L${cx},${y + j}`;
+        // Via et liaison vers la carte
+        const card = it.querySelector<HTMLElement>(".tl-card")!;
+        const r = card.getBoundingClientRect(), b = body.getBoundingClientRect();
+        const xCarte = s > 0 ? r.left - b.left : r.right - b.left;
+        const stub = document.createElementNS(NS, "path");
+        stub.setAttribute("class", "tl-piste-stub");
+        stub.setAttribute("d", `M${xv},${y} H${xCarte}`);
+        const via = document.createElementNS(NS, "circle");
+        via.setAttribute("cx", String(xv));
+        via.setAttribute("cy", String(y));
+        via.setAttribute("r", mobile ? "5" : "6.5");
+        via.setAttribute("class", it.classList.contains("tl-ongoing") ? "tl-via tl-via--encours" : "tl-via");
+        vias.append(stub, via);
+      });
+      d += ` V${H - 16}`;
+      base.setAttribute("d", d);
+      cuivre.setAttribute("d", d);
+      longueur = cuivre.getTotalLength();
+      cuivre.style.strokeDasharray = `${longueur}`;
+      remplir();
+    };
+
+    // ── Remplissage de la piste au défilement ──
     const remplir = () => {
       const r = body.getBoundingClientRect();
       const repere = window.innerHeight * 0.6;
       const p = Math.min(1, Math.max(0, (repere - r.top) / r.height));
       fill.style.height = `${p * 100}%`;
+      if (longueur) cuivre.style.strokeDashoffset = `${longueur * (1 - p)}`;
     };
 
     let raf = 0;
@@ -206,14 +275,14 @@ const enCours = projetsChronologiques.filter((p) => p.enCours);
 
     const toutRecalculer = () => {
       placerTrails();
-      remplir();
+      tracer();
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", toutRecalculer);
     window.addEventListener("load", toutRecalculer);
     tl.querySelectorAll("img").forEach((img) =>
-      img.addEventListener("load", placerTrails, { once: true })
+      img.addEventListener("load", toutRecalculer, { once: true })
     );
     toutRecalculer();
   }

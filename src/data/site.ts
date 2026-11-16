@@ -123,7 +123,7 @@ const education: Education[] = [
     school: "CPNV — Yverdon",
     degree: "Année préparatoire ingénieur, passerelle mécanique / microtechnique",
     period: "2023 – 2024",
-    note: "Projet avec budget de 10 000 CHF",
+    note: "Projet final : étiqueteuse automatique, 7 374 CHF de matériel",
     logo: "/logos/cpnv.png",
     initiales: "CP",
   },

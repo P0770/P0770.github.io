@@ -1,0 +1,110 @@
+---
+import Base from "../layouts/Base.astro";
+import Img from "../components/Img.astro";
+import DessinChassis from "../components/DessinChassis.astro";
+import TypeBadge from "../components/TypeBadge.astro";
+import { recents, siteDe } from "../data/donnees";
+import { t, langDe, lien } from "../i18n/ui";
+
+const lang = langDe(Astro.url.pathname);
+const T = t(lang);
+const site = siteDe(lang);
+const projetsRecents = recents(lang);
+// Projets mis en avant : ceux marqués « vedette: true » dans src/data/projects.ts
+const vedettes = projetsRecents.filter((p) => p.vedette);
+const latest = vedettes.length > 0 ? vedettes : projetsRecents.slice(0, 2);
+const en = lang === "en";
+
+// Trois domaines, chacun illustré par une vraie image d'un projet
+const domaines = [
+  {
+    titre: en ? "Electronics" : "Électronique",
+    texte: en ? "Schematics, PCBs, wiring and oscilloscope measurements." : "Schémas, PCB, câblage et mesures à l'oscilloscope.",
+    img: "/projects/scanner-i2c/pcb.jpg",
+    alt: en ? "The I²C shield on its printed circuit board, with the colour display" : "Le shield I²C sur son circuit imprimé, avec l'écran couleur",
+    liens: [[en ? "I²C bus" : "Bus I²C", "scanner-i2c"], [en ? "Incubator" : "Incubateur", "incubateur-cellules"], [en ? "Lamp" : "Lampe", "lampe-braun"]],
+  },
+  {
+    titre: en ? "Mechanical design" : "Conception mécanique",
+    texte: en ? "Modelling in Inventor, machining and 3D printing." : "Modélisation sous Inventor, usinage et impression 3D.",
+    img: "/projects/etiqueteuse/systeme-etiquetage.jpg",
+    alt: en ? "3D render of the labelling machine's labelling unit" : "Rendu 3D du système d'étiquetage de l'étiqueteuse",
+    liens: [[en ? "Labelling machine" : "Étiqueteuse", "etiqueteuse"], [en ? "3D printing" : "Impression 3D", "impression-3d"], [en ? "Marble run" : "Parcours de bille", "parcours-bille"]],
+  },
+  {
+    titre: en ? "Code and automation" : "Code et automatisme",
+    texte: en ? "Embedded firmware in C++, Siemens PLCs, applications." : "Firmware embarqué en C++, automates Siemens, applications.",
+    img: "/projects/compteur-bouteilles/couverture.jpg",
+    alt: en ? "The bottle counter mounted on the bottling machine" : "Le compteur de bouteilles installé sur la machine d'embouteillage",
+    liens: [[en ? "Bottle counter" : "Compteur de bouteilles", "compteur-bouteilles"], [en ? "Robot competition" : "Concours de robots", "concours-robots"], [en ? "Qui de nous ?" : "Qui de nous ?", "jeu-amc"]],
+  },
+];
+---
+
+<Base title={`${site.name} — Portfolio`} description={site.seo.description}>
+  <div class="accueil">
+
+    <section class="accueil-hero" aria-label="Introduction">
+      <div>
+        <h1 class="accueil-nom">
+          <span>Mattéo</span>
+          <span class="accueil-nomFin">Pozzo di Borgo</span>
+        </h1>
+        <p class="accueil-role">{T.role}</p>
+        <div class="accueil-texte">
+          <p>{T.intro1}</p>
+          <p>{T.intro2}</p>
+        </div>
+        <div class="accueil-actions">
+          <a class="btn btn-primary" href={lien(lang, "/projects")}>{T.voirProjets}</a>
+          <a class="btn" href={lien(lang, "/about")}>{T.navApropos}</a>
+          <a class="btn" href={site.cv} download>{T.telechargerCv}</a>
+        </div>
+        <div class="accueil-portrait">
+          <Img src="/me.jpg" alt={T.portraitAlt} sizes="76px" loading="eager" fallback={false} />
+          <p>{T.portraitTexte}</p>
+        </div>
+      </div>
+      <DessinChassis />
+    </section>
+
+    <section class="domaines" aria-label={T.domainesAria}>
+      {domaines.map((d) => (
+        <div class="domaine">
+          <div class="domaine-img">
+            <Img src={d.img} alt={d.alt} sizes="(max-width: 860px) 100vw, 380px" />
+          </div>
+          <h2>{d.titre}</h2>
+          <p>{d.texte}</p>
+          <div class="domaine-liens">
+            {d.liens.map(([nom, slug]) => <a href={lien(lang, `/projects/${slug}`)}>{nom}</a>)}
+          </div>
+        </div>
+      ))}
+    </section>
+
+    <section class="phares" aria-labelledby="phares-titre">
+      <div class="phares-tete">
+        <h2 id="phares-titre">{T.projetsPhares}</h2>
+        <a href={lien(lang, "/projects")}>{T.touteChronologie}</a>
+      </div>
+      {latest.map((p) => (
+        <a class="phare" href={lien(lang, `/projects/${p.slug}`)}>
+          <div class="phare-img reperes" style={`view-transition-name: img-${p.slug}`}>
+            <Img src={p.cover?.src ?? "/projects/placeholder.svg"} alt={p.cover?.alt ?? p.title} sizes="(max-width: 860px) 100vw, 640px" />
+          </div>
+          <div>
+            <div class="phare-meta">
+              <TypeBadge project={p} />
+              <span>{p.periode}</span>
+            </div>
+            <h3>{p.title}</h3>
+            <p>{p.subtitle}</p>
+            <span class="phare-voir">{T.decouvrir}</span>
+          </div>
+        </a>
+      ))}
+    </section>
+
+  </div>
+</Base>

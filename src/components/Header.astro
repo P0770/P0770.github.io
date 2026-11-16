@@ -1,28 +1,34 @@
 ---
-import { site } from "../data/site";
+import { siteDe } from "../data/donnees";
+import { t, langDe, lien, autreLangue } from "../i18n/ui";
 const { currentPath = "/" } = Astro.props as { currentPath?: string };
-const isHome     = currentPath === "/";
-const isProjects = currentPath.startsWith("/projects");
-const isAbout    = currentPath.startsWith("/about");
-const isContact  = currentPath.startsWith("/contact");
+const lang = langDe(currentPath);
+const T = t(lang);
+const site = siteDe(lang);
+const chemin = lang === "en" ? (currentPath.replace(/^\/en/, "") || "/") : currentPath;
+const isHome     = chemin === "/";
+const isProjects = chemin.startsWith("/projects");
+const isAbout    = chemin.startsWith("/about");
+const isContact  = chemin.startsWith("/contact");
 ---
 
 <header class="topbar">
   <div class="wrap header-inner">
-    <a class="brand" href="/" aria-label="Accueil">
+    <a class="brand" href={lien(lang, "/")} aria-label={T.navAccueil}>
       <div class="brand-name">{site.name}</div>
       <div class="brand-sub">{site.headline}</div>
     </a>
 
-    <nav class="nav" id="main-nav" aria-label="Navigation principale">
-      <a href="/" class:list={{ active: isHome }} aria-current={isHome ? "page" : undefined}>Accueil</a>
-      <a href="/projects" class:list={{ active: isProjects }} aria-current={isProjects ? "page" : undefined}>Projets</a>
-      <a href="/about" class:list={{ active: isAbout }} aria-current={isAbout ? "page" : undefined}>À propos</a>
-      <a href="/contact" class:list={{ active: isContact }} aria-current={isContact ? "page" : undefined}>Contact</a>
+    <nav class="nav" id="main-nav" aria-label={T.navAria}>
+      <a href={lien(lang, "/")} class:list={{ active: isHome }} aria-current={isHome ? "page" : undefined}>{T.navAccueil}</a>
+      <a href={lien(lang, "/projects")} class:list={{ active: isProjects }} aria-current={isProjects ? "page" : undefined}>{T.navProjets}</a>
+      <a href={lien(lang, "/about")} class:list={{ active: isAbout }} aria-current={isAbout ? "page" : undefined}>{T.navApropos}</a>
+      <a href={lien(lang, "/contact")} class:list={{ active: isContact }} aria-current={isContact ? "page" : undefined}>{T.navContact}</a>
     </nav>
 
     <div class="actions">
-      <button class="btn-icon" id="theme-toggle" aria-label="Changer de thème" title="Changer de thème">
+      <a class="langSwitch" href={autreLangue(currentPath)} hreflang={lang === "fr" ? "en" : "fr"} lang={lang === "fr" ? "en" : "fr"} aria-label={T.langueAutreAria}>{T.langueAutre}</a>
+      <button class="btn-icon" id="theme-toggle" aria-label={T.themeAria} title={T.themeAria}>
         <!-- Soleil : affiché en mode sombre -->
         <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
@@ -39,7 +45,7 @@ const isContact  = currentPath.startsWith("/contact");
       <a class="btn-ghost" href={`mailto:${site.email}`}>Email</a>
     </div>
 
-    <button class="burger" id="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Ouvrir le menu">
+    <button class="burger" id="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label={T.menuAria}>
       <span></span><span></span><span></span>
     </button>
   </div>

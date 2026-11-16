@@ -1,21 +1,27 @@
 ---
 import type { Project } from "../data/projects";
 import Img from "./Img.astro";
+import TypeBadge from "./TypeBadge.astro";
+import { typeProjet } from "../lib/typeProjet";
+import { t, langDe, lien } from "../i18n/ui";
 const { project, variant = "grid" } = Astro.props as {
   project: Project;
   variant?: "grid" | "timeline";
 };
-const href      = `/projects/${project.slug}`;
+const lang      = langDe(Astro.url.pathname);
+const T         = t(lang);
+const href      = lien(lang, `/projects/${project.slug}`);
 const coverSrc  = project.cover?.src ?? "/projects/placeholder.svg";
 const coverAlt  = project.cover?.alt ?? project.title;
+const type      = typeProjet(project).kind;
 ---
 
 <a
-  class:list={["projectCard", { "projectCard--timeline": variant === "timeline" }]}
+  class:list={["projectCard", `projectCard--${type}`, { "projectCard--timeline": variant === "timeline" }]}
   href={href}
-  aria-label={`Voir le projet : ${project.title}`}
+  aria-label={`${T.voirProjetAria} ${project.title}`}
 >
-  <div class="projectThumb" aria-hidden="true">
+  <div class="projectThumb" aria-hidden="true" style={`view-transition-name: img-${project.slug}`}>
     <Img
       src={coverSrc}
       alt={coverAlt}
@@ -24,8 +30,9 @@ const coverAlt  = project.cover?.alt ?? project.title;
   </div>
   <div class="projectText">
     <div class="projectMetaRow">
+      <TypeBadge project={project} />
       <span class="projectYear">{project.periode}</span>
-      {project.enCours && <span class="badge-live">En cours</span>}
+      {project.enCours && <span class="badge-live">{T.enCours}</span>}
     </div>
     <h3 class="projectTitle">{project.title}</h3>
     <p class="projectSubtitle">{project.subtitle}</p>

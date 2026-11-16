@@ -1,0 +1,332 @@
+---
+import Base from "../layouts/Base.astro";
+import Img from "../components/Img.astro";
+import TypeBadge from "../components/TypeBadge.astro";
+import RepoCard from "../components/RepoCard.astro";
+import { posterVideo } from "../lib/images";
+import type { Project } from "../data/projects";
+import { recents, projetDe, siteDe } from "../data/donnees";
+import { t, langDe, lien } from "../i18n/ui";
+
+const lang = langDe(Astro.url.pathname);
+const T = t(lang);
+const site = siteDe(lang);
+const projetsRecents = recents(lang);
+const getProject = (slug: string) => projetDe(lang, slug);
+const { project } = Astro.props as { project: Project };
+const coverSrc = project.cover?.src ?? "/projects/placeholder.svg";
+const coverAlt = project.cover?.alt ?? project.title;
+const gallery  = project.gallery ?? [];
+const hasGallery    = gallery.length > 0;
+const hasHighlights = (project.highlights?.length ?? 0) > 0;
+
+// En-tête : seules les lignes renseignées sont affichées
+const infos = [
+  { label: T.periode, value: project.periode },
+  { label: T.cadre,   value: project.cadre },
+  { label: T.equipe,  value: project.equipe },
+  { label: T.roleProjet, value: project.role },
+  { label: T.budget,  value: project.budget },
+  { label: T.statut,  value: project.statut },
+].filter((i) => i.value);
+
+// Navigation dans l'ordre de la chronologie (du plus récent au plus ancien)
+const index      = projetsRecents.findIndex((p) => p.slug === project.slug);
+const plusRecent = index > 0 ? projetsRecents[index - 1] : undefined;
+const plusAncien = index < projetsRecents.length - 1 ? projetsRecents[index + 1] : undefined;
+
+// Ancres du sommaire
+const ancre = (t: string) =>
+  t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const sommaire = [
+  ...(hasHighlights ? [{ id: "points-cles", titre: T.pointsCles }] : []),
+  ...(hasGallery ? [{ id: "galerie", titre: T.galerie }] : []),
+  ...project.sections.map((s) => ({ id: ancre(s.heading), titre: s.heading })),
+];
+
+const related = (project.related ?? [])
+  .map((s) => getProject(s))
+  .filter((p): p is Project => Boolean(p));
+---
+
+<Base title={`${project.title} — ${site.name}`} description={project.subtitle}>
+
+  <div class="backRow">
+    <a class="backLink" href={lien(lang, "/projects")}>← {T.retourChronologie}</a>
+  </div>
+
+  <header class="projectHead">
+    <div class="projectHeadTop">
+      <TypeBadge project={project} />
+      {project.enCours && <span class="badge-live">{T.enCours}</span>}
+    </div>
+    <h1>{project.title}</h1>
+    <p class="lead">{project.subtitle}</p>
+
+    <dl class="cartouche">
+      {infos.map((i) => (
+        <div class:list={{ "cartouche-large": i.label === T.cadre || i.label === T.roleProjet }}>
+          <dt>{i.label}</dt>
+          <dd>{i.value}</dd>
+        </div>
+      ))}
+    </dl>
+
+    <div class="chips" style="margin-top:1rem;">
+      {project.tags.map((t) => <span class="chip">{t}</span>)}
+    </div>
+
+    {project.links && project.links.length > 0 && (
+      <div class="repoRow">
+        {project.links.map((l) => <RepoCard href={l.href} label={l.label} />)}
+      </div>
+    )}
+  </header>
+
+  <figure class="heroMedia" style={`view-transition-name: img-${project.slug}`}>
+    <Img
+      src={coverSrc}
+      alt={coverAlt}
+      sizes="(max-width: 1100px) 100vw, 1060px"
+      loading="eager"
+    />
+    {project.cover?.caption ? <figcaption>{project.cover.caption}</figcaption> : null}
+  </figure>
+
+  <div class="projetCorps">
+  {sommaire.length > 2 && (
+    <nav class="sommaire" aria-label={T.sommaireAria}>
+      <p>{T.surCettePage}</p>
+      <ol>
+        {sommaire.map((e) => <li><a href={`#${e.id}`} data-ancre={e.id}>{e.titre}</a></li>)}
+      </ol>
+    </nav>
+  )}
+  <div class="projetTexte">
+  {hasHighlights && (
+    <section class="highlights contentAncre" id="points-cles" aria-label={T.pointsCles}>
+      <h2>{T.pointsCles}</h2>
+      <ul>
+        {project.highlights!.map((h) => <li>{h}</li>)}
+      </ul>
+    </section>
+  )}
+
+  {hasGallery && (
+    <section class="gallery contentAncre" id="galerie" aria-label={T.galerie}>
+      <h2>{T.galerie}</h2>
+      <div class="galleryGrid">
+        {gallery.map((m) =>
+          m.type === "video" ? (
+            <div class={`gallery-item gallery-video${m.portrait ? " gallery-video--portrait" : ""}`}>
+              {/* preload="none" : la vidéo n'est téléchargée qu'au clic sur Lecture.
+                   L'image d'aperçu « nom-poster.jpg » est affichée en attendant. */}
+              <video
+                src={m.src}
+                poster={posterVideo(m.src)}
+                controls
+                preload={posterVideo(m.src) ? "none" : "metadata"}
+                playsinline
+                aria-label={m.alt}
+                style={m.portrait ? `--r: ${m.ratio ?? "9/16"}` : undefined}
+              ></video>
+              {m.caption && <p class="gallery-caption">{m.caption}</p>}
+            </div>
+          ) : (
+            <div class={`gallery-item${m.entier ? " gallery-item--entier" : ""}`} data-lb role="button" tabindex="0" aria-label={`${T.agrandir} ${m.alt}`}>
+              <Img
+                src={m.src}
+                alt={m.alt}
+                sizes="(max-width: 640px) 100vw, 360px"
+              />
+              {m.caption && <p class="gallery-caption">{m.caption}</p>}
+            </div>
+          )
+        )}
+      </div>
+    </section>
+  )}
+
+  <div class="content">
+    {project.sections.map((s) => (
+      <article class="contentBlock contentAncre" id={ancre(s.heading)}>
+        <h2>{s.heading}</h2>
+        {s.paragraphs?.map((p) => <p>{p}</p>)}
+        {s.figure && !s.figureEnFin && (
+          <figure class="contentFigure">
+            <div class="figure-lb" data-lb role="button" tabindex="0" aria-label={`${T.agrandir} ${s.figure.alt}`}>
+              <Img src={s.figure.src} alt={s.figure.alt} sizes="(max-width: 900px) 100vw, 860px" fallback={false} />
+              {s.figure.caption && <figcaption class="gallery-caption">{s.figure.caption}</figcaption>}
+            </div>
+          </figure>
+        )}
+        {s.bullets?.length ? (
+          <ul>
+            {s.bullets.map((b) => <li>{b}</li>)}
+          </ul>
+        ) : null}
+        {s.tableau && (
+          <div class="contentTableWrap">
+            <table class="contentTable">
+              <thead>
+                <tr>{s.tableau.entetes.map((h) => <th scope="col">{h}</th>)}</tr>
+              </thead>
+              <tbody>
+                {s.tableau.lignes.map((l) => (
+                  <tr>{l.map((c, i) => (i === 0 ? <th scope="row">{c}</th> : <td>{c}</td>))}</tr>
+                ))}
+              </tbody>
+            </table>
+            {s.tableau.note && <p class="contentTableNote">{s.tableau.note}</p>}
+          </div>
+        )}
+        {s.apres?.map((p) => <p>{p}</p>)}
+        {s.figure && s.figureEnFin && (
+          <figure class="contentFigure">
+            <div class="figure-lb" data-lb role="button" tabindex="0" aria-label={`${T.agrandir} ${s.figure.alt}`}>
+              <Img src={s.figure.src} alt={s.figure.alt} sizes="(max-width: 900px) 100vw, 860px" fallback={false} />
+              {s.figure.caption && <figcaption class="gallery-caption">{s.figure.caption}</figcaption>}
+            </div>
+          </figure>
+        )}
+      </article>
+    ))}
+  </div>
+
+  </div>
+  </div>
+
+  {related.length > 0 && (
+    <section class="related" aria-label={T.projetsLies}>
+      <h2>{T.projetsLies}</h2>
+      <div class="chips">
+        {related.map((p) => (
+          <a class="chip chip-link" href={lien(lang, `/projects/${p.slug}`)}>{p.title}</a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <nav class="projectNav" aria-label={T.autresProjets}>
+    {plusRecent ? (
+      <a class="projectNavLink" href={lien(lang, `/projects/${plusRecent.slug}`)}>
+        <span class="projectNavLabel">{T.plusRecent}</span>
+        <span class="projectNavTitle">{plusRecent.title}</span>
+      </a>
+    ) : <span></span>}
+    {plusAncien ? (
+      <a class="projectNavLink projectNavNext" href={lien(lang, `/projects/${plusAncien.slug}`)}>
+        <span class="projectNavLabel">{T.plusAncien}</span>
+        <span class="projectNavTitle">{plusAncien.title}</span>
+      </a>
+    ) : <span></span>}
+  </nav>
+
+</Base>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label={T.vueAgrandie}>
+  <div class="lb-inner">
+    <img class="lb-img" src="" alt="" />
+    <p class="lb-caption"></p>
+  </div>
+  <button class="lb-close" aria-label={T.fermer}>×</button>
+  <button class="lb-prev" aria-label={T.imagePrec}>‹</button>
+  <button class="lb-next" aria-label={T.imageSuiv}>›</button>
+</div>
+
+<script is:inline>
+  // Sommaire : met en évidence la section en cours de lecture
+  (function () {
+    const liens = document.querySelectorAll(".sommaire a[data-ancre]");
+    if (!liens.length || !("IntersectionObserver" in window)) return;
+    const parId = {};
+    liens.forEach((a) => (parId[a.dataset.ancre] = a));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          liens.forEach((a) => a.classList.remove("actif"));
+          const a = parId[e.target.id];
+          if (a) a.classList.add("actif");
+        }
+      });
+    }, { rootMargin: "-20% 0px -70% 0px" });
+    document.querySelectorAll(".contentAncre").forEach((el) => io.observe(el));
+  })();
+</script>
+<script is:inline>
+  (function () {
+    const items   = document.querySelectorAll("[data-lb]");
+    const lb      = document.getElementById("lightbox");
+    const lbImg   = lb.querySelector(".lb-img");
+    const lbCap   = lb.querySelector(".lb-caption");
+    let cur = 0;
+    let dernierFocus = null; // élément à re-sélectionner à la fermeture
+
+    function open(i) {
+      if (!lb.classList.contains("open")) dernierFocus = document.activeElement;
+      cur = i;
+      const item = items[i];
+      lbImg.src = item.querySelector("img").src;
+      lbImg.alt = item.querySelector("img").alt;
+      const cap = item.querySelector(".gallery-caption");
+      lbCap.textContent = cap ? cap.textContent : "";
+      lb.classList.add("open");
+      document.body.style.overflow = "hidden";
+      lb.querySelector(".lb-close").focus();
+    }
+    function close() {
+      lb.classList.remove("open");
+      document.body.style.overflow = "";
+      // Le focus revient sur la photo qui avait été ouverte
+      if (dernierFocus && dernierFocus.focus) dernierFocus.focus();
+      dernierFocus = null;
+    }
+    function prev() { open((cur - 1 + items.length) % items.length); }
+    function next() { open((cur + 1) % items.length); }
+
+    items.forEach((item, i) => {
+      item.addEventListener("click", () => open(i));
+      item.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") open(i); });
+    });
+    lb.querySelector(".lb-close").addEventListener("click", close);
+    lb.querySelector(".lb-prev").addEventListener("click", prev);
+    lb.querySelector(".lb-next").addEventListener("click", next);
+    lb.addEventListener("click", (e) => { if (e.target === lb) close(); });
+
+    // ── Balayage au doigt (téléphone) ──
+    // Gauche → image suivante, droite → précédente, vers le bas → fermer.
+    let x0 = null, y0 = null;
+    lb.addEventListener("touchstart", (e) => {
+      if (e.touches.length !== 1) { x0 = null; return; }
+      x0 = e.touches[0].clientX;
+      y0 = e.touches[0].clientY;
+    }, { passive: true });
+    lb.addEventListener("touchend", (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      const dy = e.changedTouches[0].clientY - y0;
+      x0 = y0 = null;
+      const SEUIL = 50; // px minimum pour compter comme un balayage
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > SEUIL) {
+        if (items.length > 1) (dx < 0 ? next : prev)();
+      } else if (dy > 90 && Math.abs(dy) > Math.abs(dx)) {
+        close();
+      }
+    }, { passive: true });
+    document.addEventListener("keydown", (e) => {
+      if (!lb.classList.contains("open")) return;
+      if (e.key === "Escape")     close();
+      // Tab reste à l'intérieur de la vue agrandie (boutons Fermer / Précédent / Suivant)
+      if (e.key === "Tab") {
+        const boutons = [...lb.querySelectorAll("button")];
+        const i = boutons.indexOf(document.activeElement);
+        e.preventDefault();
+        const n = boutons.length;
+        boutons[(i + (e.shiftKey ? -1 : 1) + n) % n].focus();
+      }
+      if (e.key === "ArrowLeft")  prev();
+      if (e.key === "ArrowRight") next();
+    });
+  })();
+</script>

@@ -1,0 +1,154 @@
+---
+import Base from "../layouts/Base.astro";
+import { ectsGroupe, ectsValides } from "../data/site";
+import { siteDe } from "../data/donnees";
+import { t, langDe } from "../i18n/ui";
+const lang = langDe(Astro.url.pathname);
+const T = t(lang);
+const site = siteDe(lang);
+---
+
+<Base title={`${T.aproposTitre} — ${site.name}`} description={site.seo.description}>
+
+  <section class="pageHead">
+    <h1>{T.aproposTitre}</h1>
+    <p class="lead">{site.about.intro}</p>
+  </section>
+
+  <!-- Comment je travaille + infos -->
+  <div class="twoCol">
+    <div class="card">
+      <h2>{T.commentJeTravaille}</h2>
+      <ul>
+        {site.about.bullets.map((b) => <li>{b}</li>)}
+      </ul>
+    </div>
+    <div class="card">
+      <h2>{T.infos}</h2>
+      <ul>
+        <li><strong>{T.lieu}{T.deuxPoints}</strong> {site.location}</li>
+        <li><strong>{T.email}{T.deuxPoints}</strong> <a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><strong>{T.langues}{T.deuxPoints}</strong> {site.languages.join(" · ")}</li>
+        <li><strong>{T.centresInteret}{T.deuxPoints}</strong> {site.interests}</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Expériences -->
+  <section class="block">
+    <h2>{T.experiences}</h2>
+    <div class="stack">
+      {site.experience.map((e) => (
+        <article class="item">
+          <div class="itemTop">
+            <div>
+              <div class="itemTitle">{e.company}</div>
+              <div class="itemSub">{e.role} · {e.location}</div>
+            </div>
+            <div class="itemMeta">{e.period}</div>
+          </div>
+          <ul>
+            {e.bullets.map((b) => <li>{b}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Formation -->
+  <section class="block">
+    <h2>{T.formation}</h2>
+    <div class="stack">
+      {site.education.map((ed) => (
+        <article class="item eduItem">
+          <div class="eduLogo" aria-hidden="true">
+            <span class="eduInitials">{ed.initiales}</span>
+            {ed.logo && (
+              <img
+                src={ed.logo}
+                alt=""
+                loading="lazy"
+                onerror="this.remove()"
+              />
+            )}
+          </div>
+
+          <div class="eduMain">
+            <div class="itemTop">
+              <div>
+                <div class="itemTitle">{ed.school}</div>
+                <div class="itemSub">{ed.degree}</div>
+                {ed.note && <div class="itemNote">{ed.note}</div>}
+              </div>
+              <div class="itemMeta">{ed.period}</div>
+            </div>
+
+            {ed.credits && (
+              <details class="credits">
+                <summary>
+                  <span class="creditsTotal">
+                    {ectsValides(ed)} / {ed.credits.total} {T.ectsValides}
+                  </span>
+                  <span class="creditsToggle">{T.voirDetail}</span>
+                </summary>
+
+                <div class="creditsBody">
+                  {ed.credits.groupes.map((g) => (
+                    <div class="creditsGroup">
+                      <div class="creditsGroupHead">
+                        <span>{g.titre}</span>
+                        <span>{ectsGroupe(g)} ECTS</span>
+                      </div>
+                      <ul class="creditsList">
+                        {g.lignes.map((l) => (
+                          <li>
+                            <div class="creditsRow">
+                              <span class="creditsName">{l.nom}</span>
+                              <span class="creditsEcts">{l.ects} ECTS</span>
+                            </div>
+                            {l.cours && l.cours.length > 0 && (
+                              <p class="creditsCours">{l.cours.join(" · ")}</p>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </details>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Compétences -->
+  <section class="block">
+    <h2>{T.competences}</h2>
+    <div class="skillsGrid">
+      {Object.entries(site.skills).map(([domain, items]) => (
+        <div class="skillGroup">
+          <h3>{domain}</h3>
+          <div class="chips">
+            {(items as readonly string[]).map((s) => <span class="chip">{s}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Liens -->
+  <section class="block" style="padding-bottom:3rem;">
+    <h2>{T.retrouvezMoi}</h2>
+    <div style="display:flex; gap:.75rem; flex-wrap:wrap;">
+      <a class="btn btn-primary" href={site.links.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+      <a class="btn" href={site.links.github} target="_blank" rel="noreferrer">GitHub</a>
+      <a class="btn btn-cv" href={site.cv} download>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        {T.telechargerCv}
+      </a>
+    </div>
+  </section>
+
+</Base>

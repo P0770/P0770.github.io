@@ -1,0 +1,22 @@
+---
+import Base from "../layouts/Base.astro";
+import Timeline from "../components/Timeline.astro";
+import { siteDe } from "../data/donnees";
+import { t, langDe } from "../i18n/ui";
+const lang = langDe(Astro.url.pathname);
+const T = t(lang);
+const site = siteDe(lang);
+---
+
+<Base title={`${T.projetsTitre} — ${site.name}`} description={T.projetsDescription}>
+  <section class="pageHead">
+    <h1>{T.projetsTitre}</h1>
+    <p class="lead">{T.projetsLead}</p>
+    <div class="legendeType">
+      <span class="typeBadge typeBadge--ecole"><span class="typeBadge-mark" aria-hidden="true"></span>{T.legendeEcole}</span>
+      <span class="typeBadge typeBadge--perso"><span class="typeBadge-mark" aria-hidden="true"></span>{T.legendePerso}</span>
+    </div>
+  </section>
+
+  <Timeline />
+</Base>
