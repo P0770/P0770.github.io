@@ -160,6 +160,34 @@ const related = (project.related ?? [])
             </div>
           </figure>
         )}
+        {s.fiches?.length ? (
+          <div class="fiches">
+            {s.fiches.map((f) => (
+              <article class={`fiche${f.perso ? " fiche--perso" : ""}`}>
+                <div class="fiche-medias">
+                  {f.medias.map((m, i) =>
+                    m.type === "video" ? (
+                      <div class={`fiche-video${m.portrait ? " fiche-video--portrait" : ""}`} style={m.portrait ? `--r: ${m.ratio ?? "9/16"}` : undefined}>
+                        <video src={m.src} poster={posterVideo(m.src)} controls preload={posterVideo(m.src) ? "none" : "metadata"} playsinline aria-label={m.alt}></video>
+                      </div>
+                    ) : (
+                      <div class={`figure-lb fiche-photo${i === 0 ? " fiche-photo--principale" : ""}`} data-lb role="button" tabindex="0" aria-label={`${T.agrandir} ${m.alt}`}>
+                        <Img src={m.src} alt={m.alt} sizes={i === 0 ? "(max-width: 700px) 100vw, 420px" : "(max-width: 700px) 50vw, 210px"} fallback={false} />
+                      </div>
+                    )
+                  )}
+                </div>
+                <div class="fiche-texte">
+                  <h3>{f.nom}</h3>
+                  <p class="fiche-origine">{f.origine}</p>
+                  <dl>
+                    {f.infos.map(([k, v]) => (<div><dt>{k}</dt><dd>{v}</dd></div>))}
+                  </dl>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : null}
         {s.bullets?.length ? (
           <ul>
             {s.bullets.map((b) => <li>{b}</li>)}

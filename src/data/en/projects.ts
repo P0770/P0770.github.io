@@ -313,7 +313,7 @@ export const projects: Project[] = [
       {
         heading: "Parts for my drones",
         paragraphs: [
-          "The frame of my Matrix HD micro-drone, its propeller guard and a mount for the AIO board (flight controller and ESCs on a single board), all printed in PLA. The details are on the drones page.",
+          "The frame of my tinywhoop, designed entirely by me, its propeller guard and a mount for the AIO board (flight controller and ESCs on a single board), all printed in PLA. The details are on the drones page.",
           "I also designed a 30 × 30 × 4 mm frame that protects the AIO board of my Flywoo LR4. The published version is the sixth.",
         ],
         figure: {
@@ -538,59 +538,81 @@ export const projects: Project[] = [
     slug: "drone-fpv",
     title: "FPV drones",
     subtitle:
-      "FPV flying with DJI digital video: two drones bought and set up, and a micro-drone I built myself.",
+      "FPV flying with DJI O4 digital video: two drones bought, a 2.5-inch I assembled and a tinywhoop I designed from scratch.",
     debut: "2025-01",
     enCours: true,
     periode: "Since Jan. 2025",
     cadre: "Personal project",
     statut: "Ongoing",
-    tags: ["FPV", "Betaflight", "DJI O4", "ExpressLRS", "3D printing", "Soldering"],
+    tags: ["FPV", "Betaflight", "DJI O4", "3D printing", "Soldering"],
     related: ["impression-3d"],
-    cover: { src: "/projects/drone-fpv/cover.jpg", alt: "The Matrix HD, an FPV micro-drone I built myself", caption: "The Matrix HD, built by me" },
-    gallery: [
-      {
-        type: "video",
-        src: "/projects/drone-fpv/vol.mp4",
-        alt: "Video of a short FPV flight over a river",
-        caption: "A short FPV flight with the Flywoo Firefly 18",
-        portrait: true,
-        ratio: "3/4",
-      },
-    ],
+    cover: { src: "/projects/drone-fpv/cover.jpg", alt: "The Matrix, a 2.5-inch FPV drone I assembled", caption: "The Matrix, assembled by me" },
     sections: [
       {
         heading: "The project",
         paragraphs: [
           "I fly, repair and build my own FPV drones, to understand how they are designed and to shoot aerial videos.",
-          "I have four drones: two bought ready to fly (a 4\" long-range and a versatile 2.5\", my favourite), and two built by me, including a fully DIY 2.5\" with a 3D-printed frame and hand-soldered electronics.",
+          "I have four drones: two bought ready to fly (the LR4, a 4\" long-range, and the Firefly 18, my favourite), the Matrix, a 2.5\" I assembled myself on a 3D-printed frame, and a tinywhoop I designed and built entirely.",
           "Over time I have done a lot of repairing and debugging in Betaflight, replaced boards and cameras, and printed upgrade parts. I fly immersed with a DJI headset, for promotional content and cinematic videos.",
         ],
       },
       {
         heading: "My equipment",
-        tableau: {
-          entetes: ["Drone", "Origin", "Flight controller", "Video", "Notes"],
-          lignes: [
-            ["Flywoo Explorer LR4", "Bought, set up by me", "Flywoo F722 Pro V2 (STM32F722, dual gyro)", "DJI O4 Pro", "Long range, under 250 g, GPS"],
-            ["Flywoo Firefly 18", "Bought", "—", "DJI digital", "The one in the video above"],
-            ["Matrix HD", "Built by me", "BETAFPV G473 (STM32G473, Meteor75 Pro base)", "DJI O4 Lite", "Micro-drone, 3D-printed parts"],
-          ],
-        },
+        fiches: [
+          {
+            nom: "Flywoo Explorer LR4",
+            origine: "Bought",
+            infos: [["Size", "4 inches"], ["Camera", "DJI O4 Pro"]],
+            medias: [
+              { src: "/projects/drone-fpv/lr4.jpg", alt: "The Flywoo Explorer LR4 on a scale: 244.7 g" },
+              { type: "video", src: "/projects/drone-fpv/lr4-vol.mp4", alt: "Video shot with the LR4 over a rocky coastline" },
+            ],
+          },
+          {
+            nom: "Flywoo Firefly 18",
+            origine: "Bought",
+            infos: [["Size", "1.8 inches"], ["Camera", "DJI O4 Lite"]],
+            medias: [
+              { src: "/projects/drone-fpv/firefly.jpg", alt: "The Flywoo Firefly 18 with its purple propeller guards, held in hand" },
+              { type: "video", src: "/projects/drone-fpv/vol.mp4", alt: "Video of a short FPV flight over a river", portrait: true, ratio: "3/4" },
+            ],
+          },
+          {
+            nom: "Matrix",
+            origine: "Assembled by me",
+            perso: true,
+            infos: [["Size", "2.5 inches"], ["Camera", "DJI O4 Lite"]],
+            medias: [
+              { src: "/projects/drone-fpv/matrix.jpg", alt: "The Matrix held in hand, with its blue 3D-printed camera mount" },
+            ],
+          },
+          {
+            nom: "Tinywhoop",
+            origine: "Designed and built by me",
+            perso: true,
+            infos: [["Size", "75 mm"], ["Camera", "DJI O4 Lite"]],
+            medias: [
+              { src: "/projects/drone-fpv/tinywhoop.jpg", alt: "My tinywhoop with its printed propeller guard, held in hand" },
+              { src: "/projects/drone-fpv/tinywhoop-nu.jpg", alt: "The tinywhoop without its propeller guard, circuit board visible" },
+              { src: "/projects/drone-fpv/tinywhoop-variante.jpg", alt: "A variant of the tinywhoop, in blue, held in hand" },
+            ],
+          },
+        ],
         apres: [
-          "On the ground: DJI Goggles 3 headset, an ExpressLRS radio, and 1S, 3S and 4S LiPo batteries depending on the drone.",
+          "All my drones fly with DJI O4 digital video: O4 Pro on the LR4, O4 Lite on the others. On the ground: DJI Goggles 3 headset, DJI controller, and 1S, 3S and 4S LiPo batteries depending on the drone.",
         ],
       },
       {
         heading: "3D-printed parts",
         paragraphs: [
-          "I designed in Inventor and printed in PLA several parts for my drones: the Matrix HD frame, its propeller guard, a mount for the AIO board, and a protective frame for the LR4's AIO, now on its 6th version.",
-          "On my frame, the motors sit at the corners of a 50 mm square, so two opposite motors are 50 × √2 ≈ 70.7 mm apart: the size of a 75 mm-class micro-drone. Two neighbouring propellers must not touch, so their diameter has to stay below 50 mm. The propeller guard fixes onto the four holes at the arm tips, 134.6 mm apart diagonally.",
-          "I also printed a Kayoumini-compatible 2.5\" frame downloaded from MakerWorld, which I did not design: its motors are 111.8 mm apart diagonally.",
+          "I designed in Inventor and printed in PLA several parts for my drones: my tinywhoop's frame, its propeller guard, a mount for the AIO board, and a protective frame for the LR4's AIO, now on its 6th version.",
+          "On the tinywhoop's frame, the motors sit at the corners of a 50 mm square, so two opposite motors are 50 × √2 ≈ 70.7 mm apart: the size of a 75 mm-class micro-drone. Two neighbouring propellers must not touch, so their diameter has to stay below 50 mm. The propeller guard fixes onto the four holes at the arm tips, 134.6 mm apart diagonally.",
+          "The Matrix's frame, on the other hand, is a Kayoumini-compatible 2.5\" design downloaded from MakerWorld, which I printed but did not design: its motors are 111.8 mm apart diagonally.",
         ],
         figure: {
           src: "/projects/drone-fpv/pieces-imprimees.jpg",
-          alt: "3D renders of the Matrix HD frame, its propeller guard and the AIO board mount",
-          caption: "My parts for the Matrix HD: frame, propeller guard and AIO mount",
+          alt: "3D renders of my tinywhoop's frame, its propeller guard and the AIO board mount",
+          caption: "My parts for the tinywhoop: frame, propeller guard and AIO mount",
         },
       },
       {
@@ -600,10 +622,10 @@ export const projects: Project[] = [
         ],
         bullets: [
           "Motors on bidirectional DShot300: the flight controller knows the real speed of each motor, which enables the RPM filter (3 harmonics) to remove motor noise from the gyro precisely",
-          "ExpressLRS radio (CRSF protocol) on a dedicated serial port",
+          "DJI controller: the stick commands go through the O4 video unit, which is linked to the flight controller",
           "Flight information (voltage, time, link quality, GPS) shown in HD in the DJI headset via MSP DisplayPort",
           "PID tuning with Betaflight's simplified sliders, snappier on the LR4, which is heavier",
-          "Rates suited to the use: soft with expo on the Matrix HD for filming, linear on the LR4",
+          "Rates suited to the use: soft with expo on the Matrix for filming, linear on the LR4",
           "Switches: arming, flight modes (Angle, Horizon, Acro), turtle mode after a crash, beeper to find the drone",
         ],
       },

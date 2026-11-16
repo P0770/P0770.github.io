@@ -599,3 +599,39 @@ a.contactCard:hover { border-color: var(--text); transform: translateY(-2px); bo
   .hors-photo { --y: 0 !important; }
 }
 @media (prefers-reduced-motion: reduce) { .hors-photo { transition: none; } }
+
+/* ── Fiches (ex. mes drones) ── */
+.fiches {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 1.75rem); margin: 1.25rem 0 1.5rem; align-items: start;
+}
+.fiche {
+  display: flex; flex-direction: column;
+  background: var(--paper); border: 1px solid var(--line);
+  border-top: 3px solid var(--line);
+}
+.fiche--perso { border-top-color: var(--copper); }
+.fiche-medias { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; background: var(--line); }
+.fiche-photo { cursor: zoom-in; overflow: hidden; }
+.fiche-photo img { width: 100%; height: 100%; aspect-ratio: 1; object-fit: cover; display: block; transition: transform .4s var(--ease); }
+.fiche-photo:hover img { transform: scale(1.04); }
+.fiche-photo--principale { grid-column: 1 / -1; }
+.fiche-photo--principale img { aspect-ratio: 4 / 5; }
+.fiche-video { grid-column: 1 / -1; background: #000; display: flex; justify-content: center; }
+.fiche-video video { width: 100%; display: block; aspect-ratio: 16 / 9; background: #000; }
+.fiche-video--portrait video { width: auto; max-width: 100%; height: min(70vh, 520px); aspect-ratio: var(--r); }
+.fiche-texte { padding: 1rem 1.1rem 1.15rem; }
+.fiche-texte h3 { margin: 0; font-size: 1.15rem; font-stretch: 110%; font-weight: 720; }
+.fiche-origine {
+  display: inline-flex; align-items: center; gap: .45rem;
+  margin: .35rem 0 .8rem; font-size: .85rem; font-weight: 600; color: var(--muted);
+}
+.fiche-origine::before { content: ""; width: .6rem; height: .6rem; border: 1.5px solid var(--muted); border-radius: 50%; }
+.fiche--perso .fiche-origine { color: var(--copper); }
+.fiche--perso .fiche-origine::before { background: var(--copper); border-color: var(--copper); }
+.fiche dl { margin: 0; display: grid; gap: .3rem; }
+.fiche dl div { display: flex; justify-content: space-between; gap: 1rem; padding-top: .35rem; border-top: 1px solid var(--line); font-size: .92rem; }
+.fiche dt { color: var(--muted); }
+.fiche dd { margin: 0; font-weight: 600; text-align: right; }
+@media (max-width: 700px) { .fiches { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .fiche-photo img { transition: none; } }

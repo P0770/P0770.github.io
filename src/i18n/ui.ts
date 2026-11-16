@@ -46,9 +46,10 @@ export const ui = {
     projetsPhares: "Projets phares",
     touteChronologie: "Toute la chronologie",
     decouvrir: "Découvrir le projet",
-    dessinAria: "Plan du châssis du Matrix HD avec ses cotes : 50 mm entre deux moteurs voisins, 70,7 mm en diagonale, 104 mm hors tout",
-    dessinLegendeAvant: "Châssis du",
-    dessinLegendeApres: ", dessiné sur Inventor et imprimé en PLA. Cotes en millimètres, tirées du fichier STL.",
+    dessinAria: "Plan du châssis de mon tinywhoop avec ses cotes : 50 mm entre deux moteurs voisins, 70,7 mm en diagonale, 104 mm hors tout",
+    dessinLegendeAvant: "Châssis de mon",
+    dessinLien: "tinywhoop",
+    dessinLegendeApres: ", conçu entièrement sur Inventor et imprimé en PLA. Cotes en millimètres, tirées du fichier STL.",
     cote1: "50,0", cote2: "70,7", cote3: "104,2",
 
     // Projets
@@ -157,9 +158,10 @@ export const ui = {
     projetsPhares: "Featured projects",
     touteChronologie: "Full timeline",
     decouvrir: "Discover the project",
-    dessinAria: "Drawing of the Matrix HD frame with its dimensions: 50 mm between two adjacent motors, 70.7 mm diagonally, 104 mm overall",
-    dessinLegendeAvant: "Frame of the",
-    dessinLegendeApres: ", modelled in Inventor and printed in PLA. Dimensions in millimetres, taken from the STL file.",
+    dessinAria: "Drawing of my tinywhoop's frame with its dimensions: 50 mm between two adjacent motors, 70.7 mm diagonally, 104 mm overall",
+    dessinLegendeAvant: "Frame of my",
+    dessinLien: "tinywhoop",
+    dessinLegendeApres: ", designed from scratch in Inventor and printed in PLA. Dimensions in millimetres, taken from the STL file.",
     cote1: "50.0", cote2: "70.7", cote3: "104.2",
 
     projetsTitre: "Projects",

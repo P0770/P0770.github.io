@@ -27,8 +27,23 @@ export type ProjectTable = {
   note?: string;
 };
 
+/** Fiche courte d'un objet (ex. un drone) : nom, origine, quelques infos et ses photos/vidéos */
+export type ProjectFiche = {
+  nom: string;
+  /** Texte du badge, ex. « Acheté », « Monté par moi » */
+  origine: string;
+  /** true = fait (au moins en partie) par moi : badge cuivre ; sinon badge neutre */
+  perso?: boolean;
+  /** Paires [libellé, valeur], ex. ["Taille", "4 pouces"] */
+  infos: [string, string][];
+  /** Première = photo principale ; les suivantes s'affichent en dessous */
+  medias: ProjectMedia[];
+};
+
 export type ProjectSection = {
   heading: string;
+  /** Fiches affichées après les paragraphes */
+  fiches?: ProjectFiche[];
   paragraphs?: string[];
   /** Figure affichée après les paragraphes, avant la liste */
   figure?: ProjectFigure;
@@ -394,7 +409,7 @@ export const projects: Project[] = [
       {
         heading: "Pièces pour mes drones",
         paragraphs: [
-          "Le châssis de mon micro-drone Matrix HD, sa garde d'hélices et un support pour la carte AIO (contrôleur de vol et variateurs sur une seule carte), tous imprimés en PLA. Le détail est sur la page des drones.",
+          "Le châssis de mon tinywhoop, entièrement conçu par moi, sa garde d'hélices et un support pour la carte AIO (contrôleur de vol et variateurs sur une seule carte), tous imprimés en PLA. Le détail est sur la page des drones.",
           "J'ai aussi dessiné un cadre de 30 × 30 × 4 mm qui protège la carte AIO de mon Flywoo LR4. La version publiée est la 6ᵉ.",
         ],
         figure: {
@@ -619,59 +634,81 @@ export const projects: Project[] = [
     slug: "drone-fpv",
     title: "Drones FPV",
     subtitle:
-      "Pilotage FPV en vidéo numérique DJI : deux drones achetés et configurés, un micro-drone assemblé moi-même.",
+      "Pilotage FPV en vidéo numérique DJI O4 : deux drones achetés, un 2,5 pouces monté par moi et un tinywhoop entièrement conçu par moi.",
     debut: "2025-01",
     enCours: true,
     periode: "Depuis janv. 2025",
     cadre: "Projet personnel",
     statut: "En cours",
-    tags: ["FPV", "Betaflight", "DJI O4", "ExpressLRS", "Impression 3D", "Brasure"],
+    tags: ["FPV", "Betaflight", "DJI O4", "Impression 3D", "Brasure"],
     related: ["impression-3d"],
-    cover: { src: "/projects/drone-fpv/cover.jpg", alt: "Le Matrix HD, micro-drone FPV assemblé moi-même", caption: "Le Matrix HD, assemblé moi-même" },
-    gallery: [
-      {
-        type: "video",
-        src: "/projects/drone-fpv/vol.mp4",
-        alt: "Vidéo d'un petit vol en FPV au-dessus d'une rivière",
-        caption: "Un petit vol en FPV, avec le Flywoo Firefly 18",
-        portrait: true,
-        ratio: "3/4",
-      },
-    ],
+    cover: { src: "/projects/drone-fpv/cover.jpg", alt: "Le Matrix, drone FPV 2,5 pouces monté par moi", caption: "Le Matrix, monté par moi" },
     sections: [
       {
         heading: "Le projet",
         paragraphs: [
           "Je pilote, répare et construis mes propres drones FPV, pour comprendre leur conception et réaliser des vidéos aériennes.",
-          "J'ai quatre drones : deux achetés prêts à voler (un 4\" longue distance et un 2,5\" polyvalent, mon préféré), et deux montés par moi, dont un 2,5\" entièrement DIY avec châssis imprimé en 3D et électronique brasée à la main.",
+          "J'ai quatre drones : deux achetés prêts à voler (le LR4, un 4\" longue distance, et le Firefly 18, mon préféré), le Matrix, un 2,5\" que j'ai monté moi-même sur un châssis imprimé en 3D, et un tinywhoop que j'ai entièrement conçu et monté.",
           "Au fil du temps, j'ai beaucoup réparé et débogué sous Betaflight, remplacé cartes et caméras, et imprimé des pièces d'optimisation. Je vole en immersion avec un casque DJI, pour du contenu promotionnel et des vidéos cinématiques.",
         ],
       },
       {
         heading: "Mon équipement",
-        tableau: {
-          entetes: ["Drone", "Origine", "Contrôleur de vol", "Vidéo", "Particularités"],
-          lignes: [
-            ["Flywoo Explorer LR4", "Acheté, configuré par moi", "Flywoo F722 Pro V2 (STM32F722, double gyroscope)", "DJI O4 Pro", "Longue distance, moins de 250 g, GPS"],
-            ["Flywoo Firefly 18", "Acheté", "—", "Numérique DJI", "Celui de la vidéo ci-dessus"],
-            ["Matrix HD", "Assemblé moi-même", "BETAFPV G473 (STM32G473, base Meteor75 Pro)", "DJI O4 Lite", "Micro-drone, pièces imprimées en 3D"],
-          ],
-        },
+        fiches: [
+          {
+            nom: "Flywoo Explorer LR4",
+            origine: "Acheté",
+            infos: [["Taille", "4 pouces"], ["Caméra", "DJI O4 Pro"]],
+            medias: [
+              { src: "/projects/drone-fpv/lr4.jpg", alt: "Le Flywoo Explorer LR4 posé sur une balance : 244,7 g" },
+              { type: "video", src: "/projects/drone-fpv/lr4-vol.mp4", alt: "Vidéo filmée avec le LR4 au-dessus d'une côte rocheuse" },
+            ],
+          },
+          {
+            nom: "Flywoo Firefly 18",
+            origine: "Acheté",
+            infos: [["Taille", "1,8 pouce"], ["Caméra", "DJI O4 Lite"]],
+            medias: [
+              { src: "/projects/drone-fpv/firefly.jpg", alt: "Le Flywoo Firefly 18 avec ses protections d'hélices violettes, tenu en main" },
+              { type: "video", src: "/projects/drone-fpv/vol.mp4", alt: "Vidéo d'un petit vol en FPV au-dessus d'une rivière", portrait: true, ratio: "3/4" },
+            ],
+          },
+          {
+            nom: "Matrix",
+            origine: "Monté par moi",
+            perso: true,
+            infos: [["Taille", "2,5 pouces"], ["Caméra", "DJI O4 Lite"]],
+            medias: [
+              { src: "/projects/drone-fpv/matrix.jpg", alt: "Le Matrix tenu en main, avec son support de caméra imprimé en bleu" },
+            ],
+          },
+          {
+            nom: "Tinywhoop",
+            origine: "Conçu et monté par moi",
+            perso: true,
+            infos: [["Taille", "75 mm"], ["Caméra", "DJI O4 Lite"]],
+            medias: [
+              { src: "/projects/drone-fpv/tinywhoop.jpg", alt: "Mon tinywhoop avec sa garde d'hélices imprimée, tenu en main" },
+              { src: "/projects/drone-fpv/tinywhoop-nu.jpg", alt: "Le tinywhoop sans sa garde d'hélices, carte électronique visible" },
+              { src: "/projects/drone-fpv/tinywhoop-variante.jpg", alt: "Une variante du tinywhoop, en bleu, tenue en main" },
+            ],
+          },
+        ],
         apres: [
-          "Au sol : casque DJI Goggles 3, radio en ExpressLRS, et des batteries LiPo 1S, 3S et 4S selon le drone.",
+          "Tous mes drones volent en vidéo numérique DJI O4 : O4 Pro sur le LR4, O4 Lite sur les autres. Au sol : casque DJI Goggles 3, manette DJI, et des batteries LiPo 1S, 3S et 4S selon le drone.",
         ],
       },
       {
         heading: "Pièces imprimées en 3D",
         paragraphs: [
-          "J'ai conçu sur Inventor et imprimé en PLA plusieurs pièces pour mes drones : le châssis du Matrix HD, sa garde d'hélices, un support pour la carte AIO et un cadre de protection pour l'AIO du LR4, arrivé à sa 6ᵉ version.",
-          "Sur mon châssis, les moteurs sont aux sommets d'un carré de 50 mm de côté : deux moteurs opposés sont donc à 50 × √2 ≈ 70,7 mm l'un de l'autre, la taille d'un micro-drone de classe 75 mm. Deux hélices voisines ne doivent pas se toucher : leur diamètre doit rester inférieur à 50 mm. La garde d'hélices se fixe sur les quatre trous en bout de bras, à 134,6 mm en diagonale.",
-          "J'ai aussi imprimé un châssis 2,5\" compatible Kayoumini téléchargé sur MakerWorld, que je n'ai pas conçu : ses moteurs sont à 111,8 mm en diagonale.",
+          "J'ai conçu sur Inventor et imprimé en PLA plusieurs pièces pour mes drones : le châssis de mon tinywhoop, sa garde d'hélices, un support pour la carte AIO et un cadre de protection pour l'AIO du LR4, arrivé à sa 6ᵉ version.",
+          "Sur le châssis du tinywhoop, les moteurs sont aux sommets d'un carré de 50 mm de côté : deux moteurs opposés sont donc à 50 × √2 ≈ 70,7 mm l'un de l'autre, la taille d'un micro-drone de classe 75 mm. Deux hélices voisines ne doivent pas se toucher : leur diamètre doit rester inférieur à 50 mm. La garde d'hélices se fixe sur les quatre trous en bout de bras, à 134,6 mm en diagonale.",
+          "Le châssis du Matrix, lui, est un modèle 2,5\" compatible Kayoumini téléchargé sur MakerWorld, que j'ai imprimé mais pas conçu : ses moteurs sont à 111,8 mm en diagonale.",
         ],
         figure: {
           src: "/projects/drone-fpv/pieces-imprimees.jpg",
-          alt: "Rendus 3D du châssis du Matrix HD, de sa garde d'hélices et du support de la carte AIO",
-          caption: "Mes pièces pour le Matrix HD : châssis, garde d'hélices et support de l'AIO",
+          alt: "Rendus 3D du châssis de mon tinywhoop, de sa garde d'hélices et du support de la carte AIO",
+          caption: "Mes pièces pour le tinywhoop : châssis, garde d'hélices et support de l'AIO",
         },
       },
       {
@@ -681,10 +718,10 @@ export const projects: Project[] = [
         ],
         bullets: [
           "Moteurs en DShot300 bidirectionnel : le contrôleur de vol connaît la vitesse réelle de chaque moteur, ce qui active le filtre RPM (3 harmoniques) pour retirer précisément le bruit des moteurs du gyroscope",
-          "Radio ExpressLRS (protocole CRSF) sur un port série dédié",
+          "Manette DJI : les commandes passent par l'unité vidéo O4, reliée au contrôleur de vol",
           "Informations de vol (tension, temps, qualité de liaison, GPS) affichées en HD dans le casque DJI via MSP DisplayPort",
           "Réglage des PID avec les curseurs simplifiés de Betaflight, plus nerveux sur le LR4 qui est plus lourd",
-          "Vitesses de rotation adaptées à l'usage : douces avec expo sur le Matrix HD pour filmer, linéaires sur le LR4",
+          "Vitesses de rotation adaptées à l'usage : douces avec expo sur le Matrix pour filmer, linéaires sur le LR4",
           "Interrupteurs : armement, modes de vol (Angle, Horizon, Acro), retournement après un crash, buzzer de recherche",
         ],
       },

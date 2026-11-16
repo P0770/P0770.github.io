@@ -2,7 +2,7 @@
 import { t, langDe, lien } from "../i18n/ui";
 const lang = langDe(Astro.url.pathname);
 const T = t(lang);
-// Dessin du châssis du Matrix HD, tracé depuis le fichier STL (vue de dessus, unités en mm).
+// Dessin du châssis de mon tinywhoop, tracé depuis le fichier STL (vue de dessus, unités en mm).
 // Animation unique au chargement : contour, perçages, centres des moteurs, puis cotes.
 ---
 <figure class="dessin" aria-labelledby="dessin-legende">
@@ -36,7 +36,7 @@ const T = t(lang);
     </g>
   </svg>
   <figcaption id="dessin-legende" class="dessin-legende">
-    {T.dessinLegendeAvant} <a href={lien(lang, "/projects/drone-fpv")}>Matrix HD</a>{T.dessinLegendeApres}
+    {T.dessinLegendeAvant} <a href={lien(lang, "/projects/drone-fpv")}>{T.dessinLien}</a>{T.dessinLegendeApres}
   </figcaption>
 </figure>
 
