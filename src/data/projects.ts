@@ -1120,6 +1120,7 @@ export const projects: Project[] = [
     tags: ["Python", "Kivy", "Android", "Buildozer", "TCP", "Accéléromètre", "Git"],
     links: [
       { label: "Code du jeu (GitHub)", href: "https://github.com/P0770/qui-de-nous" },
+      { label: "Application Android (APK)", href: "https://github.com/P0770/qui-de-nous/releases/latest" },
       {
         label: "Dépôt Git HEPIA",
         href: "https://gitedu.hesge.ch/amc/amc26/amc26_jeu_bento_pozzo",
