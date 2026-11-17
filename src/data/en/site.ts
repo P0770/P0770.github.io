@@ -157,7 +157,7 @@ export const site = {
   email: "matteopozzodiborgo@gmail.com",
 
   /** English CV */
-  cv: "/cv-matteo-pozzo-di-borgo.pdf",  // provisoire : CV français tant que le CV anglais n'est pas validé
+  cv: "/cv-matteo-pozzo-di-borgo-en.pdf",
 
   links: {
     github: "https://github.com/P0770",
