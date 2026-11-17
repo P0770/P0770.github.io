@@ -216,25 +216,40 @@ a { text-underline-offset: .2em; }
 @keyframes dc-fade { to { opacity: 1; } }
 @keyframes dc-pop  { to { opacity: 1; transform: scale(1); } }
 
-/* ── Domaines ── */
-.domaines {
+/* ── En ce moment : projets en cours ── */
+.maintenant {
   margin-top: clamp(3.5rem, 8vw, 6.5rem);
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-top: 1px solid var(--text);
+  display: flex; align-items: center; gap: 1rem 2rem;
+  padding: 1rem 0; border-top: 1px solid var(--text); border-bottom: 1px solid var(--line);
 }
-.domaine { padding: 1.25rem 1.5rem 1.5rem 0; }
-.domaine + .domaine { padding-left: 1.5rem; border-left: 1px solid var(--line); }
-.domaine-img {
-  aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--radius); background: var(--surface);
-  margin-bottom: 1rem;
+.maintenant-titre {
+  display: inline-flex; align-items: center; gap: .6rem; flex: none; margin: 0;
+  font-size: .95rem; font-weight: 700; font-stretch: 92%; letter-spacing: .04em; text-transform: uppercase;
 }
-.domaine-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
-.domaine:hover .domaine-img img { transform: scale(1.04); }
-.domaine h2 { font-size: 1.25rem; }
-.domaine p { margin-top: .4rem; color: var(--muted); font-size: .97rem; }
-.domaine-liens { margin-top: .7rem; display: flex; flex-wrap: wrap; gap: .3rem .9rem; font-size: .92rem; }
-.domaine-liens a { color: var(--text); text-decoration: underline; text-decoration-color: var(--line); text-decoration-thickness: 2px; }
-.domaine-liens a:hover { text-decoration-color: var(--accent); }
+.maintenant-pastille { position: relative; width: .6rem; height: .6rem; border-radius: 50%; background: var(--accent); }
+.maintenant-pastille::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--accent);
+  animation: pulse 2s var(--ease) infinite;
+}
+@keyframes pulse { 0% { transform: scale(1); opacity: .6; } 100% { transform: scale(2.8); opacity: 0; } }
+.maintenant-liste {
+  list-style: none; margin: 0; padding: 0; display: flex; gap: .75rem 1.75rem;
+  overflow-x: auto; scrollbar-width: none;
+}
+.maintenant-liste::-webkit-scrollbar { display: none; }
+.maintenant-projet { display: flex; align-items: center; gap: .7rem; color: inherit; white-space: nowrap; }
+.maintenant-vignette {
+  width: 2.6rem; height: 2.6rem; flex: none; border-radius: 50%; overflow: hidden;
+  border: 1px solid var(--line); background: var(--surface);
+  transition: border-color .3s var(--ease);
+}
+.maintenant-vignette > picture { display: block; height: 100%; }
+.maintenant-vignette img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.maintenant-texte { display: flex; flex-direction: column; line-height: 1.25; }
+.maintenant-nom { font-weight: 650; }
+.maintenant-periode { color: var(--muted); font-size: .85rem; font-stretch: 92%; }
+.maintenant-projet:hover .maintenant-vignette, .maintenant-projet:focus-visible .maintenant-vignette { border-color: var(--accent); }
+.maintenant-projet:hover .maintenant-nom { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; }
 
 /* ── Projets phares en rangées alternées ── */
 .phares { margin-top: clamp(3.5rem, 8vw, 6.5rem); }
@@ -257,6 +272,23 @@ a { text-underline-offset: .2em; }
 .phare p { margin-top: .7rem; color: var(--muted); }
 .phare-voir { display: inline-block; margin-top: 1rem; font-weight: 640; color: var(--accent); }
 .phare:hover .phare-voir { text-decoration: underline; }
+
+/* ── Autres projets : mosaïque ── */
+.autres { margin-top: clamp(3rem, 7vw, 5.5rem); }
+.autres .phares-tete { margin-bottom: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); }
+.autres-grille {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1.25rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem);
+}
+.autre { display: block; color: inherit; }
+.autre-img { aspect-ratio: 4 / 3; }
+.autre-img > picture, .autre-img > img { display: block; height: 100%; }
+.autre-img img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); transition: transform .7s var(--ease), box-shadow .7s var(--ease); }
+.autre:hover .autre-img img { transform: translateY(-4px); box-shadow: var(--lift); }
+.autre-meta { margin-top: .8rem; font-size: .82rem; gap: .3rem .8rem; }
+.autre h3 { margin-top: .35rem; font-size: 1.08rem; font-stretch: 108%; font-weight: 700; line-height: 1.2; letter-spacing: -.01em; }
+.autre:hover h3 { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; }
+@media (max-width: 640px) { .autre h3 { font-size: .98rem; font-stretch: 100%; } .autre-meta { font-size: .78rem; } }
 
 /* Repères de coupe aux coins d'une image survolée */
 .reperes { position: relative; }
@@ -403,7 +435,8 @@ a:hover .reperes::after,  a:focus-visible .reperes::after  { opacity: 1; bottom:
 /* ── Animations réduites ── */
 @media (prefers-reduced-motion: reduce) {
   /* Le dessin du châssis reste animé : tracé court et lent, sans zoom ni défilement */
-  .phare-img img, .domaine-img img, .projectCard, .repoCard, .gallery-item img { transition: none; }
+  .maintenant-pastille::after { animation: none; }
+  .phare-img img, .autre-img img, .projectCard, .repoCard, .gallery-item img { transition: none; }
   @view-transition { navigation: none; }
 }
 
@@ -411,15 +444,14 @@ a:hover .reperes::after,  a:focus-visible .reperes::after  { opacity: 1; bottom:
 @media (max-width: 860px) {
   .accueil-hero { grid-template-columns: 1fr; }
   .dessin { max-width: 460px; }
-  .domaines { grid-template-columns: 1fr; }
-  .domaine, .domaine + .domaine { padding: 1.25rem 0; border-left: none; }
-  .domaine + .domaine { border-top: 1px solid var(--line); }
+  .autres-grille { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .maintenant { flex-direction: column; align-items: flex-start; }
+  .maintenant-liste { width: 100%; }
   .phare, .phare:nth-child(even) { grid-template-columns: 1fr; }
   .phare:nth-child(even) .phare-img { order: 0; }
 }
 
 /* ── Ajustements après revue visuelle ── */
-.domaine-img > picture { display: block; height: 100%; }
 .cartouche { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .cartouche > div:last-child { grid-column-end: -1; }
 @media (max-width: 760px) { .cartouche { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
