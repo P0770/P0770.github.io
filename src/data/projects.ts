@@ -1413,7 +1413,6 @@ export const projects: Project[] = [
   // ─────────────────────────────────────────
   {
     slug: "compteur-bouteilles",
-    vedette: true,
     title: "Compteur de bouteilles pour un vigneron",
     subtitle:
       "Compteur autonome sur ESP32 qui détecte chaque bouteille remplie et bouchonnée par infrarouge et affiche le total en direct.",
@@ -1523,6 +1522,149 @@ export const projects: Project[] = [
     ],
   },
 
+  // ─────────────────────────────────────────
+  //  BÉBÈNE — perso (nov. 2026, en cours)
+  // ─────────────────────────────────────────
+  {
+    slug: "bebene",
+    vedette: true,
+    title: "Bébène — Compagnon IA Claude",
+    subtitle:
+      "Un chat noir en pixel art qui vit sur le bureau Windows, répond aux questions et agit sur le PC : fichiers, Excel, Word, programmes.",
+    debut: "2026-11",
+    enCours: true,
+    periode: "Nov. 2026 – en cours",
+    cadre: "Projet personnel",
+    equipe: "Seul",
+    statut: "En cours",
+    tags: ["C#", "WinForms", "WebView2", "Claude Code", "IA", "Pixel art", "Windows"],
+    links: [
+      { label: "Code et documentation (GitHub)", href: "https://github.com/P0770/bebene" },
+      { label: "Télécharger la dernière version", href: "https://github.com/P0770/bebene/releases" },
+    ],
+    highlights: [
+      "Compagnon de bureau Windows : un chat en pixel art dessiné entièrement par le code, sans aucune image",
+      "Discussion branchée sur Claude Code, avec accès aux fichiers et aux programmes du PC",
+      "Calendrier, examens et rendez-vous tirés des agendas .ics et des mails, analysés en local",
+      "Correcteur d'orthographe dans toutes les applications, 100 % local",
+      "Verrou de sécurité : l'assistant ne peut pas modifier son propre programme",
+      "Un seul programme C# compilé avec les outils déjà présents dans Windows, publié en versions sur GitHub",
+    ],
+    related: ["serveur-raspberry", "jeu-amc"],
+    cover: {
+      src: "/projects/bebene/poses.png",
+      alt: "Planche des poses de Bébène, chat noir en pixel art : marche, assis, toilette, sommeil",
+      caption: "Les poses de Bébène, toutes calculées par le programme",
+      entier: true,
+    },
+    gallery: [
+      {
+        src: "/projects/bebene/discussion-conv.png",
+        alt: "Fenêtre de discussion de Bébène avec une conversation en cours",
+        caption: "La discussion, ouverte juste au-dessus du chat",
+        entier: true,
+      },
+      {
+        src: "/projects/bebene/volets.png",
+        alt: "Volets latéraux : calendrier du mois et liste des examens et rendez-vous",
+        caption: "Les volets : calendrier à gauche, examens et rendez-vous à droite",
+        entier: true,
+      },
+      {
+        src: "/projects/bebene/attrape.png",
+        alt: "Bébène attrapé par la peau du cou et qui se balance",
+        caption: "Attrapé par la peau du cou, il se balance comme un pendule",
+        entier: true,
+      },
+      {
+        src: "/projects/bebene/reponse-prete.png",
+        alt: "Bébène content, avec une bulle et un cœur, quand la réponse est prête",
+        caption: "La réponse est prête : il attend qu'on rouvre la discussion",
+        entier: true,
+      },
+      {
+        src: "/projects/bebene/reglages.png",
+        alt: "Fenêtre des réglages de Bébène, en sections dépliables",
+        caption: "Les réglages et l'assistant d'installation",
+        entier: true,
+      },
+    ],
+    sections: [
+      {
+        heading: "L'idée",
+        paragraphs: [
+          "J'utilise Claude Code tous les jours, mais dans un terminal. Je voulais un assistant toujours à portée de main, sympathique, qui sache aussi agir directement dans mes fichiers et mes programmes. D'où Bébène : un petit chat noir qui se promène sur le bureau et qui ouvre une discussion quand on clique dessus.",
+        ],
+      },
+      {
+        heading: "La discussion",
+        paragraphs: [
+          "Un clic sur le chat, Alt + Espace ou Ctrl + Alt + C ouvre la discussion juste au-dessus de lui. Elle fonctionne avec un abonnement Claude Pro ou Max, sans clé d'API.",
+        ],
+        bullets: [
+          "Conversations enregistrées, ou mode Flash qui ne laisse aucune trace",
+          "Projets : les conversations d'un même sujet sont regroupées et archivées automatiquement",
+          "Quota restant affiché en direct (limite de 5 heures et de la semaine) avec le compte à rebours",
+          "Glisser-déposer de fichiers, boutons Copier sur le code et les messages",
+          "Quand la réponse arrive discussion fermée, le chat saute de joie jusqu'à ce qu'on la lise",
+        ],
+      },
+      {
+        heading: "Agir sur le PC",
+        paragraphs: [
+          "Bébène n'est pas qu'un chat qui parle : derrière, c'est Claude Code, avec accès aux fichiers et aux programmes. Il sait quelle fenêtre était ouverte juste avant : « corrige le document ouvert » suffit. Il pilote Excel, Word, PowerPoint, Outlook ou Inventor par COM, ligne de commande ou UI Automation. Avant chaque commande, une carte demande l'accord de l'utilisateur, sauf en mode autonome.",
+        ],
+      },
+      {
+        heading: "Calendrier, examens et rendez-vous",
+        paragraphs: [
+          "Deux volets encadrent la discussion : le calendrier du mois et la liste des examens et rendez-vous avec leur compte à rebours. Les événements viennent des agendas (.ics, webcal), des mails des six derniers mois (Gmail et Outlook) ou d'un ajout à la main. Les mails sont analysés sur le PC, sans passer par l'IA. Un rappel apparaît la veille à 18 h et une heure avant.",
+        ],
+      },
+      {
+        heading: "Correcteur d'orthographe",
+        paragraphs: [
+          "Partout où l'on écrit (navigateur, Word, Bloc-notes, Teams…), une petite croix rouge apparaît sur chaque faute dès qu'on fait une pause. Un clic affiche les suggestions et Bébène tape la correction. Il utilise le correcteur intégré de Windows : tout reste en local, et il ne s'active jamais dans un champ de mot de passe ou un terminal.",
+        ],
+      },
+      {
+        heading: "Le chat en pixel art",
+        paragraphs: [
+          "Bébène est dessiné procéduralement, en pixel art 8 bits : aucune image, chaque pose est calculée. Il marche, court, fait sa toilette, s'étire en bâillant, se gratte, dort dans quatre positions et chasse la souris de temps en temps. Si on le survole, il ronronne. Si on l'attrape, il se balance comme un pendule, et sa queue suit une petite simulation physique avec inertie.",
+        ],
+      },
+      {
+        heading: "Sécurité et vie privée",
+        bullets: [
+          "Verrou contre l'auto-modification : un hook Claude Code bloque toute écriture ou commande visant le dossier de Bébène, même en mode autonome",
+          "Mails lus et analysés en local ; mot de passe d'application Gmail chiffré avec DPAPI (lisible seulement par le compte Windows)",
+          "Calendriers et correcteur entièrement locaux : seule la discussion consomme des tokens",
+        ],
+      },
+      {
+        heading: "Technique",
+        paragraphs: [
+          "Tout le programme tient dans un seul fichier C# (WinForms, .NET Framework 4) d'environ 3 000 lignes. Il est compilé avec le csc.exe déjà présent dans Windows, sans SDK à installer. L'interface de discussion est une page HTML affichée dans WebView2. La mémoire est partagée avec Claude Code dans un dossier OneDrive. Un script compile, envoie le code sur GitHub et publie une version téléchargeable avec ses notes.",
+        ],
+        tableau: {
+          entetes: ["Élément", "Choix"],
+          lignes: [
+            ["Langage", "C# 5, WinForms, .NET Framework 4"],
+            ["Interface de discussion", "HTML / CSS / JavaScript dans WebView2"],
+            ["Cerveau", "Claude Code (claude -p, flux stream-json)"],
+            ["Pilotage des applis", "COM, ligne de commande, UI Automation"],
+            ["Publication", "Script PowerShell : build, push, Release GitHub avec zip"],
+          ],
+        },
+      },
+      {
+        heading: "Ce que j'en retiens",
+        paragraphs: [
+          "Un projet logiciel complet, de l'animation au déploiement : intégrer une IA dans une vraie application de bureau, interagir avec Windows à bas niveau (hooks clavier, UI Automation, COM, fenêtres transparentes) et penser la sécurité dès le départ, puisque l'assistant agit sur le PC.",
+        ],
+      },
+    ],
+  },
 ];
 
 // ── Tri chronologique ──

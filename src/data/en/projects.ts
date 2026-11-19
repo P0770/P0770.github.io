@@ -1318,7 +1318,6 @@ export const projects: Project[] = [
   // ─────────────────────────────────────────
   {
     slug: "compteur-bouteilles",
-    vedette: true,
     title: "Bottle counter for a winemaker",
     subtitle:
       "A standalone ESP32 counter that detects each filled and corked bottle by infrared and shows the total live.",
@@ -1423,6 +1422,149 @@ export const projects: Project[] = [
         heading: "How the code evolved",
         paragraphs: [
           "The project was first written in MicroPython, in four successive versions. The first lays the groundwork: a state machine that ignores detections that are too short, and saving the total. The next ones add the OLED screen, then the LEDs, then the splash screen and the large-digit display. The final version was rewritten in C++ with the Arduino environment. All versions are in the GitHub repo.",
+        ],
+      },
+    ],
+  },
+  // ─────────────────────────────────────────
+  //  BÉBÈNE — personal (Nov 2026, ongoing)
+  // ─────────────────────────────────────────
+  {
+    slug: "bebene",
+    vedette: true,
+    title: "Bébène — Claude AI companion",
+    subtitle:
+      "A black pixel-art cat that lives on the Windows desktop, answers questions and acts on the PC: files, Excel, Word, programs.",
+    debut: "2026-11",
+    enCours: true,
+    periode: "Nov. 2026 – ongoing",
+    cadre: "Personal project",
+    equipe: "Solo",
+    statut: "Ongoing",
+    tags: ["C#", "WinForms", "WebView2", "Claude Code", "AI", "Pixel art", "Windows"],
+    links: [
+      { label: "Code and documentation (GitHub)", href: "https://github.com/P0770/bebene" },
+      { label: "Download the latest version", href: "https://github.com/P0770/bebene/releases" },
+    ],
+    highlights: [
+      "Windows desktop companion: a pixel-art cat drawn entirely by code, with no image files",
+      "Chat window connected to Claude Code, with access to the PC's files and programs",
+      "Calendar, exams and appointments taken from .ics calendars and emails, analysed locally",
+      "Spell checker in every application, 100% local",
+      "Safety lock: the assistant cannot modify its own program",
+      "A single C# program compiled with the tools already built into Windows, released in versions on GitHub",
+    ],
+    related: ["serveur-raspberry", "jeu-amc"],
+    cover: {
+      src: "/projects/bebene/poses.png",
+      alt: "Sheet of Bébène's poses, a black pixel-art cat: walking, sitting, grooming, sleeping",
+      caption: "Bébène's poses, all computed by the program",
+      entier: true,
+    },
+    gallery: [
+      {
+        src: "/projects/bebene/discussion-conv.png",
+        alt: "Bébène's chat window with an ongoing conversation",
+        caption: "The chat window, opened right above the cat (interface in French)",
+        entier: true,
+      },
+      {
+        src: "/projects/bebene/volets.png",
+        alt: "Side panels: monthly calendar and list of exams and appointments",
+        caption: "The side panels: calendar on the left, exams and appointments on the right",
+        entier: true,
+      },
+      {
+        src: "/projects/bebene/attrape.png",
+        alt: "Bébène picked up by the scruff and swinging",
+        caption: "Picked up by the scruff, he swings like a pendulum",
+        entier: true,
+      },
+      {
+        src: "/projects/bebene/reponse-prete.png",
+        alt: "Bébène happy, with a bubble and a heart, when the answer is ready",
+        caption: "The answer is ready: he waits for the chat to be reopened",
+        entier: true,
+      },
+      {
+        src: "/projects/bebene/reglages.png",
+        alt: "Bébène's settings window, with collapsible sections",
+        caption: "The settings and the setup assistant",
+        entier: true,
+      },
+    ],
+    sections: [
+      {
+        heading: "The idea",
+        paragraphs: [
+          "I use Claude Code every day, but in a terminal. I wanted an assistant that is always at hand, friendly, and able to act directly on my files and programs. Hence Bébène: a little black cat that wanders around the desktop and opens a chat when you click on him.",
+        ],
+      },
+      {
+        heading: "The chat",
+        paragraphs: [
+          "Clicking the cat, Alt + Space or Ctrl + Alt + C opens the chat right above him. It works with a Claude Pro or Max subscription, with no API key.",
+        ],
+        bullets: [
+          "Saved conversations, or Flash mode, which leaves no trace",
+          "Projects: conversations on the same topic are grouped and archived automatically",
+          "Remaining quota shown live (5-hour and weekly limits) with a countdown",
+          "File drag and drop, Copy buttons on code and messages",
+          "When the answer arrives with the chat closed, the cat jumps for joy until it is read",
+        ],
+      },
+      {
+        heading: "Acting on the PC",
+        paragraphs: [
+          "Bébène is not just a talking cat: behind him is Claude Code, with access to files and programs. He knows which window was open just before: \"fix the open document\" is enough. He drives Excel, Word, PowerPoint, Outlook or Inventor through COM, the command line or UI Automation. Before each command, a card asks for the user's approval, except in autonomous mode.",
+        ],
+      },
+      {
+        heading: "Calendar, exams and appointments",
+        paragraphs: [
+          "Two panels frame the chat: the monthly calendar and the list of exams and appointments with their countdown. Events come from calendars (.ics, webcal), from the last six months of emails (Gmail and Outlook) or are added by hand. Emails are analysed on the PC, without going through the AI. A reminder appears the day before at 6 pm and one hour before.",
+        ],
+      },
+      {
+        heading: "Spell checker",
+        paragraphs: [
+          "Wherever you type (browser, Word, Notepad, Teams…), a small red cross appears on each mistake as soon as you pause. A click shows the suggestions and Bébène types the correction. It uses the spell checker built into Windows: everything stays local, and it never activates in a password field or a terminal.",
+        ],
+      },
+      {
+        heading: "The pixel-art cat",
+        paragraphs: [
+          "Bébène is drawn procedurally, in 8-bit pixel art: no image files, every pose is computed. He walks, runs, grooms, stretches with a yawn, scratches, sleeps in four positions and chases the mouse from time to time. Hover over him and he purrs. Pick him up and he swings like a pendulum, while his tail follows a small physics simulation with inertia.",
+        ],
+      },
+      {
+        heading: "Security and privacy",
+        bullets: [
+          "Self-modification lock: a Claude Code hook blocks any write or command targeting Bébène's folder, even in autonomous mode",
+          "Emails read and analysed locally; Gmail app password encrypted with DPAPI (readable only by the Windows account)",
+          "Calendars and spell checker fully local: only the chat uses tokens",
+        ],
+      },
+      {
+        heading: "Technical side",
+        paragraphs: [
+          "The whole program fits in a single C# file (WinForms, .NET Framework 4) of about 3,000 lines. It is compiled with the csc.exe already present in Windows, with no SDK to install. The chat interface is an HTML page displayed in WebView2. Memory is shared with Claude Code in a OneDrive folder. A script compiles, pushes the code to GitHub and publishes a downloadable release with its notes.",
+        ],
+        tableau: {
+          entetes: ["Part", "Choice"],
+          lignes: [
+            ["Language", "C# 5, WinForms, .NET Framework 4"],
+            ["Chat interface", "HTML / CSS / JavaScript in WebView2"],
+            ["Brain", "Claude Code (claude -p, stream-json output)"],
+            ["App control", "COM, command line, UI Automation"],
+            ["Publishing", "PowerShell script: build, push, GitHub Release with zip"],
+          ],
+        },
+      },
+      {
+        heading: "What I took away",
+        paragraphs: [
+          "A complete software project, from animation to deployment: integrating an AI into a real desktop application, interacting with Windows at a low level (keyboard hooks, UI Automation, COM, transparent windows) and thinking about security from the start, since the assistant acts on the PC.",
         ],
       },
     ],
