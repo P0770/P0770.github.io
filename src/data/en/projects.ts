@@ -1453,6 +1453,7 @@ export const projects: Project[] = [
       "Spell checker in every application, 100% local",
       "Safety lock: the assistant cannot modify its own program",
       "Token savings: AI-written conversation titles and automatic compaction of long conversations",
+      "Answers written live, word by word, and a plan prepared before producing any file",
       "A single C# program compiled with the tools already built into Windows, released in versions on GitHub and updated in one click",
     ],
     related: ["serveur-raspberry", "jeu-amc"],
@@ -1504,10 +1505,12 @@ export const projects: Project[] = [
       {
         heading: "The chat",
         paragraphs: [
-          "Clicking the cat, Alt + Space or Ctrl + Alt + C opens the chat right above him. It works with a Claude Pro or Max subscription, with no API key.",
+          "Clicking the cat or pressing a keyboard shortcut (Alt + Space or Ctrl + Alt + C by default, changeable in the settings) opens the chat right above him. The answer is written live, word by word, while Claude composes it. It works with a Claude Pro or Max subscription, with no API key.",
         ],
         bullets: [
           "Saved conversations, or Flash mode, which leaves no trace",
+          "Prepare before producing: for a report, a presentation or code, Bébène first proposes a plan and points out what is missing, then produces the file on request",
+          "When a key piece of information is missing, he asks a single question with clickable choices, and the cat scratches his head while waiting",
           "Projects: conversations on the same topic are grouped and archived automatically",
           "Remaining quota shown live (5-hour and weekly limits) with a countdown",
           "Conversation titles summarised by the AI; each project has its own history",
@@ -1520,7 +1523,13 @@ export const projects: Project[] = [
       {
         heading: "Acting on the PC",
         paragraphs: [
-          "Bébène is not just a talking cat: behind him is Claude Code, with access to files and programs. He knows which window was open just before: \"fix the open document\" is enough. He drives Excel, Word, PowerPoint, Outlook or Inventor through COM, the command line or UI Automation. Before each command, a card asks for the user's approval, except in autonomous mode.",
+          "Bébène is not just a talking cat: behind him is Claude Code, with access to files and programs. He knows which window was open just before and can look at it (screenshot): \"fix the open document\" is enough. He also fills in forms on web pages open in Chrome. He drives Excel, Word, PowerPoint, Outlook or Inventor through COM, the command line or UI Automation. Before each command, a card asks for the user's approval, except in autonomous mode.",
+        ],
+      },
+      {
+        heading: "Sticky notes and reference templates",
+        paragraphs: [
+          "Sticky notes stick to the desktop, with checkboxes and colours; Bébène can create them to keep a list or a reminder. You can also give him templates (past reports, presentations, code): he builds a style profile from them and follows their form, never their content.",
         ],
       },
       {
@@ -1564,14 +1573,14 @@ export const projects: Project[] = [
       {
         heading: "Technical side",
         paragraphs: [
-          "The whole program fits in a single C# file (WinForms, .NET Framework 4) of about 3,000 lines. It is compiled with the csc.exe already present in Windows, with no SDK to install. The chat interface is an HTML page displayed in WebView2. Memory is shared with Claude Code in a OneDrive folder. A script compiles, pushes the code to GitHub and publishes a downloadable release with its notes.",
+          "The whole program fits in a single C# file (WinForms, .NET Framework 4) of about 4,000 lines. It is compiled with the csc.exe already present in Windows, with no SDK to install. The chat interface is an HTML page displayed in WebView2. Memory is shared with Claude Code in a OneDrive folder. A script compiles, pushes the code to GitHub and publishes a downloadable release with its notes.",
         ],
         tableau: {
           entetes: ["Part", "Choice"],
           lignes: [
             ["Language", "C# 5, WinForms, .NET Framework 4"],
             ["Chat interface", "HTML / CSS / JavaScript in WebView2"],
-            ["Brain", "Claude Code (claude -p, stream-json output)"],
+            ["Brain", "Claude Code (claude -p, stream-json output, live writing)"],
             ["App control", "COM, command line, UI Automation"],
             ["Publishing", "PowerShell script: build, push, GitHub Release with zip"],
             ["Updates", "GitHub Releases API, only the program is replaced"],

@@ -1549,6 +1549,7 @@ export const projects: Project[] = [
       "Correcteur d'orthographe dans toutes les applications, 100 % local",
       "Verrou de sécurité : l'assistant ne peut pas modifier son propre programme",
       "Économie de tokens : titres résumés par l'IA et compactage automatique des longues conversations",
+      "Réponses écrites en direct, mot par mot, et préparation d'un plan avant de produire un fichier",
       "Un seul programme C# compilé avec les outils déjà présents dans Windows, publié en versions sur GitHub et mis à jour en un clic",
     ],
     related: ["serveur-raspberry", "jeu-amc"],
@@ -1600,10 +1601,12 @@ export const projects: Project[] = [
       {
         heading: "La discussion",
         paragraphs: [
-          "Un clic sur le chat, Alt + Espace ou Ctrl + Alt + C ouvre la discussion juste au-dessus de lui. Elle fonctionne avec un abonnement Claude Pro ou Max, sans clé d'API.",
+          "Un clic sur le chat ou un raccourci clavier (Alt + Espace ou Ctrl + Alt + C par défaut, modifiables dans les réglages) ouvre la discussion juste au-dessus de lui. La réponse s'écrit en direct, mot par mot, pendant que Claude la rédige. Elle fonctionne avec un abonnement Claude Pro ou Max, sans clé d'API.",
         ],
         bullets: [
           "Conversations enregistrées, ou mode Flash qui ne laisse aucune trace",
+          "Préparer avant de produire : pour un rapport, une présentation ou du code, Bébène propose d'abord un plan et signale ce qui manque, puis produit le fichier à la demande",
+          "Quand une information capitale manque, il pose une seule question avec des choix à cliquer, et le chat se gratte la tête en attendant",
           "Projets : les conversations d'un même sujet sont regroupées et archivées automatiquement",
           "Quota restant affiché en direct (limite de 5 heures et de la semaine) avec le compte à rebours",
           "Titres de conversation résumés par l'IA ; chaque projet a son propre historique",
@@ -1616,7 +1619,13 @@ export const projects: Project[] = [
       {
         heading: "Agir sur le PC",
         paragraphs: [
-          "Bébène n'est pas qu'un chat qui parle : derrière, c'est Claude Code, avec accès aux fichiers et aux programmes. Il sait quelle fenêtre était ouverte juste avant : « corrige le document ouvert » suffit. Il pilote Excel, Word, PowerPoint, Outlook ou Inventor par COM, ligne de commande ou UI Automation. Avant chaque commande, une carte demande l'accord de l'utilisateur, sauf en mode autonome.",
+          "Bébène n'est pas qu'un chat qui parle : derrière, c'est Claude Code, avec accès aux fichiers et aux programmes. Il sait quelle fenêtre était ouverte juste avant et peut la regarder (capture d'écran) : « corrige le document ouvert » suffit. Il remplit aussi les formulaires des pages web ouvertes dans Chrome. Il pilote Excel, Word, PowerPoint, Outlook ou Inventor par COM, ligne de commande ou UI Automation. Avant chaque commande, une carte demande l'accord de l'utilisateur, sauf en mode autonome.",
+        ],
+      },
+      {
+        heading: "Post-it et modèles de référence",
+        paragraphs: [
+          "Des post-it se collent sur le bureau, avec cases à cocher et couleurs ; Bébène peut en créer pour garder une liste ou un rappel. On peut aussi lui donner des modèles (anciens rapports, présentations, code) : il en tire un profil de style et s'en inspire pour la forme, jamais pour le contenu.",
         ],
       },
       {
@@ -1660,14 +1669,14 @@ export const projects: Project[] = [
       {
         heading: "Technique",
         paragraphs: [
-          "Tout le programme tient dans un seul fichier C# (WinForms, .NET Framework 4) d'environ 3 000 lignes. Il est compilé avec le csc.exe déjà présent dans Windows, sans SDK à installer. L'interface de discussion est une page HTML affichée dans WebView2. La mémoire est partagée avec Claude Code dans un dossier OneDrive. Un script compile, envoie le code sur GitHub et publie une version téléchargeable avec ses notes.",
+          "Tout le programme tient dans un seul fichier C# (WinForms, .NET Framework 4) d'environ 4 000 lignes. Il est compilé avec le csc.exe déjà présent dans Windows, sans SDK à installer. L'interface de discussion est une page HTML affichée dans WebView2. La mémoire est partagée avec Claude Code dans un dossier OneDrive. Un script compile, envoie le code sur GitHub et publie une version téléchargeable avec ses notes.",
         ],
         tableau: {
           entetes: ["Élément", "Choix"],
           lignes: [
             ["Langage", "C# 5, WinForms, .NET Framework 4"],
             ["Interface de discussion", "HTML / CSS / JavaScript dans WebView2"],
-            ["Cerveau", "Claude Code (claude -p, flux stream-json)"],
+            ["Cerveau", "Claude Code (claude -p, flux stream-json, écriture en direct)"],
             ["Pilotage des applis", "COM, ligne de commande, UI Automation"],
             ["Publication", "Script PowerShell : build, push, Release GitHub avec zip"],
             ["Mises à jour", "API GitHub Releases, remplacement du programme seul"],
