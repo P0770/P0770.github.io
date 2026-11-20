@@ -1452,7 +1452,8 @@ export const projects: Project[] = [
       "Calendar, exams and appointments taken from .ics calendars and emails, analysed locally",
       "Spell checker in every application, 100% local",
       "Safety lock: the assistant cannot modify its own program",
-      "A single C# program compiled with the tools already built into Windows, released in versions on GitHub",
+      "Token savings: AI-written conversation titles and automatic compaction of long conversations",
+      "A single C# program compiled with the tools already built into Windows, released in versions on GitHub and updated in one click",
     ],
     related: ["serveur-raspberry", "jeu-amc"],
     cover: {
@@ -1509,6 +1510,9 @@ export const projects: Project[] = [
           "Saved conversations, or Flash mode, which leaves no trace",
           "Projects: conversations on the same topic are grouped and archived automatically",
           "Remaining quota shown live (5-hour and weekly limits) with a countdown",
+          "Conversation titles summarised by the AI; each project has its own history",
+          "Numbered or bulleted lists that continue on their own while typing",
+          "Automatic compaction: a long conversation is summarised to use far fewer tokens",
           "File drag and drop, Copy buttons on code and messages",
           "When the answer arrives with the chat closed, the cat jumps for joy until it is read",
         ],
@@ -1538,11 +1542,23 @@ export const projects: Project[] = [
         ],
       },
       {
+        heading: "One-click updates",
+        paragraphs: [
+          "A badge on Bébène's avatar, at the top left of the chat, compares the installed version with the latest one published on GitHub. Orange: a new version is available, with its release notes. One click is enough: Bébène downloads it, closes, replaces only its program and restarts. The badge turns green, and settings, conversations, calendars and emails are kept.",
+        ],
+        figure: {
+          src: "/projects/bebene/maj-disponible.png",
+          alt: "Bébène update window with the release notes and the Update button",
+          caption: "A new version is available: one click to update",
+        },
+      },
+      {
         heading: "Security and privacy",
         bullets: [
           "Self-modification lock: a Claude Code hook blocks any write or command targeting Bébène's folder, even in autonomous mode",
           "Emails read and analysed locally; Gmail app password encrypted with DPAPI (readable only by the Windows account)",
           "Calendars and spell checker fully local: only the chat uses tokens",
+          "Official versions protected: only the owner publishes; others copy the code (fork) and suggest changes through pull requests",
         ],
       },
       {
@@ -1558,6 +1574,8 @@ export const projects: Project[] = [
             ["Brain", "Claude Code (claude -p, stream-json output)"],
             ["App control", "COM, command line, UI Automation"],
             ["Publishing", "PowerShell script: build, push, GitHub Release with zip"],
+            ["Updates", "GitHub Releases API, only the program is replaced"],
+            ["Token savings", "Automatic /compact and titles with the Haiku model"],
           ],
         },
       },

@@ -1548,7 +1548,8 @@ export const projects: Project[] = [
       "Calendrier, examens et rendez-vous tirés des agendas .ics et des mails, analysés en local",
       "Correcteur d'orthographe dans toutes les applications, 100 % local",
       "Verrou de sécurité : l'assistant ne peut pas modifier son propre programme",
-      "Un seul programme C# compilé avec les outils déjà présents dans Windows, publié en versions sur GitHub",
+      "Économie de tokens : titres résumés par l'IA et compactage automatique des longues conversations",
+      "Un seul programme C# compilé avec les outils déjà présents dans Windows, publié en versions sur GitHub et mis à jour en un clic",
     ],
     related: ["serveur-raspberry", "jeu-amc"],
     cover: {
@@ -1605,6 +1606,9 @@ export const projects: Project[] = [
           "Conversations enregistrées, ou mode Flash qui ne laisse aucune trace",
           "Projets : les conversations d'un même sujet sont regroupées et archivées automatiquement",
           "Quota restant affiché en direct (limite de 5 heures et de la semaine) avec le compte à rebours",
+          "Titres de conversation résumés par l'IA ; chaque projet a son propre historique",
+          "Listes numérotées ou à puces qui se continuent toutes seules en écrivant",
+          "Compactage automatique : une longue conversation est résumée pour consommer beaucoup moins de tokens",
           "Glisser-déposer de fichiers, boutons Copier sur le code et les messages",
           "Quand la réponse arrive discussion fermée, le chat saute de joie jusqu'à ce qu'on la lise",
         ],
@@ -1634,11 +1638,23 @@ export const projects: Project[] = [
         ],
       },
       {
+        heading: "Mises à jour en un clic",
+        paragraphs: [
+          "Une pastille sur l'avatar de Bébène, en haut à gauche de la discussion, compare la version installée avec la dernière version publiée sur GitHub. Orange : une nouvelle version est disponible, avec ses nouveautés. Un clic suffit : Bébène télécharge la version, se ferme, remplace uniquement son programme et redémarre. La pastille devient verte, et les réglages, conversations, calendriers et mails sont conservés.",
+        ],
+        figure: {
+          src: "/projects/bebene/maj-disponible.png",
+          alt: "Fenêtre de mise à jour de Bébène avec les nouveautés et le bouton Mettre à jour",
+          caption: "Une nouvelle version est disponible : un clic pour mettre à jour",
+        },
+      },
+      {
         heading: "Sécurité et vie privée",
         bullets: [
           "Verrou contre l'auto-modification : un hook Claude Code bloque toute écriture ou commande visant le dossier de Bébène, même en mode autonome",
           "Mails lus et analysés en local ; mot de passe d'application Gmail chiffré avec DPAPI (lisible seulement par le compte Windows)",
           "Calendriers et correcteur entièrement locaux : seule la discussion consomme des tokens",
+          "Versions officielles protégées : seul le propriétaire publie ; les autres copient le code (fork) et proposent leurs changements par pull request",
         ],
       },
       {
@@ -1654,6 +1670,8 @@ export const projects: Project[] = [
             ["Cerveau", "Claude Code (claude -p, flux stream-json)"],
             ["Pilotage des applis", "COM, ligne de commande, UI Automation"],
             ["Publication", "Script PowerShell : build, push, Release GitHub avec zip"],
+            ["Mises à jour", "API GitHub Releases, remplacement du programme seul"],
+            ["Économie de tokens", "/compact automatique et titres avec le modèle Haiku"],
           ],
         },
       },
