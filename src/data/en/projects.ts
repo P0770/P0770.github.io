@@ -1455,6 +1455,7 @@ export const projects: Project[] = [
       "Token savings: AI-written conversation titles and automatic compaction of long conversations",
       "Answers written live, word by word, and a plan prepared before producing any file",
       "Up to three tasks in parallel, each in its own Claude Code session",
+      "Projects and conversations in a Ctrl + K panel, organised by drag and drop",
       "Reminders, a daily brief and \"Ask about the selection\" from any application",
       "A C# program compiled with the tools already built into Windows, tested and released automatically by GitHub Actions, updated in one click",
     ],
@@ -1522,9 +1523,21 @@ export const projects: Project[] = [
           "When the answer arrives with the chat closed, the cat jumps for joy until it is read",
           "Paste an image (Ctrl + V): Claude sees it along with the message",
           "Search through the whole history, accent-insensitive, with the matching excerpt highlighted",
-          "Sub-groups inside projects, and right-click on an answer to copy it or download it as .txt",
-          "Light or dark mode, resizable window",
+          "Right-click on an answer to copy it or download it as .txt",
+          "Light or dark mode, resizable window, sharp at every Windows zoom level and suited to small screens",
         ],
+      },
+      {
+        heading: "Projects and conversations, neatly organised",
+        paragraphs: [
+          "A single panel, opened with a click or Ctrl + K, brings projects and history together. At the top, a search finds a project by name or a conversation by its content. Projects appear as coloured tiles, with their number of conversations and an hourglass if a task is running there. Below, the conversations of the chosen project are sorted into sub-groups. Everything also works from the keyboard.",
+          "To organise, just drag a conversation: onto a sub-group, onto \"No group\", onto a zone that creates a new sub-group, or onto another project's tile. Hovering a tile for a moment opens that project so you can aim at one of its sub-groups, and \"Undo\" puts everything back. A finished project can be archived in the settings: it leaves the menu without losing anything and can come back in one click.",
+        ],
+        figure: {
+          src: "/projects/bebene/palette-glisser.png",
+          alt: "Bébène's project panel: a conversation being dragged into the Rédaction sub-group",
+          caption: "Dragging a conversation into a sub-group",
+        },
       },
       {
         heading: "Several tasks at once",
@@ -1596,7 +1609,7 @@ export const projects: Project[] = [
       {
         heading: "Technical side",
         paragraphs: [
-          "The program is about 4,800 lines of C# (WinForms, .NET Framework 4), split into eight files, plus 2,000 lines for the chat interface. It is compiled with the csc.exe already present in Windows, with no SDK to install. The interface is an HTML page displayed in WebView2. Memory is shared with Claude Code in a OneDrive folder. On every push to GitHub, GitHub Actions compiles the program, runs about thirty tests and publishes the new version if its number has changed.",
+          "The program is about 4,900 lines of C# (WinForms, .NET Framework 4), split into nine files, plus 2,200 lines for the chat interface. It is compiled with the csc.exe already present in Windows, with no SDK to install. The interface is an HTML page displayed in WebView2. Memory is shared with Claude Code in a OneDrive folder. On every push to GitHub, GitHub Actions compiles the program, runs about thirty tests and publishes the new version if its number has changed.",
         ],
         tableau: {
           entetes: ["Part", "Choice"],
@@ -1607,6 +1620,7 @@ export const projects: Project[] = [
             ["App control", "COM, command line, UI Automation"],
             ["Multitasking", "1 claude -p session kept open per conversation (stream-json input), 3 in parallel"],
             ["History", "1 JSON file per conversation, only changed files are rewritten"],
+            ["Organising", "Ctrl+K palette, drag and drop with pointer events, archived projects in a file synced by OneDrive"],
             ["Publishing", "GitHub Actions: build, tests, Release with zip"],
             ["Updates", "GitHub Releases API, only the program is replaced"],
             ["Token savings", "Automatic /compact and titles with the Haiku model"],

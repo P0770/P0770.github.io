@@ -1551,6 +1551,7 @@ export const projects: Project[] = [
       "Économie de tokens : titres résumés par l'IA et compactage automatique des longues conversations",
       "Réponses écrites en direct, mot par mot, et préparation d'un plan avant de produire un fichier",
       "Jusqu'à trois tâches en parallèle, chacune dans sa propre session Claude Code",
+      "Projets et conversations dans un panneau Ctrl + K, rangés par glisser-déposer",
       "Rappels, point du jour et « Demander sur la sélection » depuis n'importe quelle application",
       "Un programme C# compilé avec les outils déjà présents dans Windows, testé et publié automatiquement par GitHub Actions, mis à jour en un clic",
     ],
@@ -1618,9 +1619,21 @@ export const projects: Project[] = [
           "Quand la réponse arrive discussion fermée, le chat saute de joie jusqu'à ce qu'on la lise",
           "Coller une image (Ctrl + V) : Claude la voit avec le message",
           "Recherche dans tout l'historique, sans tenir compte des accents, avec l'extrait surligné",
-          "Sous-groupes dans les projets, et clic droit sur une réponse pour la copier ou la télécharger en .txt",
-          "Mode clair ou sombre, fenêtre redimensionnable",
+          "Clic droit sur une réponse pour la copier ou la télécharger en .txt",
+          "Mode clair ou sombre, fenêtre redimensionnable, affichage net à tous les zooms Windows et adapté aux petits écrans",
         ],
+      },
+      {
+        heading: "Projets et conversations bien rangés",
+        paragraphs: [
+          "Un seul panneau, ouvert d'un clic ou avec Ctrl + K, réunit les projets et l'historique. En haut, une recherche trouve un projet par son nom ou une conversation par son contenu. Les projets s'affichent en tuiles de couleur, avec leur nombre de conversations et un sablier si une tâche y travaille. Dessous, les conversations du projet choisi sont rangées en sous-groupes. Tout se fait aussi au clavier.",
+          "Pour ranger, il suffit de glisser une conversation : sur un sous-groupe, sur « Sans groupe », sur une zone qui crée un nouveau sous-groupe, ou sur la tuile d'un autre projet. Rester un instant sur une tuile ouvre ce projet pour viser un de ses sous-groupes, et « Annuler » remet tout comme avant. Un projet terminé s'archive dans les réglages : il quitte le menu sans rien perdre et peut revenir d'un clic.",
+        ],
+        figure: {
+          src: "/projects/bebene/palette-glisser.png",
+          alt: "Panneau des projets de Bébène : une conversation glissée vers le sous-groupe Rédaction",
+          caption: "Glisser une conversation pour la ranger dans un sous-groupe",
+        },
       },
       {
         heading: "Plusieurs tâches à la fois",
@@ -1692,7 +1705,7 @@ export const projects: Project[] = [
       {
         heading: "Technique",
         paragraphs: [
-          "Le programme fait environ 4 800 lignes de C# (WinForms, .NET Framework 4), réparties en huit fichiers, plus 2 000 lignes pour l'interface de discussion. Il est compilé avec le csc.exe déjà présent dans Windows, sans SDK à installer. L'interface est une page HTML affichée dans WebView2. La mémoire est partagée avec Claude Code dans un dossier OneDrive. À chaque envoi sur GitHub, GitHub Actions compile le programme, lance une trentaine de tests et publie la nouvelle version si son numéro a changé.",
+          "Le programme fait environ 4 900 lignes de C# (WinForms, .NET Framework 4), réparties en neuf fichiers, plus 2 200 lignes pour l'interface de discussion. Il est compilé avec le csc.exe déjà présent dans Windows, sans SDK à installer. L'interface est une page HTML affichée dans WebView2. La mémoire est partagée avec Claude Code dans un dossier OneDrive. À chaque envoi sur GitHub, GitHub Actions compile le programme, lance une trentaine de tests et publie la nouvelle version si son numéro a changé.",
         ],
         tableau: {
           entetes: ["Élément", "Choix"],
@@ -1703,6 +1716,7 @@ export const projects: Project[] = [
             ["Pilotage des applis", "COM, ligne de commande, UI Automation"],
             ["Multitâche", "1 session claude -p gardée ouverte par conversation (stream-json en entrée), 3 en parallèle"],
             ["Historique", "1 fichier JSON par conversation, seuls les fichiers modifiés sont réécrits"],
+            ["Rangement", "Palette Ctrl+K, glisser-déposer en pointer events, projets archivés dans un fichier synchronisé par OneDrive"],
             ["Publication", "GitHub Actions : build, tests, Release avec zip"],
             ["Mises à jour", "API GitHub Releases, remplacement du programme seul"],
             ["Économie de tokens", "/compact automatique et titres avec le modèle Haiku"],
