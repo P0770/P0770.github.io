@@ -1454,7 +1454,9 @@ export const projects: Project[] = [
       "Safety lock: the assistant cannot modify its own program",
       "Token savings: AI-written conversation titles and automatic compaction of long conversations",
       "Answers written live, word by word, and a plan prepared before producing any file",
-      "A single C# program compiled with the tools already built into Windows, released in versions on GitHub and updated in one click",
+      "Up to three tasks in parallel, each in its own Claude Code session",
+      "Reminders, a daily brief and \"Ask about the selection\" from any application",
+      "A C# program compiled with the tools already built into Windows, tested and released automatically by GitHub Actions, updated in one click",
     ],
     related: ["serveur-raspberry", "jeu-amc"],
     cover: {
@@ -1518,6 +1520,27 @@ export const projects: Project[] = [
           "Automatic compaction: a long conversation is summarised to use far fewer tokens",
           "File drag and drop, Copy buttons on code and messages",
           "When the answer arrives with the chat closed, the cat jumps for joy until it is read",
+          "Paste an image (Ctrl + V): Claude sees it along with the message",
+          "Search through the whole history, accent-insensitive, with the matching excerpt highlighted",
+          "Sub-groups inside projects, and right-click on an answer to copy it or download it as .txt",
+          "Light or dark mode, resizable window",
+        ],
+      },
+      {
+        heading: "Several tasks at once",
+        paragraphs: [
+          "Each conversation keeps its own Claude Code session open: you can start a long task, switch to another conversation and start a second one, up to three in parallel. The history shows the state of each (running, question, approval needed, done) and a Windows notification announces the end. Steps are shown as a checklist, and the cat displays the \"3/5\" counter.",
+        ],
+        bullets: [
+          "When the quota drops below 3%, the task pauses cleanly with a summary of what was done; one click on Continue resumes it later",
+          "Simple questions get a quick answer from the Haiku model",
+        ],
+      },
+      {
+        heading: "Reminders and daily brief",
+        paragraphs: [
+          "\"Remind me in 20 minutes to…\": at the set time, a card appears above the cat with a notification, even with the chat closed, and \"10 more minutes\" snoozes it. On the first opening of the day, a card sums up the day's agenda, the week's exams and appointments, reminders, pinned sticky notes and paused tasks.",
+          "Anywhere in Windows, select some text and press Ctrl + Alt + Q: Bébène opens with Explain, Translate, Correct and Summarise, or a free question. The clipboard is restored as it was.",
         ],
       },
       {
@@ -1547,7 +1570,7 @@ export const projects: Project[] = [
       {
         heading: "The pixel-art cat",
         paragraphs: [
-          "Bébène is drawn procedurally, in 8-bit pixel art: no image files, every pose is computed. He walks, runs, grooms, stretches with a yawn, scratches, sleeps in four positions and chases the mouse from time to time. Hover over him and he purrs. Pick him up and he swings like a pendulum, while his tail follows a small physics simulation with inertia.",
+          "Bébène is drawn procedurally, in 8-bit pixel art: no image files, every pose is computed. He walks, runs, grooms, stretches with a yawn, scratches, sleeps in four positions and chases the mouse from time to time. An activity setting makes him calmer or more playful, and when he dozes he half-opens a wary eye towards the mouse. Hover over him and he purrs. Pick him up and he swings like a pendulum, while his tail follows a small physics simulation with inertia.",
         ],
       },
       {
@@ -1573,7 +1596,7 @@ export const projects: Project[] = [
       {
         heading: "Technical side",
         paragraphs: [
-          "The whole program fits in a single C# file (WinForms, .NET Framework 4) of about 4,000 lines. It is compiled with the csc.exe already present in Windows, with no SDK to install. The chat interface is an HTML page displayed in WebView2. Memory is shared with Claude Code in a OneDrive folder. A script compiles, pushes the code to GitHub and publishes a downloadable release with its notes.",
+          "The program is about 4,800 lines of C# (WinForms, .NET Framework 4), split into eight files, plus 2,000 lines for the chat interface. It is compiled with the csc.exe already present in Windows, with no SDK to install. The interface is an HTML page displayed in WebView2. Memory is shared with Claude Code in a OneDrive folder. On every push to GitHub, GitHub Actions compiles the program, runs about thirty tests and publishes the new version if its number has changed.",
         ],
         tableau: {
           entetes: ["Part", "Choice"],
@@ -1582,7 +1605,9 @@ export const projects: Project[] = [
             ["Chat interface", "HTML / CSS / JavaScript in WebView2"],
             ["Brain", "Claude Code (claude -p, stream-json output, live writing)"],
             ["App control", "COM, command line, UI Automation"],
-            ["Publishing", "PowerShell script: build, push, GitHub Release with zip"],
+            ["Multitasking", "1 claude -p session kept open per conversation (stream-json input), 3 in parallel"],
+            ["History", "1 JSON file per conversation, only changed files are rewritten"],
+            ["Publishing", "GitHub Actions: build, tests, Release with zip"],
             ["Updates", "GitHub Releases API, only the program is replaced"],
             ["Token savings", "Automatic /compact and titles with the Haiku model"],
           ],

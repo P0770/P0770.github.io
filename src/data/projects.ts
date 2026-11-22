@@ -1550,7 +1550,9 @@ export const projects: Project[] = [
       "Verrou de sécurité : l'assistant ne peut pas modifier son propre programme",
       "Économie de tokens : titres résumés par l'IA et compactage automatique des longues conversations",
       "Réponses écrites en direct, mot par mot, et préparation d'un plan avant de produire un fichier",
-      "Un seul programme C# compilé avec les outils déjà présents dans Windows, publié en versions sur GitHub et mis à jour en un clic",
+      "Jusqu'à trois tâches en parallèle, chacune dans sa propre session Claude Code",
+      "Rappels, point du jour et « Demander sur la sélection » depuis n'importe quelle application",
+      "Un programme C# compilé avec les outils déjà présents dans Windows, testé et publié automatiquement par GitHub Actions, mis à jour en un clic",
     ],
     related: ["serveur-raspberry", "jeu-amc"],
     cover: {
@@ -1614,6 +1616,27 @@ export const projects: Project[] = [
           "Compactage automatique : une longue conversation est résumée pour consommer beaucoup moins de tokens",
           "Glisser-déposer de fichiers, boutons Copier sur le code et les messages",
           "Quand la réponse arrive discussion fermée, le chat saute de joie jusqu'à ce qu'on la lise",
+          "Coller une image (Ctrl + V) : Claude la voit avec le message",
+          "Recherche dans tout l'historique, sans tenir compte des accents, avec l'extrait surligné",
+          "Sous-groupes dans les projets, et clic droit sur une réponse pour la copier ou la télécharger en .txt",
+          "Mode clair ou sombre, fenêtre redimensionnable",
+        ],
+      },
+      {
+        heading: "Plusieurs tâches à la fois",
+        paragraphs: [
+          "Chaque conversation garde sa propre session Claude Code ouverte : on peut lancer une tâche longue, passer à une autre conversation et en démarrer une deuxième, jusqu'à trois en parallèle. L'historique montre l'état de chacune (en cours, question, accord demandé, terminée) et une notification Windows prévient à la fin. Les étapes s'affichent sous forme de liste, et le chat porte le compteur « 3/5 ».",
+        ],
+        bullets: [
+          "Quand le quota passe sous 3 %, la tâche se met en pause proprement avec un résumé de ce qui a été fait ; un clic sur Continuer la reprend plus tard",
+          "Pour les questions simples, une réponse rapide passe par le modèle Haiku",
+        ],
+      },
+      {
+        heading: "Rappels et point du jour",
+        paragraphs: [
+          "« Rappelle-moi dans 20 minutes de… » : à l'heure dite, une carte apparaît au-dessus du chat avec une notification, même discussion fermée, et « Encore dans 10 min » repousse le rappel. À la première ouverture de la journée, une carte résume l'agenda du jour, les examens et rendez-vous de la semaine, les rappels, les post-it épinglés et les tâches en pause.",
+          "Partout dans Windows, on sélectionne un texte puis Ctrl + Alt + Q : Bébène s'ouvre avec Expliquer, Traduire, Corriger et Résumer, ou une question libre. Le presse-papiers est remis comme avant.",
         ],
       },
       {
@@ -1643,7 +1666,7 @@ export const projects: Project[] = [
       {
         heading: "Le chat en pixel art",
         paragraphs: [
-          "Bébène est dessiné procéduralement, en pixel art 8 bits : aucune image, chaque pose est calculée. Il marche, court, fait sa toilette, s'étire en bâillant, se gratte, dort dans quatre positions et chasse la souris de temps en temps. Si on le survole, il ronronne. Si on l'attrape, il se balance comme un pendule, et sa queue suit une petite simulation physique avec inertie.",
+          "Bébène est dessiné procéduralement, en pixel art 8 bits : aucune image, chaque pose est calculée. Il marche, court, fait sa toilette, s'étire en bâillant, se gratte, dort dans quatre positions et chasse la souris de temps en temps. Un réglage d'activité le rend plus calme ou plus joueur, et quand il somnole, il entrouvre un œil méfiant vers la souris. Si on le survole, il ronronne. Si on l'attrape, il se balance comme un pendule, et sa queue suit une petite simulation physique avec inertie.",
         ],
       },
       {
@@ -1669,7 +1692,7 @@ export const projects: Project[] = [
       {
         heading: "Technique",
         paragraphs: [
-          "Tout le programme tient dans un seul fichier C# (WinForms, .NET Framework 4) d'environ 4 000 lignes. Il est compilé avec le csc.exe déjà présent dans Windows, sans SDK à installer. L'interface de discussion est une page HTML affichée dans WebView2. La mémoire est partagée avec Claude Code dans un dossier OneDrive. Un script compile, envoie le code sur GitHub et publie une version téléchargeable avec ses notes.",
+          "Le programme fait environ 4 800 lignes de C# (WinForms, .NET Framework 4), réparties en huit fichiers, plus 2 000 lignes pour l'interface de discussion. Il est compilé avec le csc.exe déjà présent dans Windows, sans SDK à installer. L'interface est une page HTML affichée dans WebView2. La mémoire est partagée avec Claude Code dans un dossier OneDrive. À chaque envoi sur GitHub, GitHub Actions compile le programme, lance une trentaine de tests et publie la nouvelle version si son numéro a changé.",
         ],
         tableau: {
           entetes: ["Élément", "Choix"],
@@ -1678,7 +1701,9 @@ export const projects: Project[] = [
             ["Interface de discussion", "HTML / CSS / JavaScript dans WebView2"],
             ["Cerveau", "Claude Code (claude -p, flux stream-json, écriture en direct)"],
             ["Pilotage des applis", "COM, ligne de commande, UI Automation"],
-            ["Publication", "Script PowerShell : build, push, Release GitHub avec zip"],
+            ["Multitâche", "1 session claude -p gardée ouverte par conversation (stream-json en entrée), 3 en parallèle"],
+            ["Historique", "1 fichier JSON par conversation, seuls les fichiers modifiés sont réécrits"],
+            ["Publication", "GitHub Actions : build, tests, Release avec zip"],
             ["Mises à jour", "API GitHub Releases, remplacement du programme seul"],
             ["Économie de tokens", "/compact automatique et titres avec le modèle Haiku"],
           ],
