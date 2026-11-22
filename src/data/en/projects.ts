@@ -1444,20 +1444,15 @@ export const projects: Project[] = [
     tags: ["C#", "WinForms", "WebView2", "Claude Code", "AI", "Pixel art", "Windows"],
     links: [
       { label: "Code and documentation (GitHub)", href: "https://github.com/P0770/bebene" },
-      { label: "Download the latest version", href: "https://github.com/P0770/bebene/releases" },
+      { label: "Download the latest version", href: "https://github.com/P0770/bebene/releases/latest" },
     ],
     highlights: [
-      "Windows desktop companion: a pixel-art cat drawn entirely by code, with no image files",
-      "Chat window connected to Claude Code, with access to the PC's files and programs",
-      "Calendar, exams and appointments taken from .ics calendars and emails, analysed locally",
-      "Spell checker in every application, 100% local",
-      "Safety lock: the assistant cannot modify its own program",
-      "Token savings: AI-written conversation titles and automatic compaction of long conversations",
-      "Answers written live, word by word, and a plan prepared before producing any file",
-      "Up to three tasks in parallel, each in its own Claude Code session",
-      "Projects and conversations in a Ctrl + K panel, organised by drag and drop",
-      "Reminders, a daily brief and \"Ask about the selection\" from any application",
-      "A C# program compiled with the tools already built into Windows, tested and released automatically by GitHub Actions, updated in one click",
+      "An assistant always at hand: one shortcut, and whatever is selected on screen comes with the question",
+      "It really acts on the PC (files, Excel, Word…), asking for the user's approval before every command",
+      "Projects, calendar, exams, reminders and sticky notes to stay organised",
+      "A pixel-art cat drawn entirely by code, without a single image",
+      "Lightweight (about 0.1 % CPU at rest) and safe: it cannot modify its own program",
+      "A C# program built with the tools already in Windows, tested and released automatically, updated in one click",
     ],
     related: ["serveur-raspberry", "jeu-amc"],
     cover: {
@@ -1469,32 +1464,32 @@ export const projects: Project[] = [
     gallery: [
       {
         src: "/projects/bebene/discussion-conv.png",
-        alt: "Bébène's chat window with an ongoing conversation",
-        caption: "The chat window, opened right above the cat (interface in French)",
+        alt: "Bébène's chat window with a conversation in progress",
+        caption: "The chat, opened right above the cat",
+        entier: true,
+      },
+      {
+        src: "/projects/bebene/palette.png",
+        alt: "Project panel: projects as coloured tiles and conversations sorted into sub-groups",
+        caption: "Projects and their conversations, in one place",
         entier: true,
       },
       {
         src: "/projects/bebene/volets.png",
         alt: "Side panels: monthly calendar and list of exams and appointments",
-        caption: "The side panels: calendar on the left, exams and appointments on the right",
-        entier: true,
-      },
-      {
-        src: "/projects/bebene/attrape.png",
-        alt: "Bébène picked up by the scruff and swinging",
-        caption: "Picked up by the scruff, he swings like a pendulum",
+        caption: "The calendar on the left, exams and appointments on the right",
         entier: true,
       },
       {
         src: "/projects/bebene/reponse-prete.png",
         alt: "Bébène happy, with a bubble and a heart, when the answer is ready",
-        caption: "The answer is ready: he waits for the chat to be reopened",
+        caption: "The answer is ready: it waits until the chat is reopened",
         entier: true,
       },
       {
-        src: "/projects/bebene/reglages.png",
-        alt: "Bébène's settings window, with collapsible sections",
-        caption: "The settings and the setup assistant",
+        src: "/projects/bebene/attrape.png",
+        alt: "Bébène picked up by the scruff and swinging",
+        caption: "Picked up by the scruff, it swings like a pendulum",
         entier: true,
       },
     ],
@@ -1502,138 +1497,97 @@ export const projects: Project[] = [
       {
         heading: "The idea",
         paragraphs: [
-          "I use Claude Code every day, but in a terminal. I wanted an assistant that is always at hand, friendly, and able to act directly on my files and programs. Hence Bébène: a little black cat that wanders around the desktop and opens a chat when you click on him.",
+          "I use Claude Code every day, but in a terminal. I wanted an assistant always at hand, friendly, that could also act directly in my files and programs. Hence Bébène: a little black cat that wanders on the desktop and opens a chat when you click on it.",
         ],
+      },
+      {
+        heading: "One shortcut, and the question comes with the selection",
+        paragraphs: [
+          "Alt + Space, from anywhere, opens the chat. If text, files or folders are selected, they are attached to the new conversation as tags; each following shortcut adds more, and nothing is lost if the window is closed before sending. You then pick the project and sub-group and ask your question. For a text, buttons offer Explain, Translate, Correct or Summarise.",
+        ],
+        figure: {
+          src: "/projects/bebene/selection.png",
+          alt: "Two folders and a text excerpt attached to a new conversation, with the sub-group choice",
+          caption: "Whatever was selected arrives as tags, ready for the question",
+        },
       },
       {
         heading: "The chat",
         paragraphs: [
-          "Clicking the cat or pressing a keyboard shortcut (Alt + Space or Ctrl + Alt + C by default, changeable in the settings) opens the chat right above him. The answer is written live, word by word, while Claude composes it. It works with a Claude Pro or Max subscription, with no API key.",
+          "The answer is written live. While it works, you see what Claude is doing (searches, commands, steps); once the answer arrives, only the answer remains, with a folded line for changed files if any. If the window was closed in the meantime, the cat jumps for joy until the answer is read. It works with a Claude Pro or Max subscription, without an API key.",
         ],
         bullets: [
-          "Saved conversations, or Flash mode, which leaves no trace",
-          "Prepare before producing: for a report, a presentation or code, Bébène first proposes a plan and points out what is missing, then produces the file on request",
-          "When a key piece of information is missing, he asks a single question with clickable choices, and the cat scratches his head while waiting",
-          "Projects: conversations on the same topic are grouped and archived automatically",
-          "Remaining quota shown live (5-hour and weekly limits) with a countdown",
-          "Conversation titles summarised by the AI; each project has its own history",
-          "Numbered or bulleted lists that continue on their own while typing",
-          "Automatic compaction: a long conversation is summarised to use far fewer tokens",
-          "File drag and drop, Copy buttons on code and messages",
-          "When the answer arrives with the chat closed, the cat jumps for joy until it is read",
-          "Paste an image (Ctrl + V): Claude sees it along with the message",
-          "Search through the whole history, accent-insensitive, with the matching excerpt highlighted",
-          "Right-click on an answer to copy it or download it as .txt",
-          "Light or dark mode, resizable window, sharp at every Windows zoom level and suited to small screens",
-          "Once the answer arrives, only the answer remains: searches and commands disappear, changed files fit in one folded line",
-          "An input box that fits the text: one line to start, it grows with what you type",
+          "Paste a screenshot or drop files, which Claude sees with the message",
+          "When crucial information is missing, a single question with clickable choices",
+          "Flash mode: a quick question that leaves no trace",
+          "Remaining quota shown live; below 3 %, the task pauses cleanly and resumes in one click",
+          "Token savings: summarised titles and long conversations compacted by a small model",
         ],
       },
       {
-        heading: "Projects and conversations, neatly organised",
+        heading: "Projects and conversations",
         paragraphs: [
-          "A single panel, opened with a click or Ctrl + K, brings projects and history together. At the top, a search finds a project by name or a conversation by its content. Projects appear as coloured tiles, with their number of conversations and an hourglass if a task is running there. Below, the conversations of the chosen project are sorted into sub-groups. Everything also works from the keyboard.",
-          "To organise, just drag a conversation: onto a sub-group, onto \"No group\", onto a zone that creates a new sub-group, or onto another project's tile. Hovering a tile for a moment opens that project so you can aim at one of its sub-groups, and \"Undo\" puts everything back. A finished project can be archived in the settings: it leaves the menu without losing anything and can come back in one click.",
+          "One panel, opened with a click or Ctrl + K, brings everything together: a search through projects and conversation content, projects as coloured tiles, then the conversations of the chosen project. To organise, drag a conversation onto a sub-group, another project, or a zone that creates a sub-group. A finished project can be archived without losing anything.",
         ],
         figure: {
           src: "/projects/bebene/palette-glisser.png",
-          alt: "Bébène's project panel: a conversation being dragged into the Rédaction sub-group",
-          caption: "Dragging a conversation into a sub-group",
+          alt: "A conversation being dragged into the Rédaction sub-group",
+          caption: "Dragging a conversation to file it",
         },
-      },
-      {
-        heading: "Several tasks at once",
-        paragraphs: [
-          "Each conversation keeps its own Claude Code session open: you can start a long task, switch to another conversation and start a second one, up to three in parallel. The history shows the state of each (running, question, approval needed, done) and a Windows notification announces the end. Steps are shown as a checklist, and the cat displays the \"3/5\" counter.",
-        ],
-        bullets: [
-          "When the quota drops below 3%, the task pauses cleanly with a summary of what was done; one click on Continue resumes it later",
-          "Simple questions get a quick answer from the Haiku model",
-        ],
-      },
-      {
-        heading: "Reminders and daily brief",
-        paragraphs: [
-          "\"Remind me in 20 minutes to…\": at the set time, a card appears above the cat with a notification, even with the chat closed, and \"10 more minutes\" snoozes it. On the first opening of the day, a card sums up the day's agenda, the week's exams and appointments, reminders, pinned sticky notes and paused tasks.",
-          "Anywhere in Windows, select some text and press Ctrl + Alt + Q: Bébène opens with Explain, Translate, Correct and Summarise, or a free question. The clipboard is restored as it was.",
-        ],
       },
       {
         heading: "Acting on the PC",
         paragraphs: [
-          "Bébène is not just a talking cat: behind him is Claude Code, with access to files and programs. He knows which window was open just before and can look at it (screenshot): \"fix the open document\" is enough. He also fills in forms on web pages open in Chrome. He drives Excel, Word, PowerPoint, Outlook or Inventor through COM, the command line or UI Automation. Before each command, a card asks for the user's approval, except in autonomous mode.",
+          "Behind the cat is Claude Code, with access to files and programs. Bébène knows which window was open just before and can look at it: \"fix the open document\" is enough. It drives Excel, Word, PowerPoint, Outlook or Inventor, fills in web forms in Chrome, and runs up to three tasks in parallel.",
+        ],
+        bullets: [
+          "A card asks for approval before every command, except in autonomous mode",
+          "For a report or a presentation, it first proposes a plan and points out what is missing",
+          "No file created without being asked: it offers a summary or a study sheet instead of producing it",
         ],
       },
       {
-        heading: "Sticky notes and reference templates",
+        heading: "Staying organised",
         paragraphs: [
-          "Sticky notes stick to the desktop, with checkboxes and colours; Bébène can create them to keep a list or a reminder. You can also give him templates (past reports, presentations, code): he builds a style profile from them and follows their form, never their content.",
-        ],
-      },
-      {
-        heading: "Calendar, exams and appointments",
-        paragraphs: [
-          "Two panels frame the chat: the monthly calendar and the list of exams and appointments with their countdown. Events come from calendars (.ics, webcal), from the last six months of emails (Gmail and Outlook) or are added by hand. Emails are analysed on the PC, without going through the AI. A reminder appears the day before at 6 pm and one hour before.",
-        ],
-      },
-      {
-        heading: "Spell checker",
-        paragraphs: [
-          "Wherever you type (browser, Word, Notepad, Teams…), a small red cross appears on each mistake as soon as you pause. A click shows the suggestions and Bébène types the correction. It uses the spell checker built into Windows: everything stays local, and it never activates in a password field or a terminal.",
+          "Two panels frame the chat: the monthly calendar and the list of exams and appointments, taken from calendars (.ics, webcal), from the last six months of emails (analysed on the PC, without the AI) or added by hand. Bébène reminds you of an exam the day before and one hour ahead, schedules the reminders you ask for (\"in 20 minutes…\") and sums up the day when first opened. Sticky notes stay on the desktop, and a local spell checker flags mistakes in every application.",
         ],
       },
       {
         heading: "The pixel-art cat",
         paragraphs: [
-          "Bébène is drawn procedurally, in 8-bit pixel art: no image files, every pose is computed. He walks, runs, grooms, stretches with a yawn, scratches, sleeps in four positions and chases the mouse from time to time. An activity setting makes him calmer or more playful, and when he dozes he half-opens a wary eye towards the mouse. Hover over him and he purrs. Pick him up and he swings like a pendulum, while his tail follows a small physics simulation with inertia.",
+          "Bébène is drawn procedurally: no images, every pose is computed. It walks, grooms, stretches, sleeps in four positions and chases the mouse now and then. Hover over it and it purrs; pick it up by the scruff and it swings like a pendulum, its tail following a small physics simulation.",
         ],
       },
       {
-        heading: "One-click updates",
-        paragraphs: [
-          "A badge on Bébène's avatar, at the top left of the chat, compares the installed version with the latest one published on GitHub. Orange: a new version is available, with its release notes. One click is enough: Bébène downloads it, closes, replaces only its program and restarts. The badge turns green, and settings, conversations, calendars and emails are kept.",
-        ],
-        figure: {
-          src: "/projects/bebene/maj-disponible.png",
-          alt: "Bébène update window with the release notes and the Update button",
-          caption: "A new version is available: one click to update",
-        },
-      },
-      {
-        heading: "Security and privacy",
+        heading: "Light, safe and up to date",
         bullets: [
-          "Self-modification lock: a Claude Code hook blocks any write or command targeting Bébène's folder, even in autonomous mode",
-          "Emails read and analysed locally; Gmail app password encrypted with DPAPI (readable only by the Windows account)",
-          "Calendars and spell checker fully local: only the chat uses tokens",
-          "No file produced without consent: Bébène offers a summary or a study sheet instead of creating it, and reads documents without copying them",
-          "Official versions protected: only the owner publishes; others copy the code (fork) and suggest changes through pull requests",
+          "About 0.1 % CPU at rest: the cat slows down when it is still, and the chat page is freed when it stays closed",
+          "Self-modification lock: Bébène can neither write to nor run commands on its own program, even in autonomous mode",
+          "Emails, calendars and spell checker stay on the PC; the Gmail password is encrypted",
+          "One-click update: a badge signals the new version, Bébène replaces its program and restarts without touching the data",
         ],
       },
       {
         heading: "Technical side",
         paragraphs: [
-          "The program is about 4,900 lines of C# (WinForms, .NET Framework 4), split into nine files, plus 2,100 lines for the chat interface. It is compiled with the csc.exe already present in Windows, with no SDK to install. The interface is an HTML page displayed in WebView2. Memory is shared with Claude Code in a OneDrive folder. On every push to GitHub, GitHub Actions compiles the program, runs about thirty tests and publishes the new version if its number has changed.",
+          "About 4,900 lines of C# (WinForms, .NET Framework 4) in nine files and 2,100 lines of HTML / JavaScript interface displayed in WebView2. The program is compiled with the csc.exe already present in Windows, with no SDK. On every push to GitHub, GitHub Actions compiles it, runs about forty tests and publishes the new version if its number has changed.",
         ],
         tableau: {
           entetes: ["Part", "Choice"],
           lignes: [
             ["Language", "C# 5, WinForms, .NET Framework 4"],
-            ["Chat interface", "HTML / CSS / JavaScript in WebView2"],
-            ["Brain", "Claude Code (claude -p, stream-json output, live writing)"],
+            ["Interface", "HTML / CSS / JavaScript in WebView2"],
+            ["Brain", "Claude Code (claude -p, stream-json), one session per conversation"],
             ["App control", "COM, command line, UI Automation"],
-            ["Multitasking", "1 claude -p session kept open per conversation (stream-json input), 3 in parallel"],
-            ["History", "1 JSON file per conversation, only changed files are rewritten"],
-            ["Organising", "Ctrl+K palette, drag and drop with pointer events, archived projects in a file synced by OneDrive"],
+            ["History", "one JSON file per conversation, only changed files are rewritten"],
             ["Publishing", "GitHub Actions: build, tests, Release with zip"],
-            ["Updates", "GitHub Releases API, only the program is replaced"],
-            ["Token savings", "Automatic /compact and titles with the Haiku model"],
           ],
         },
       },
       {
         heading: "What I took away",
         paragraphs: [
-          "A complete software project, from animation to deployment: integrating an AI into a real desktop application, interacting with Windows at a low level (keyboard hooks, UI Automation, COM, transparent windows) and thinking about security from the start, since the assistant acts on the PC.",
+          "A complete software project, from animation to deployment, built in four days (about 14 hours of work) with Claude Code: integrating an AI into a real desktop application, interacting with Windows at a low level (global shortcuts, UI Automation, COM, transparent windows) and designing for safety and frugality from the start, since the assistant acts on the PC and runs all the time.",
         ],
       },
     ],
