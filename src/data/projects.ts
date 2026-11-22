@@ -1621,6 +1621,8 @@ export const projects: Project[] = [
           "Recherche dans tout l'historique, sans tenir compte des accents, avec l'extrait surligné",
           "Clic droit sur une réponse pour la copier ou la télécharger en .txt",
           "Mode clair ou sombre, fenêtre redimensionnable, affichage net à tous les zooms Windows et adapté aux petits écrans",
+          "Une fois la réponse arrivée, il ne reste qu'elle : les recherches et commandes disparaissent, les fichiers modifiés tiennent dans une ligne repliée",
+          "Zone de saisie qui s'adapte au texte : une ligne au départ, elle grandit avec ce qu'on écrit",
         ],
       },
       {
@@ -1699,13 +1701,14 @@ export const projects: Project[] = [
           "Verrou contre l'auto-modification : un hook Claude Code bloque toute écriture ou commande visant le dossier de Bébène, même en mode autonome",
           "Mails lus et analysés en local ; mot de passe d'application Gmail chiffré avec DPAPI (lisible seulement par le compte Windows)",
           "Calendriers et correcteur entièrement locaux : seule la discussion consomme des tokens",
+          "Aucun fichier produit sans accord : Bébène propose un résumé ou une fiche au lieu de les créer, et lit les documents sans en faire de copie",
           "Versions officielles protégées : seul le propriétaire publie ; les autres copient le code (fork) et proposent leurs changements par pull request",
         ],
       },
       {
         heading: "Technique",
         paragraphs: [
-          "Le programme fait environ 4 900 lignes de C# (WinForms, .NET Framework 4), réparties en neuf fichiers, plus 2 200 lignes pour l'interface de discussion. Il est compilé avec le csc.exe déjà présent dans Windows, sans SDK à installer. L'interface est une page HTML affichée dans WebView2. La mémoire est partagée avec Claude Code dans un dossier OneDrive. À chaque envoi sur GitHub, GitHub Actions compile le programme, lance une trentaine de tests et publie la nouvelle version si son numéro a changé.",
+          "Le programme fait environ 4 900 lignes de C# (WinForms, .NET Framework 4), réparties en neuf fichiers, plus 2 100 lignes pour l'interface de discussion. Il est compilé avec le csc.exe déjà présent dans Windows, sans SDK à installer. L'interface est une page HTML affichée dans WebView2. La mémoire est partagée avec Claude Code dans un dossier OneDrive. À chaque envoi sur GitHub, GitHub Actions compile le programme, lance une trentaine de tests et publie la nouvelle version si son numéro a changé.",
         ],
         tableau: {
           entetes: ["Élément", "Choix"],

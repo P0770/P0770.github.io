@@ -1525,6 +1525,8 @@ export const projects: Project[] = [
           "Search through the whole history, accent-insensitive, with the matching excerpt highlighted",
           "Right-click on an answer to copy it or download it as .txt",
           "Light or dark mode, resizable window, sharp at every Windows zoom level and suited to small screens",
+          "Once the answer arrives, only the answer remains: searches and commands disappear, changed files fit in one folded line",
+          "An input box that fits the text: one line to start, it grows with what you type",
         ],
       },
       {
@@ -1603,13 +1605,14 @@ export const projects: Project[] = [
           "Self-modification lock: a Claude Code hook blocks any write or command targeting Bébène's folder, even in autonomous mode",
           "Emails read and analysed locally; Gmail app password encrypted with DPAPI (readable only by the Windows account)",
           "Calendars and spell checker fully local: only the chat uses tokens",
+          "No file produced without consent: Bébène offers a summary or a study sheet instead of creating it, and reads documents without copying them",
           "Official versions protected: only the owner publishes; others copy the code (fork) and suggest changes through pull requests",
         ],
       },
       {
         heading: "Technical side",
         paragraphs: [
-          "The program is about 4,900 lines of C# (WinForms, .NET Framework 4), split into nine files, plus 2,200 lines for the chat interface. It is compiled with the csc.exe already present in Windows, with no SDK to install. The interface is an HTML page displayed in WebView2. Memory is shared with Claude Code in a OneDrive folder. On every push to GitHub, GitHub Actions compiles the program, runs about thirty tests and publishes the new version if its number has changed.",
+          "The program is about 4,900 lines of C# (WinForms, .NET Framework 4), split into nine files, plus 2,100 lines for the chat interface. It is compiled with the csc.exe already present in Windows, with no SDK to install. The interface is an HTML page displayed in WebView2. Memory is shared with Claude Code in a OneDrive folder. On every push to GitHub, GitHub Actions compiles the program, runs about thirty tests and publishes the new version if its number has changed.",
         ],
         tableau: {
           entetes: ["Part", "Choice"],
