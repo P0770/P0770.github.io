@@ -1543,7 +1543,7 @@ export const projects: Project[] = [
       { label: "Télécharger la dernière version", href: "https://github.com/P0770/bebene/releases/latest" },
     ],
     highlights: [
-      "Un assistant toujours à portée de main : un raccourci, et ce qui est sélectionné à l'écran part avec la question",
+      "Un assistant toujours à portée de main : un raccourci, et les fichiers sélectionnés partent avec la question",
       "Il agit vraiment sur le PC (fichiers, Excel, Word…), avec l'accord de l'utilisateur avant chaque commande",
       "Projets, calendrier, examens, rappels et post-it pour s'organiser",
       "Un chat en pixel art dessiné entièrement par le code, sans aucune image",
@@ -1599,7 +1599,7 @@ export const projects: Project[] = [
       {
         heading: "Un raccourci, et la question part avec la sélection",
         paragraphs: [
-          "Alt + Espace, de n'importe où, ouvre la discussion. Si du texte, des fichiers ou des dossiers sont sélectionnés, ils sont joints à la nouvelle conversation sous forme d'étiquettes ; chaque raccourci suivant en ajoute d'autres, et rien n'est perdu si l'on ferme la fenêtre avant d'envoyer. On choisit ensuite le projet et le sous-groupe, puis on pose sa question. Pour un texte, des boutons proposent Expliquer, Traduire, Corriger ou Résumer.",
+          "Alt + Espace, de n'importe où, ouvre la discussion. Si des fichiers ou des dossiers sont sélectionnés dans l'Explorateur ou sur le Bureau, ils sont joints à la nouvelle conversation sous forme d'étiquettes ; chaque raccourci suivant en ajoute d'autres, et rien n'est perdu si l'on ferme la fenêtre avant d'envoyer. On choisit ensuite le projet et le sous-groupe, puis on pose sa question.",
         ],
         figure: {
           src: "/projects/bebene/selection.png",
@@ -1610,14 +1610,15 @@ export const projects: Project[] = [
       {
         heading: "La discussion",
         paragraphs: [
-          "La réponse s'écrit en direct. Pendant le travail, on voit ce que fait Claude (recherches, commandes, étapes) ; une fois la réponse arrivée, il ne reste qu'elle, avec au besoin une ligne repliée pour les fichiers modifiés. Si la fenêtre a été fermée entre-temps, le chat saute de joie jusqu'à ce qu'on lise sa réponse. Elle fonctionne avec un abonnement Claude Pro ou Max, sans clé d'API.",
+          "La réponse s'écrit en direct. Pendant le travail, on voit ce que fait Claude (recherches, commandes, étapes) et une barre de progression estime où il en est ; une fois la réponse arrivée, il ne reste qu'elle, avec au besoin une ligne repliée pour les fichiers modifiés. Si la fenêtre a été fermée entre-temps, le chat saute de joie jusqu'à ce qu'on lise sa réponse. Elle fonctionne avec un abonnement Claude Pro ou Max, sans clé d'API.",
         ],
         bullets: [
           "Coller une capture d'écran ou déposer des fichiers, que Claude voit avec le message",
-          "Quand une information capitale manque, une seule question avec des choix à cliquer",
+          "Quand une information capitale manque, une seule question avec des choix à cliquer, ou à laquelle on répond simplement en écrivant",
           "Mode Flash : une question rapide qui ne laisse aucune trace",
           "Quota restant affiché en direct ; sous 3 %, la tâche se met en pause proprement et reprend d'un clic",
-          "Économie de tokens : titres résumés et longues conversations compactées par un petit modèle",
+          "Économie de tokens : titres résumés et longues conversations compactées par un petit modèle ; un message écrit pendant le résumé attend et part tout seul",
+          "Réponses rapides : effort de réflexion réglable, PDF lus en texte avant toute image, travail regroupé ; une conversation devenue trop lourde propose d'en ouvrir une nouvelle",
         ],
       },
       {
@@ -1645,7 +1646,7 @@ export const projects: Project[] = [
       {
         heading: "S'organiser",
         paragraphs: [
-          "Deux volets encadrent la discussion : le calendrier du mois et la liste des examens et rendez-vous, tirés des agendas (.ics, webcal), des mails des six derniers mois (analysés sur le PC, sans l'IA) ou d'un ajout à la main. Bébène rappelle un examen la veille et une heure avant, programme les rappels qu'on lui demande (« dans 20 minutes… ») et résume la journée à la première ouverture. Des post-it se collent sur le bureau, et un correcteur d'orthographe local signale les fautes dans toutes les applications.",
+          "Deux volets encadrent la discussion : le calendrier du mois et la liste des examens et rendez-vous, tirés des agendas (.ics, webcal), des mails des six derniers mois (analysés sur le PC, sans l'IA) ou d'un ajout à la main. Bébène rappelle un examen la veille et une heure avant, programme les rappels qu'on lui demande (« dans 20 minutes… ») et résume la journée à la première ouverture. Des post-it se collent sur le bureau.",
         ],
       },
       {
@@ -1659,14 +1660,14 @@ export const projects: Project[] = [
         bullets: [
           "Environ 0,1 % du processeur au repos : le chat ralentit quand il ne bouge pas, et la page de discussion est libérée quand elle reste fermée",
           "Verrou contre l'auto-modification : Bébène ne peut ni écrire ni lancer de commande sur son propre programme, même en mode autonome",
-          "Mails, calendriers et correcteur restent sur le PC ; le mot de passe Gmail est chiffré",
+          "Mails et calendriers restent sur le PC ; le mot de passe Gmail est chiffré",
           "Mise à jour en un clic : une pastille signale la nouvelle version, Bébène remplace son programme et redémarre sans toucher aux données",
         ],
       },
       {
         heading: "Technique",
         paragraphs: [
-          "Environ 4 900 lignes de C# (WinForms, .NET Framework 4) en neuf fichiers et 2 100 lignes d'interface HTML / JavaScript affichée dans WebView2. Le programme est compilé avec le csc.exe déjà présent dans Windows, sans SDK. À chaque envoi sur GitHub, GitHub Actions compile, lance une quarantaine de tests et publie la nouvelle version si son numéro a changé.",
+          "Environ 4 600 lignes de C# (WinForms, .NET Framework 4) en huit fichiers et 2 200 lignes d'interface HTML / JavaScript affichée dans WebView2. Le programme est compilé avec le csc.exe déjà présent dans Windows, sans SDK. À chaque envoi sur GitHub, GitHub Actions compile, lance une quarantaine de tests et publie la nouvelle version si son numéro a changé.",
         ],
         tableau: {
           entetes: ["Élément", "Choix"],

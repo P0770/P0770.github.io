@@ -1447,7 +1447,7 @@ export const projects: Project[] = [
       { label: "Download the latest version", href: "https://github.com/P0770/bebene/releases/latest" },
     ],
     highlights: [
-      "An assistant always at hand: one shortcut, and whatever is selected on screen comes with the question",
+      "An assistant always at hand: one shortcut, and the selected files come with the question",
       "It really acts on the PC (files, Excel, Word…), asking for the user's approval before every command",
       "Projects, calendar, exams, reminders and sticky notes to stay organised",
       "A pixel-art cat drawn entirely by code, without a single image",
@@ -1503,7 +1503,7 @@ export const projects: Project[] = [
       {
         heading: "One shortcut, and the question comes with the selection",
         paragraphs: [
-          "Alt + Space, from anywhere, opens the chat. If text, files or folders are selected, they are attached to the new conversation as tags; each following shortcut adds more, and nothing is lost if the window is closed before sending. You then pick the project and sub-group and ask your question. For a text, buttons offer Explain, Translate, Correct or Summarise.",
+          "Alt + Space, from anywhere, opens the chat. If files or folders are selected in File Explorer or on the desktop, they are attached to the new conversation as tags; each following shortcut adds more, and nothing is lost if the window is closed before sending. You then pick the project and sub-group and ask your question.",
         ],
         figure: {
           src: "/projects/bebene/selection.png",
@@ -1514,14 +1514,15 @@ export const projects: Project[] = [
       {
         heading: "The chat",
         paragraphs: [
-          "The answer is written live. While it works, you see what Claude is doing (searches, commands, steps); once the answer arrives, only the answer remains, with a folded line for changed files if any. If the window was closed in the meantime, the cat jumps for joy until the answer is read. It works with a Claude Pro or Max subscription, without an API key.",
+          "The answer is written live. While it works, you see what Claude is doing (searches, commands, steps) and a progress bar estimates how far along it is; once the answer arrives, only the answer remains, with a folded line for changed files if any. If the window was closed in the meantime, the cat jumps for joy until the answer is read. It works with a Claude Pro or Max subscription, without an API key.",
         ],
         bullets: [
           "Paste a screenshot or drop files, which Claude sees with the message",
-          "When crucial information is missing, a single question with clickable choices",
+          "When crucial information is missing, a single question with clickable choices, or simply answered by typing",
           "Flash mode: a quick question that leaves no trace",
           "Remaining quota shown live; below 3 %, the task pauses cleanly and resumes in one click",
-          "Token savings: summarised titles and long conversations compacted by a small model",
+          "Token savings: summarised titles and long conversations compacted by a small model; a message typed during the summary waits and is sent automatically",
+          "Fast answers: adjustable thinking effort, PDFs read as text before any image, grouped work; a conversation that grows too heavy suggests starting a new one",
         ],
       },
       {
@@ -1549,7 +1550,7 @@ export const projects: Project[] = [
       {
         heading: "Staying organised",
         paragraphs: [
-          "Two panels frame the chat: the monthly calendar and the list of exams and appointments, taken from calendars (.ics, webcal), from the last six months of emails (analysed on the PC, without the AI) or added by hand. Bébène reminds you of an exam the day before and one hour ahead, schedules the reminders you ask for (\"in 20 minutes…\") and sums up the day when first opened. Sticky notes stay on the desktop, and a local spell checker flags mistakes in every application.",
+          "Two panels frame the chat: the monthly calendar and the list of exams and appointments, taken from calendars (.ics, webcal), from the last six months of emails (analysed on the PC, without the AI) or added by hand. Bébène reminds you of an exam the day before and one hour ahead, schedules the reminders you ask for (\"in 20 minutes…\") and sums up the day when first opened. Sticky notes stay on the desktop.",
         ],
       },
       {
@@ -1563,14 +1564,14 @@ export const projects: Project[] = [
         bullets: [
           "About 0.1 % CPU at rest: the cat slows down when it is still, and the chat page is freed when it stays closed",
           "Self-modification lock: Bébène can neither write to nor run commands on its own program, even in autonomous mode",
-          "Emails, calendars and spell checker stay on the PC; the Gmail password is encrypted",
+          "Emails and calendars stay on the PC; the Gmail password is encrypted",
           "One-click update: a badge signals the new version, Bébène replaces its program and restarts without touching the data",
         ],
       },
       {
         heading: "Technical side",
         paragraphs: [
-          "About 4,900 lines of C# (WinForms, .NET Framework 4) in nine files and 2,100 lines of HTML / JavaScript interface displayed in WebView2. The program is compiled with the csc.exe already present in Windows, with no SDK. On every push to GitHub, GitHub Actions compiles it, runs about forty tests and publishes the new version if its number has changed.",
+          "About 4,600 lines of C# (WinForms, .NET Framework 4) in eight files and 2,200 lines of HTML / JavaScript interface displayed in WebView2. The program is compiled with the csc.exe already present in Windows, with no SDK. On every push to GitHub, GitHub Actions compiles it, runs about forty tests and publishes the new version if its number has changed.",
         ],
         tableau: {
           entetes: ["Part", "Choice"],
